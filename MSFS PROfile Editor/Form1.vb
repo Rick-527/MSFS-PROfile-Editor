@@ -172,7 +172,7 @@ Public Class Form1
 
     ' Button to view the contents of File 1
     Private Sub btnViewFile1_Click(sender As Object, e As EventArgs) Handles btnViewFile1.Click
-        Dim fullPath = If(txtFile1.Tag IsNot Nothing, txtFile1.Tag.ToString(), "")
+        Dim fullPath = If(txtFile1.Tag IsNot Nothing, txtFile1.Tag.ToString, "")
         OpenFileInDefaultApp(fullPath)
     End Sub
 
@@ -181,6 +181,10 @@ Public Class Form1
         Dim fullPath = If(txtFile2.Tag IsNot Nothing, txtFile2.Tag.ToString, "")
         OpenFileInDefaultApp(fullPath)
     End Sub
+
+    Private Function BackupName(path As String) As String
+        Return $"{path}.{DateTime.Now:yyyyMMdd_HHmmss}.bak"
+    End Function
 
     ' Helper method to safely validate and open a file in Windows
     Private Sub OpenFileInDefaultApp(filePath As String)
@@ -241,8 +245,13 @@ Public Class Form1
                     Exit Sub
                 End If
 
+                'If backupResult = DialogResult.Yes Then
+                '    Dim backupPath = file1FullPath & ".bak"
+                '    File.Copy(file1FullPath, backupPath, True)
+                'End If
+
                 If backupResult = DialogResult.Yes Then
-                    Dim backupPath = file1FullPath & ".bak"
+                    Dim backupPath = BackupName(file1FullPath)
                     File.Copy(file1FullPath, backupPath, True)
                 End If
 
@@ -256,7 +265,7 @@ Public Class Form1
 
     ' Button to save File 1 into a brand new location
     Private Sub btnSaveAs_Click(sender As Object, e As EventArgs) Handles btnSaveAs.Click
-        Dim file1FullPath = If(txtFile1.Tag IsNot Nothing, txtFile1.Tag.ToString(), "")
+        Dim file1FullPath = If(txtFile1.Tag IsNot Nothing, txtFile1.Tag.ToString, "")
 
         If String.IsNullOrWhiteSpace(file1FullPath) Then
             MessageBox.Show("Please select File 1 first before attempting to save it to a new destination.", "No Source File Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -293,6 +302,6 @@ Public Class Form1
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
-        Application.Exit()
+        Me.Close()
     End Sub
 End Class

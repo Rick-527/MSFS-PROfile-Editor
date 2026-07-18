@@ -22,14 +22,14 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        GroupBox2 = New GroupBox()
+        gpbFile1 = New GroupBox()
         lblFile1Path = New Label()
         btnSaveAs = New Button()
         btnViewFile1 = New Button()
         btnBrowse1 = New Button()
         Label1 = New Label()
         txtFile1 = New TextBox()
-        GroupBox1 = New GroupBox()
+        gpbFile2 = New GroupBox()
         lblFile2Path = New Label()
         Label2 = New Label()
         btnViewFile2 = New Button()
@@ -37,26 +37,32 @@ Partial Class Form1
         btnBrowse2 = New Button()
         btnSwap = New Button()
         btnClose = New Button()
-        GroupBox2.SuspendLayout()
-        GroupBox1.SuspendLayout()
+        gpbFileCleanup = New GroupBox()
+        btnDeleteRollingCache = New Button()
+        btnDeleteSceneryIndex = New Button()
+        lblRollingCache = New Label()
+        lblSceneryIndex = New Label()
+        gpbFile1.SuspendLayout()
+        gpbFile2.SuspendLayout()
+        gpbFileCleanup.SuspendLayout()
         SuspendLayout()
         ' 
-        ' GroupBox2
+        ' gpbFile1
         ' 
-        GroupBox2.BackColor = Color.White
-        GroupBox2.Controls.Add(lblFile1Path)
-        GroupBox2.Controls.Add(btnSaveAs)
-        GroupBox2.Controls.Add(btnViewFile1)
-        GroupBox2.Controls.Add(btnBrowse1)
-        GroupBox2.Controls.Add(Label1)
-        GroupBox2.Controls.Add(txtFile1)
-        GroupBox2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        GroupBox2.Location = New Point(28, 23)
-        GroupBox2.Name = "GroupBox2"
-        GroupBox2.Size = New Size(429, 148)
-        GroupBox2.TabIndex = 11
-        GroupBox2.TabStop = False
-        GroupBox2.Text = "File Selection 1"
+        gpbFile1.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
+        gpbFile1.Controls.Add(lblFile1Path)
+        gpbFile1.Controls.Add(btnSaveAs)
+        gpbFile1.Controls.Add(btnViewFile1)
+        gpbFile1.Controls.Add(btnBrowse1)
+        gpbFile1.Controls.Add(Label1)
+        gpbFile1.Controls.Add(txtFile1)
+        gpbFile1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        gpbFile1.Location = New Point(15, 23)
+        gpbFile1.Name = "gpbFile1"
+        gpbFile1.Size = New Size(429, 148)
+        gpbFile1.TabIndex = 11
+        gpbFile1.TabStop = False
+        gpbFile1.Text = "File Selection 1"
         ' 
         ' lblFile1Path
         ' 
@@ -128,21 +134,21 @@ Partial Class Form1
         txtFile1.Size = New Size(190, 21)
         txtFile1.TabIndex = 0
         ' 
-        ' GroupBox1
+        ' gpbFile2
         ' 
-        GroupBox1.BackColor = Color.White
-        GroupBox1.Controls.Add(lblFile2Path)
-        GroupBox1.Controls.Add(Label2)
-        GroupBox1.Controls.Add(btnViewFile2)
-        GroupBox1.Controls.Add(txtFile2)
-        GroupBox1.Controls.Add(btnBrowse2)
-        GroupBox1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        GroupBox1.Location = New Point(28, 196)
-        GroupBox1.Name = "GroupBox1"
-        GroupBox1.Size = New Size(429, 148)
-        GroupBox1.TabIndex = 10
-        GroupBox1.TabStop = False
-        GroupBox1.Text = "File Selection 2"
+        gpbFile2.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
+        gpbFile2.Controls.Add(lblFile2Path)
+        gpbFile2.Controls.Add(Label2)
+        gpbFile2.Controls.Add(btnViewFile2)
+        gpbFile2.Controls.Add(txtFile2)
+        gpbFile2.Controls.Add(btnBrowse2)
+        gpbFile2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        gpbFile2.Location = New Point(15, 197)
+        gpbFile2.Name = "gpbFile2"
+        gpbFile2.Size = New Size(429, 148)
+        gpbFile2.TabIndex = 10
+        gpbFile2.TabStop = False
+        gpbFile2.Text = "File Selection 2"
         ' 
         ' lblFile2Path
         ' 
@@ -215,39 +221,100 @@ Partial Class Form1
         ' 
         ' btnClose
         ' 
+        btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Location = New Point(28, 430)
         btnClose.Name = "btnClose"
         btnClose.Size = New Size(429, 36)
         btnClose.TabIndex = 12
         btnClose.Text = "Close Program"
-        btnClose.UseVisualStyleBackColor = True
+        btnClose.UseVisualStyleBackColor = False
+        ' 
+        ' gpbFileCleanup
+        ' 
+        gpbFileCleanup.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
+        gpbFileCleanup.Controls.Add(btnDeleteRollingCache)
+        gpbFileCleanup.Controls.Add(btnDeleteSceneryIndex)
+        gpbFileCleanup.Controls.Add(lblRollingCache)
+        gpbFileCleanup.Controls.Add(lblSceneryIndex)
+        gpbFileCleanup.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        gpbFileCleanup.Location = New Point(497, 30)
+        gpbFileCleanup.Name = "gpbFileCleanup"
+        gpbFileCleanup.Size = New Size(429, 315)
+        gpbFileCleanup.TabIndex = 12
+        gpbFileCleanup.TabStop = False
+        gpbFileCleanup.Text = "File Cleanup"
+        ' 
+        ' btnDeleteRollingCache
+        ' 
+        btnDeleteRollingCache.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnDeleteRollingCache.Location = New Point(127, 133)
+        btnDeleteRollingCache.Name = "btnDeleteRollingCache"
+        btnDeleteRollingCache.Size = New Size(133, 41)
+        btnDeleteRollingCache.TabIndex = 10
+        btnDeleteRollingCache.Text = "Clear Contents"
+        btnDeleteRollingCache.UseVisualStyleBackColor = False
+        ' 
+        ' btnDeleteSceneryIndex
+        ' 
+        btnDeleteSceneryIndex.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnDeleteSceneryIndex.Location = New Point(127, 65)
+        btnDeleteSceneryIndex.Name = "btnDeleteSceneryIndex"
+        btnDeleteSceneryIndex.Size = New Size(133, 41)
+        btnDeleteSceneryIndex.TabIndex = 9
+        btnDeleteSceneryIndex.Text = "Clear Contents"
+        btnDeleteSceneryIndex.UseVisualStyleBackColor = False
+        ' 
+        ' lblRollingCache
+        ' 
+        lblRollingCache.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblRollingCache.ImageAlign = ContentAlignment.MiddleRight
+        lblRollingCache.Location = New Point(21, 140)
+        lblRollingCache.Name = "lblRollingCache"
+        lblRollingCache.Size = New Size(100, 30)
+        lblRollingCache.TabIndex = 8
+        lblRollingCache.Text = "Rolling Cache"
+        ' 
+        ' lblSceneryIndex
+        ' 
+        lblSceneryIndex.AutoSize = True
+        lblSceneryIndex.Font = New Font("Segoe UI", 11.25F)
+        lblSceneryIndex.Location = New Point(21, 72)
+        lblSceneryIndex.Name = "lblSceneryIndex"
+        lblSceneryIndex.Size = New Size(100, 20)
+        lblSceneryIndex.TabIndex = 1
+        lblSceneryIndex.Text = "Scenery Index"
         ' 
         ' Form1
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(486, 477)
+        BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
+        ClientSize = New Size(938, 550)
+        Controls.Add(gpbFileCleanup)
         Controls.Add(btnClose)
         Controls.Add(btnSwap)
-        Controls.Add(GroupBox1)
-        Controls.Add(GroupBox2)
+        Controls.Add(gpbFile2)
+        Controls.Add(gpbFile1)
+        ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
         Name = "Form1"
         Text = "Form1"
-        GroupBox2.ResumeLayout(False)
-        GroupBox2.PerformLayout()
-        GroupBox1.ResumeLayout(False)
-        GroupBox1.PerformLayout()
+        gpbFile1.ResumeLayout(False)
+        gpbFile1.PerformLayout()
+        gpbFile2.ResumeLayout(False)
+        gpbFile2.PerformLayout()
+        gpbFileCleanup.ResumeLayout(False)
+        gpbFileCleanup.PerformLayout()
         ResumeLayout(False)
     End Sub
 
-    Friend WithEvents GroupBox2 As GroupBox
+    Friend WithEvents gpbFile1 As GroupBox
     Friend WithEvents lblFile1Path As Label
     Friend WithEvents btnSaveAs As Button
     Friend WithEvents btnViewFile1 As Button
     Friend WithEvents btnBrowse1 As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents txtFile1 As TextBox
-    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents gpbFile2 As GroupBox
     Friend WithEvents lblFile2Path As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents btnViewFile2 As Button
@@ -255,5 +322,10 @@ Partial Class Form1
     Friend WithEvents btnBrowse2 As Button
     Friend WithEvents btnSwap As Button
     Friend WithEvents btnClose As Button
+    Friend WithEvents gpbFileCleanup As GroupBox
+    Friend WithEvents lblRollingCache As Label
+    Friend WithEvents lblSceneryIndex As Label
+    Friend WithEvents btnDeleteRollingCache As Button
+    Friend WithEvents btnDeleteSceneryIndex As Button
 
 End Class

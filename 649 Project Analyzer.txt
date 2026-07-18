@@ -1,0 +1,54 @@
+Lotto649 Analyzer
+│
+├── frmMain.vb            (UI only)
+├── LottoDraw.vb          (Draw object)
+├── LottoLoader.vb        (CSV parser)
+├── SearchEngine.vb       (Filtering)
+├── StatisticsEngine.vb   (Hot/Cold, Overdue, Pairs...)
+├── Statistics.vb         (Statistics object)
+├── Helpers.vb            (Utility functions)
+└── frmMain.Designer.vb   (Existing designer)
+
+Our roadmap will be:
+Step 1 ✔  LottoDraw.vb
+Step 2    LottoStatistics.vb
+Step 3    LottoLoader.vb
+Step 4    SearchEngine.vb
+Step 5    StatisticsEngine.vb
+Step 6    frmMain.vb
+Step 7    Add charts
+Step 8    Pair analysis
+Step 9    Overdue analysis
+Step 10   Ticket generator
+
+| File                | Approx. Lines |
+| ------------------- | ------------: |
+| LottoDraw.vb        |            40 |
+| LottoLoader.vb      |           180 |
+| SearchEngine.vb     |            70 |
+| Statistics.vb       |            50 |
+| StatisticsEngine.vb |           220 |
+| frmMain.vb          |           250 |
+| Helpers.vb          |            40 |
+
+✔ Number Wheel Generator
+Generate tickets based on:
+hottest numbers
+coldest numbers
+overdue numbers
+balanced odd/even
+balanced high/low
+
+
+📊 Frequency charts
+🔥 Hot & Cold numbers
+⏳ Overdue numbers
+👥 Most common pairs
+👥👥 Most common triples
+📈 Odd/Even analysis
+📉 High/Low analysis
+🎲 Smart Quick Pick generator
+📅 Date-range filtering
+📤 Export to Excel/CSV
+⚡ Background loading with a progress bar
+💾 Automatic caching
