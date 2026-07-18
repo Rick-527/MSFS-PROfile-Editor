@@ -22,45 +22,34 @@ Partial Class FrmMaintenance
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        lblRemoveBackupFiles = New Label()
-        btnDelete = New Button()
+        btnBrowseFile = New Button()
         btnClose = New Button()
         btnOk = New Button()
-        lblRollingCache = New Label()
-        lblSceneryIndex = New Label()
         mnuFrmMaintenance = New MenuStrip()
         mnuFile = New ToolStripMenuItem()
         mnuDeleteBackupFiles = New ToolStripMenuItem()
         ToolStripSeparator1 = New ToolStripSeparator()
         mnuClose = New ToolStripMenuItem()
-        lblFolder = New Label()
-        lblFiles = New Label()
-        lblSize = New Label()
-        lblOldest = New Label()
+        lblBackupCount = New Label()
+        lblTotalSize = New Label()
+        lblOldestBackup = New Label()
+        dlgOpenFile = New OpenFileDialog()
+        txtProfileFolder = New TextBox()
+        lblProfileFolderPath = New Label()
+        lblFolderPathInstructions = New Label()
         mnuFrmMaintenance.SuspendLayout()
         SuspendLayout()
         ' 
-        ' lblRemoveBackupFiles
+        ' btnBrowseFile
         ' 
-        lblRemoveBackupFiles.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblRemoveBackupFiles.ImageAlign = ContentAlignment.MiddleRight
-        lblRemoveBackupFiles.Location = New Point(155, 332)
-        lblRemoveBackupFiles.Name = "lblRemoveBackupFiles"
-        lblRemoveBackupFiles.Size = New Size(120, 30)
-        lblRemoveBackupFiles.TabIndex = 18
-        lblRemoveBackupFiles.Text = "Backup Files"
-        lblRemoveBackupFiles.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' btnDelete
-        ' 
-        btnDelete.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnDelete.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnDelete.Location = New Point(281, 327)
-        btnDelete.Name = "btnDelete"
-        btnDelete.Size = New Size(172, 41)
-        btnDelete.TabIndex = 17
-        btnDelete.Text = "Remove Backup Files"
-        btnDelete.UseVisualStyleBackColor = False
+        btnBrowseFile.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnBrowseFile.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnBrowseFile.Location = New Point(12, 115)
+        btnBrowseFile.Name = "btnBrowseFile"
+        btnBrowseFile.Size = New Size(172, 41)
+        btnBrowseFile.TabIndex = 17
+        btnBrowseFile.Text = "Browse..."
+        btnBrowseFile.UseVisualStyleBackColor = False
         ' 
         ' btnClose
         ' 
@@ -84,33 +73,12 @@ Partial Class FrmMaintenance
         btnOk.Text = "OK"
         btnOk.UseVisualStyleBackColor = False
         ' 
-        ' lblRollingCache
-        ' 
-        lblRollingCache.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblRollingCache.ImageAlign = ContentAlignment.MiddleRight
-        lblRollingCache.Location = New Point(155, 263)
-        lblRollingCache.Name = "lblRollingCache"
-        lblRollingCache.Size = New Size(120, 30)
-        lblRollingCache.TabIndex = 14
-        lblRollingCache.Text = "Rolling Cache"
-        lblRollingCache.TextAlign = ContentAlignment.MiddleRight
-        ' 
-        ' lblSceneryIndex
-        ' 
-        lblSceneryIndex.Font = New Font("Segoe UI", 11.25F)
-        lblSceneryIndex.Location = New Point(155, 195)
-        lblSceneryIndex.Name = "lblSceneryIndex"
-        lblSceneryIndex.Size = New Size(120, 30)
-        lblSceneryIndex.TabIndex = 13
-        lblSceneryIndex.Text = "Scenery Index"
-        lblSceneryIndex.TextAlign = ContentAlignment.MiddleRight
-        ' 
         ' mnuFrmMaintenance
         ' 
         mnuFrmMaintenance.Items.AddRange(New ToolStripItem() {mnuFile})
         mnuFrmMaintenance.Location = New Point(0, 0)
         mnuFrmMaintenance.Name = "mnuFrmMaintenance"
-        mnuFrmMaintenance.Size = New Size(465, 24)
+        mnuFrmMaintenance.Size = New Size(674, 24)
         mnuFrmMaintenance.TabIndex = 19
         mnuFrmMaintenance.Text = "MenuStrip1"
         ' 
@@ -138,45 +106,69 @@ Partial Class FrmMaintenance
         mnuClose.Size = New Size(175, 22)
         mnuClose.Text = "&Close"
         ' 
-        ' lblFolder
+        ' lblBackupCount
         ' 
-        lblFolder.Font = New Font("Segoe UI", 11.25F)
-        lblFolder.Location = New Point(29, 38)
-        lblFolder.Name = "lblFolder"
-        lblFolder.Size = New Size(120, 30)
-        lblFolder.TabIndex = 20
-        lblFolder.Text = "lblFolder"
-        lblFolder.TextAlign = ContentAlignment.MiddleRight
+        lblBackupCount.Font = New Font("Segoe UI", 11.25F)
+        lblBackupCount.Location = New Point(511, 326)
+        lblBackupCount.Name = "lblBackupCount"
+        lblBackupCount.Size = New Size(120, 30)
+        lblBackupCount.TabIndex = 20
+        lblBackupCount.Text = "lblBackupCount"
+        lblBackupCount.TextAlign = ContentAlignment.MiddleRight
         ' 
-        ' lblFiles
+        ' lblTotalSize
         ' 
-        lblFiles.Font = New Font("Segoe UI", 11.25F)
-        lblFiles.Location = New Point(29, 68)
-        lblFiles.Name = "lblFiles"
-        lblFiles.Size = New Size(120, 30)
-        lblFiles.TabIndex = 21
-        lblFiles.Text = "lblFile"
-        lblFiles.TextAlign = ContentAlignment.MiddleRight
+        lblTotalSize.Font = New Font("Segoe UI", 11.25F)
+        lblTotalSize.Location = New Point(511, 416)
+        lblTotalSize.Name = "lblTotalSize"
+        lblTotalSize.Size = New Size(120, 30)
+        lblTotalSize.TabIndex = 22
+        lblTotalSize.Text = "lblTotalSize"
+        lblTotalSize.TextAlign = ContentAlignment.MiddleRight
         ' 
-        ' lblSize
+        ' lblOldestBackup
         ' 
-        lblSize.Font = New Font("Segoe UI", 11.25F)
-        lblSize.Location = New Point(29, 128)
-        lblSize.Name = "lblSize"
-        lblSize.Size = New Size(120, 30)
-        lblSize.TabIndex = 22
-        lblSize.Text = "lblSize"
-        lblSize.TextAlign = ContentAlignment.MiddleRight
+        lblOldestBackup.Font = New Font("Segoe UI", 11.25F)
+        lblOldestBackup.Location = New Point(511, 386)
+        lblOldestBackup.Name = "lblOldestBackup"
+        lblOldestBackup.Size = New Size(120, 30)
+        lblOldestBackup.TabIndex = 23
+        lblOldestBackup.Text = "lblOldest"
+        lblOldestBackup.TextAlign = ContentAlignment.MiddleRight
         ' 
-        ' lblOldest
+        ' dlgOpenFile
         ' 
-        lblOldest.Font = New Font("Segoe UI", 11.25F)
-        lblOldest.Location = New Point(29, 98)
-        lblOldest.Name = "lblOldest"
-        lblOldest.Size = New Size(120, 30)
-        lblOldest.TabIndex = 23
-        lblOldest.Text = "lblOldest"
-        lblOldest.TextAlign = ContentAlignment.MiddleRight
+        dlgOpenFile.Filter = """opt file|*.opt"""
+        ' 
+        ' txtProfileFolder
+        ' 
+        txtProfileFolder.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        txtProfileFolder.Location = New Point(12, 82)
+        txtProfileFolder.Name = "txtProfileFolder"
+        txtProfileFolder.ReadOnly = True
+        txtProfileFolder.Size = New Size(441, 27)
+        txtProfileFolder.TabIndex = 24
+        txtProfileFolder.Text = "Click the 'Browse' button to set the Profiles Folder"
+        ' 
+        ' lblProfileFolderPath
+        ' 
+        lblProfileFolderPath.AutoSize = True
+        lblProfileFolderPath.Font = New Font("Segoe UI", 11.25F)
+        lblProfileFolderPath.Location = New Point(12, 59)
+        lblProfileFolderPath.Name = "lblProfileFolderPath"
+        lblProfileFolderPath.Size = New Size(148, 20)
+        lblProfileFolderPath.TabIndex = 25
+        lblProfileFolderPath.Text = "Path to Profile Folder"
+        lblProfileFolderPath.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblFolderPathInstructions
+        ' 
+        lblFolderPathInstructions.Font = New Font("Segoe UI", 11.25F)
+        lblFolderPathInstructions.Location = New Point(190, 114)
+        lblFolderPathInstructions.Name = "lblFolderPathInstructions"
+        lblFolderPathInstructions.Size = New Size(472, 82)
+        lblFolderPathInstructions.TabIndex = 26
+        lblFolderPathInstructions.Text = "Folder Instructions"
         ' 
         ' FrmMaintenance
         ' 
@@ -184,17 +176,16 @@ Partial Class FrmMaintenance
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnClose
-        ClientSize = New Size(465, 471)
-        Controls.Add(lblOldest)
-        Controls.Add(lblSize)
-        Controls.Add(lblFiles)
-        Controls.Add(lblFolder)
-        Controls.Add(lblRemoveBackupFiles)
-        Controls.Add(btnDelete)
+        ClientSize = New Size(674, 471)
+        Controls.Add(lblFolderPathInstructions)
+        Controls.Add(lblProfileFolderPath)
+        Controls.Add(txtProfileFolder)
+        Controls.Add(lblOldestBackup)
+        Controls.Add(lblTotalSize)
+        Controls.Add(lblBackupCount)
+        Controls.Add(btnBrowseFile)
         Controls.Add(btnClose)
         Controls.Add(btnOk)
-        Controls.Add(lblRollingCache)
-        Controls.Add(lblSceneryIndex)
         Controls.Add(mnuFrmMaintenance)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
         FormBorderStyle = FormBorderStyle.FixedDialog
@@ -210,20 +201,19 @@ Partial Class FrmMaintenance
         ResumeLayout(False)
         PerformLayout()
     End Sub
-
-    Friend WithEvents lblRemoveBackupFiles As Label
-    Friend WithEvents btnDelete As Button
+    Friend WithEvents btnBrowseFile As Button
     Friend WithEvents btnClose As Button
     Friend WithEvents btnOk As Button
-    Friend WithEvents lblRollingCache As Label
-    Friend WithEvents lblSceneryIndex As Label
     Friend WithEvents mnuFrmMaintenance As MenuStrip
     Friend WithEvents mnuFile As ToolStripMenuItem
     Friend WithEvents mnuDeleteBackupFiles As ToolStripMenuItem
     Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
     Friend WithEvents mnuClose As ToolStripMenuItem
-    Friend WithEvents lblFolder As Label
-    Friend WithEvents lblFiles As Label
-    Friend WithEvents lblSize As Label
-    Friend WithEvents lblOldest As Label
+    Friend WithEvents lblBackupCount As Label
+    Friend WithEvents lblTotalSize As Label
+    Friend WithEvents lblOldestBackup As Label
+    Friend WithEvents dlgOpenFile As OpenFileDialog
+    Friend WithEvents txtProfileFolder As TextBox
+    Friend WithEvents lblProfileFolderPath As Label
+    Friend WithEvents lblFolderPathInstructions As Label
 End Class
