@@ -11,11 +11,7 @@
             "This folder contains your various profiles that store your graphics settings. " &
             "You can change the Profile Folder by clicking the 'Browse' button."
 
-        Dim profileFolder = _profileManager.CurrentProfileFolder
-
-        txtProfileFolder.Text = profileFolder
-
-        Dim backups = _backupManager.GetBackupFiles(profileFolder)
+        RefreshBackupInformation()
 
     End Sub
 
@@ -23,8 +19,9 @@
 
     Private Sub RefreshBackupInformation()
 
-        Dim profileFolder = _profileManager.CurrentProfileFolder
-        Dim backups = _backupManager.GetBackupFiles(profileFolder)
+        Dim backups = _backupManager.GetBackupFiles(_profileManager.CurrentProfileFolder)
+
+        txtProfileFolder.Text = _profileManager.CurrentProfileFolder
 
         lblBackupCount.Text = backups.Count.ToString()
 
@@ -40,16 +37,9 @@
             If dlg.ShowDialog() = DialogResult.OK Then
 
                 If _profileManager.SetCurrentProfileFolder(dlg.SelectedPath) Then
-
-                    txtProfileFolder.Text =
-                        _profileManager.CurrentProfileFolder
-
                     RefreshBackupInformation()
-
                 Else
-
                     MessageBox.Show("Invalid profile folder.")
-
                 End If
 
             End If

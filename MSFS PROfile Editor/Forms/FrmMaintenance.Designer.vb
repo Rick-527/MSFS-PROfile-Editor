@@ -23,7 +23,6 @@ Partial Class FrmMaintenance
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         btnBrowseFile = New Button()
-        btnClose = New Button()
         btnOk = New Button()
         mnuFrmMaintenance = New MenuStrip()
         mnuFile = New ToolStripMenuItem()
@@ -51,22 +50,11 @@ Partial Class FrmMaintenance
         btnBrowseFile.Text = "Browse..."
         btnBrowseFile.UseVisualStyleBackColor = False
         ' 
-        ' btnClose
-        ' 
-        btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnClose.Location = New Point(281, 418)
-        btnClose.Name = "btnClose"
-        btnClose.Size = New Size(172, 41)
-        btnClose.TabIndex = 16
-        btnClose.Text = "Close"
-        btnClose.UseVisualStyleBackColor = False
-        ' 
         ' btnOk
         ' 
         btnOk.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnOk.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnOk.Location = New Point(12, 418)
+        btnOk.Location = New Point(490, 418)
         btnOk.Name = "btnOk"
         btnOk.Size = New Size(172, 41)
         btnOk.TabIndex = 15
@@ -109,7 +97,7 @@ Partial Class FrmMaintenance
         ' lblBackupCount
         ' 
         lblBackupCount.Font = New Font("Segoe UI", 11.25F)
-        lblBackupCount.Location = New Point(511, 326)
+        lblBackupCount.Location = New Point(12, 372)
         lblBackupCount.Name = "lblBackupCount"
         lblBackupCount.Size = New Size(120, 30)
         lblBackupCount.TabIndex = 20
@@ -119,7 +107,7 @@ Partial Class FrmMaintenance
         ' lblTotalSize
         ' 
         lblTotalSize.Font = New Font("Segoe UI", 11.25F)
-        lblTotalSize.Location = New Point(511, 416)
+        lblTotalSize.Location = New Point(12, 432)
         lblTotalSize.Name = "lblTotalSize"
         lblTotalSize.Size = New Size(120, 30)
         lblTotalSize.TabIndex = 22
@@ -129,7 +117,7 @@ Partial Class FrmMaintenance
         ' lblOldestBackup
         ' 
         lblOldestBackup.Font = New Font("Segoe UI", 11.25F)
-        lblOldestBackup.Location = New Point(511, 386)
+        lblOldestBackup.Location = New Point(12, 402)
         lblOldestBackup.Name = "lblOldestBackup"
         lblOldestBackup.Size = New Size(120, 30)
         lblOldestBackup.TabIndex = 23
@@ -175,7 +163,7 @@ Partial Class FrmMaintenance
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        CancelButton = btnClose
+        CancelButton = btnOk
         ClientSize = New Size(674, 471)
         Controls.Add(lblFolderPathInstructions)
         Controls.Add(lblProfileFolderPath)
@@ -184,7 +172,6 @@ Partial Class FrmMaintenance
         Controls.Add(lblTotalSize)
         Controls.Add(lblBackupCount)
         Controls.Add(btnBrowseFile)
-        Controls.Add(btnClose)
         Controls.Add(btnOk)
         Controls.Add(mnuFrmMaintenance)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
@@ -202,7 +189,6 @@ Partial Class FrmMaintenance
         PerformLayout()
     End Sub
     Friend WithEvents btnBrowseFile As Button
-    Friend WithEvents btnClose As Button
     Friend WithEvents btnOk As Button
     Friend WithEvents mnuFrmMaintenance As MenuStrip
     Friend WithEvents mnuFile As ToolStripMenuItem
