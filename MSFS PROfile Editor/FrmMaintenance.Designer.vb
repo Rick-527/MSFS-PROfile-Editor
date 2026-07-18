@@ -24,8 +24,8 @@ Partial Class FrmMaintenance
     Private Sub InitializeComponent()
         lblRemoveBackupFiles = New Label()
         btnDelete = New Button()
-        btnDeleteRollingCache = New Button()
-        btnDeleteSceneryIndex = New Button()
+        btnClose = New Button()
+        btnOk = New Button()
         lblRollingCache = New Label()
         lblSceneryIndex = New Label()
         mnuFrmMaintenance = New MenuStrip()
@@ -62,27 +62,27 @@ Partial Class FrmMaintenance
         btnDelete.Text = "Remove Backup Files"
         btnDelete.UseVisualStyleBackColor = False
         ' 
-        ' btnDeleteRollingCache
+        ' btnClose
         ' 
-        btnDeleteRollingCache.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnDeleteRollingCache.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnDeleteRollingCache.Location = New Point(281, 259)
-        btnDeleteRollingCache.Name = "btnDeleteRollingCache"
-        btnDeleteRollingCache.Size = New Size(172, 41)
-        btnDeleteRollingCache.TabIndex = 16
-        btnDeleteRollingCache.Text = "Clear Rolling Cache"
-        btnDeleteRollingCache.UseVisualStyleBackColor = False
+        btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnClose.Location = New Point(281, 418)
+        btnClose.Name = "btnClose"
+        btnClose.Size = New Size(172, 41)
+        btnClose.TabIndex = 16
+        btnClose.Text = "Close"
+        btnClose.UseVisualStyleBackColor = False
         ' 
-        ' btnDeleteSceneryIndex
+        ' btnOk
         ' 
-        btnDeleteSceneryIndex.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnDeleteSceneryIndex.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnDeleteSceneryIndex.Location = New Point(281, 191)
-        btnDeleteSceneryIndex.Name = "btnDeleteSceneryIndex"
-        btnDeleteSceneryIndex.Size = New Size(172, 41)
-        btnDeleteSceneryIndex.TabIndex = 15
-        btnDeleteSceneryIndex.Text = "Clear Scenery Indexes"
-        btnDeleteSceneryIndex.UseVisualStyleBackColor = False
+        btnOk.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnOk.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnOk.Location = New Point(12, 418)
+        btnOk.Name = "btnOk"
+        btnOk.Size = New Size(172, 41)
+        btnOk.TabIndex = 15
+        btnOk.Text = "OK"
+        btnOk.UseVisualStyleBackColor = False
         ' 
         ' lblRollingCache
         ' 
@@ -124,18 +124,18 @@ Partial Class FrmMaintenance
         ' mnuDeleteBackupFiles
         ' 
         mnuDeleteBackupFiles.Name = "mnuDeleteBackupFiles"
-        mnuDeleteBackupFiles.Size = New Size(180, 22)
+        mnuDeleteBackupFiles.Size = New Size(175, 22)
         mnuDeleteBackupFiles.Text = "&Delete Backup Files"
         ' 
         ' ToolStripSeparator1
         ' 
         ToolStripSeparator1.Name = "ToolStripSeparator1"
-        ToolStripSeparator1.Size = New Size(177, 6)
+        ToolStripSeparator1.Size = New Size(172, 6)
         ' 
         ' mnuClose
         ' 
         mnuClose.Name = "mnuClose"
-        mnuClose.Size = New Size(180, 22)
+        mnuClose.Size = New Size(175, 22)
         mnuClose.Text = "&Close"
         ' 
         ' lblFolder
@@ -183,21 +183,27 @@ Partial Class FrmMaintenance
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        ClientSize = New Size(465, 380)
+        CancelButton = btnClose
+        ClientSize = New Size(465, 471)
         Controls.Add(lblOldest)
         Controls.Add(lblSize)
         Controls.Add(lblFiles)
         Controls.Add(lblFolder)
         Controls.Add(lblRemoveBackupFiles)
         Controls.Add(btnDelete)
-        Controls.Add(btnDeleteRollingCache)
-        Controls.Add(btnDeleteSceneryIndex)
+        Controls.Add(btnClose)
+        Controls.Add(btnOk)
         Controls.Add(lblRollingCache)
         Controls.Add(lblSceneryIndex)
         Controls.Add(mnuFrmMaintenance)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
+        FormBorderStyle = FormBorderStyle.FixedDialog
         MainMenuStrip = mnuFrmMaintenance
+        MaximizeBox = False
+        MinimizeBox = False
         Name = "FrmMaintenance"
+        ShowInTaskbar = False
+        StartPosition = FormStartPosition.CenterParent
         Text = "MSFS PROfile Editor - Maintenance Module"
         mnuFrmMaintenance.ResumeLayout(False)
         mnuFrmMaintenance.PerformLayout()
@@ -207,8 +213,8 @@ Partial Class FrmMaintenance
 
     Friend WithEvents lblRemoveBackupFiles As Label
     Friend WithEvents btnDelete As Button
-    Friend WithEvents btnDeleteRollingCache As Button
-    Friend WithEvents btnDeleteSceneryIndex As Button
+    Friend WithEvents btnClose As Button
+    Friend WithEvents btnOk As Button
     Friend WithEvents lblRollingCache As Label
     Friend WithEvents lblSceneryIndex As Label
     Friend WithEvents mnuFrmMaintenance As MenuStrip

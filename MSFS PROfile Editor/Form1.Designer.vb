@@ -254,46 +254,46 @@ Partial Class FrmMain
         ' ToolStripSeparator1
         ' 
         ToolStripSeparator1.Name = "ToolStripSeparator1"
-        ToolStripSeparator1.Size = New Size(177, 6)
+        ToolStripSeparator1.Size = New Size(149, 6)
         ' 
         ' mnuEditProfile
         ' 
         mnuEditProfile.Name = "mnuEditProfile"
-        mnuEditProfile.Size = New Size(180, 22)
+        mnuEditProfile.Size = New Size(152, 22)
         mnuEditProfile.Text = "&Edit Profile"
         ' 
         ' mnuSaveProfile
         ' 
         mnuSaveProfile.Name = "mnuSaveProfile"
-        mnuSaveProfile.Size = New Size(180, 22)
+        mnuSaveProfile.Size = New Size(152, 22)
         mnuSaveProfile.Text = "&Save Profile"
         ' 
         ' mnuExport
         ' 
         mnuExport.Name = "mnuExport"
-        mnuExport.Size = New Size(180, 22)
+        mnuExport.Size = New Size(152, 22)
         mnuExport.Text = "&Export"
         ' 
         ' ToolStripSeparator2
         ' 
         ToolStripSeparator2.Name = "ToolStripSeparator2"
-        ToolStripSeparator2.Size = New Size(177, 6)
+        ToolStripSeparator2.Size = New Size(149, 6)
         ' 
         ' mnuMaintenance
         ' 
         mnuMaintenance.Name = "mnuMaintenance"
-        mnuMaintenance.Size = New Size(180, 22)
+        mnuMaintenance.Size = New Size(152, 22)
         mnuMaintenance.Text = "&Maintenance..."
         ' 
         ' ToolStripSeparator3
         ' 
         ToolStripSeparator3.Name = "ToolStripSeparator3"
-        ToolStripSeparator3.Size = New Size(177, 6)
+        ToolStripSeparator3.Size = New Size(149, 6)
         ' 
         ' mnuExitProgram
         ' 
         mnuExitProgram.Name = "mnuExitProgram"
-        mnuExitProgram.Size = New Size(180, 22)
+        mnuExitProgram.Size = New Size(152, 22)
         mnuExitProgram.Text = "E&xit Program"
         ' 
         ' FrmMain
@@ -301,6 +301,7 @@ Partial Class FrmMain
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
+        CancelButton = btnClose
         ClientSize = New Size(520, 541)
         Controls.Add(btnClose)
         Controls.Add(btnSwap)
@@ -308,8 +309,12 @@ Partial Class FrmMain
         Controls.Add(gpbFile1)
         Controls.Add(MenuStrip1)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
+        FormBorderStyle = FormBorderStyle.FixedDialog
         MainMenuStrip = MenuStrip1
+        MaximizeBox = False
+        MinimizeBox = False
         Name = "FrmMain"
+        StartPosition = FormStartPosition.CenterScreen
         Text = "MSFS PROfile Editor"
         gpbFile1.ResumeLayout(False)
         gpbFile1.PerformLayout()
