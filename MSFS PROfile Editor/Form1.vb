@@ -100,7 +100,6 @@ Public Class FrmMain
                     btn.ForeColor = Color.FromArgb(43, 50, 64)
                 Else
                     btn.BackColor = btnSecondary
-                    'btn.BackColor = Color.DarkOrange
                     btn.ForeColor = textLight
                 End If
             End If
@@ -293,6 +292,12 @@ Public Class FrmMain
                     MessageBox.Show($"An error occurred while saving the file: {ex.Message}", "Operation Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Try
             End If
+        End Using
+    End Sub
+
+    Private Sub mnuMaintenance_Click(sender As Object, e As EventArgs) Handles mnuMaintenance.Click
+        Using frm As New FrmMaintenance()
+            frm.ShowDialog(Me)
         End Using
     End Sub
 

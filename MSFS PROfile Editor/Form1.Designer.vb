@@ -39,14 +39,14 @@ Partial Class FrmMain
         btnClose = New Button()
         MenuStrip1 = New MenuStrip()
         mnuFile = New ToolStripMenuItem()
-        mnuMaintenance = New ToolStripMenuItem()
         ToolStripSeparator1 = New ToolStripSeparator()
-        mnuExitProgram = New ToolStripMenuItem()
         mnuEditProfile = New ToolStripMenuItem()
         mnuSaveProfile = New ToolStripMenuItem()
         mnuExport = New ToolStripMenuItem()
         ToolStripSeparator2 = New ToolStripSeparator()
+        mnuMaintenance = New ToolStripMenuItem()
         ToolStripSeparator3 = New ToolStripSeparator()
+        mnuExitProgram = New ToolStripMenuItem()
         gpbFile1.SuspendLayout()
         gpbFile2.SuspendLayout()
         MenuStrip1.SuspendLayout()
@@ -236,6 +236,7 @@ Partial Class FrmMain
         ' 
         ' MenuStrip1
         ' 
+        MenuStrip1.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         MenuStrip1.Items.AddRange(New ToolStripItem() {mnuFile})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
@@ -248,52 +249,52 @@ Partial Class FrmMain
         mnuFile.DropDownItems.AddRange(New ToolStripItem() {ToolStripSeparator1, mnuEditProfile, mnuSaveProfile, mnuExport, ToolStripSeparator2, mnuMaintenance, ToolStripSeparator3, mnuExitProgram})
         mnuFile.Name = "mnuFile"
         mnuFile.Size = New Size(37, 20)
-        mnuFile.Text = "File"
-        ' 
-        ' mnuMaintenance
-        ' 
-        mnuMaintenance.Name = "mnuMaintenance"
-        mnuMaintenance.Size = New Size(180, 22)
-        mnuMaintenance.Text = "Maintenance..."
+        mnuFile.Text = "&File"
         ' 
         ' ToolStripSeparator1
         ' 
         ToolStripSeparator1.Name = "ToolStripSeparator1"
         ToolStripSeparator1.Size = New Size(177, 6)
         ' 
-        ' mnuExitProgram
-        ' 
-        mnuExitProgram.Name = "mnuExitProgram"
-        mnuExitProgram.Size = New Size(180, 22)
-        mnuExitProgram.Text = "Exit Program"
-        ' 
         ' mnuEditProfile
         ' 
         mnuEditProfile.Name = "mnuEditProfile"
         mnuEditProfile.Size = New Size(180, 22)
-        mnuEditProfile.Text = "Edit Profile"
+        mnuEditProfile.Text = "&Edit Profile"
         ' 
         ' mnuSaveProfile
         ' 
         mnuSaveProfile.Name = "mnuSaveProfile"
         mnuSaveProfile.Size = New Size(180, 22)
-        mnuSaveProfile.Text = "Save Profile"
+        mnuSaveProfile.Text = "&Save Profile"
         ' 
         ' mnuExport
         ' 
         mnuExport.Name = "mnuExport"
         mnuExport.Size = New Size(180, 22)
-        mnuExport.Text = "Export"
+        mnuExport.Text = "&Export"
         ' 
         ' ToolStripSeparator2
         ' 
         ToolStripSeparator2.Name = "ToolStripSeparator2"
         ToolStripSeparator2.Size = New Size(177, 6)
         ' 
+        ' mnuMaintenance
+        ' 
+        mnuMaintenance.Name = "mnuMaintenance"
+        mnuMaintenance.Size = New Size(180, 22)
+        mnuMaintenance.Text = "&Maintenance..."
+        ' 
         ' ToolStripSeparator3
         ' 
         ToolStripSeparator3.Name = "ToolStripSeparator3"
         ToolStripSeparator3.Size = New Size(177, 6)
+        ' 
+        ' mnuExitProgram
+        ' 
+        mnuExitProgram.Name = "mnuExitProgram"
+        mnuExitProgram.Size = New Size(180, 22)
+        mnuExitProgram.Text = "E&xit Program"
         ' 
         ' FrmMain
         ' 
