@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Form1
+Partial Class FrmMain
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -37,14 +37,19 @@ Partial Class Form1
         btnBrowse2 = New Button()
         btnSwap = New Button()
         btnClose = New Button()
-        gpbFileCleanup = New GroupBox()
-        btnDeleteRollingCache = New Button()
-        btnDeleteSceneryIndex = New Button()
-        lblRollingCache = New Label()
-        lblSceneryIndex = New Label()
+        MenuStrip1 = New MenuStrip()
+        mnuFile = New ToolStripMenuItem()
+        mnuMaintenance = New ToolStripMenuItem()
+        ToolStripSeparator1 = New ToolStripSeparator()
+        mnuExitProgram = New ToolStripMenuItem()
+        mnuEditProfile = New ToolStripMenuItem()
+        mnuSaveProfile = New ToolStripMenuItem()
+        mnuExport = New ToolStripMenuItem()
+        ToolStripSeparator2 = New ToolStripSeparator()
+        ToolStripSeparator3 = New ToolStripSeparator()
         gpbFile1.SuspendLayout()
         gpbFile2.SuspendLayout()
-        gpbFileCleanup.SuspendLayout()
+        MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' gpbFile1
@@ -57,7 +62,7 @@ Partial Class Form1
         gpbFile1.Controls.Add(Label1)
         gpbFile1.Controls.Add(txtFile1)
         gpbFile1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        gpbFile1.Location = New Point(15, 23)
+        gpbFile1.Location = New Point(42, 68)
         gpbFile1.Name = "gpbFile1"
         gpbFile1.Size = New Size(429, 148)
         gpbFile1.TabIndex = 11
@@ -143,7 +148,7 @@ Partial Class Form1
         gpbFile2.Controls.Add(txtFile2)
         gpbFile2.Controls.Add(btnBrowse2)
         gpbFile2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        gpbFile2.Location = New Point(15, 197)
+        gpbFile2.Location = New Point(42, 242)
         gpbFile2.Name = "gpbFile2"
         gpbFile2.Size = New Size(429, 148)
         gpbFile2.TabIndex = 10
@@ -212,7 +217,7 @@ Partial Class Form1
         btnSwap.FlatAppearance.BorderSize = 0
         btnSwap.FlatStyle = FlatStyle.Flat
         btnSwap.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnSwap.Location = New Point(28, 361)
+        btnSwap.Location = New Point(42, 408)
         btnSwap.Name = "btnSwap"
         btnSwap.Size = New Size(429, 36)
         btnSwap.TabIndex = 11
@@ -222,89 +227,97 @@ Partial Class Form1
         ' btnClose
         ' 
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnClose.Location = New Point(28, 430)
+        btnClose.Location = New Point(42, 469)
         btnClose.Name = "btnClose"
         btnClose.Size = New Size(429, 36)
         btnClose.TabIndex = 12
         btnClose.Text = "Close Program"
         btnClose.UseVisualStyleBackColor = False
         ' 
-        ' gpbFileCleanup
+        ' MenuStrip1
         ' 
-        gpbFileCleanup.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        gpbFileCleanup.Controls.Add(btnDeleteRollingCache)
-        gpbFileCleanup.Controls.Add(btnDeleteSceneryIndex)
-        gpbFileCleanup.Controls.Add(lblRollingCache)
-        gpbFileCleanup.Controls.Add(lblSceneryIndex)
-        gpbFileCleanup.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        gpbFileCleanup.Location = New Point(497, 30)
-        gpbFileCleanup.Name = "gpbFileCleanup"
-        gpbFileCleanup.Size = New Size(429, 315)
-        gpbFileCleanup.TabIndex = 12
-        gpbFileCleanup.TabStop = False
-        gpbFileCleanup.Text = "File Cleanup"
+        MenuStrip1.Items.AddRange(New ToolStripItem() {mnuFile})
+        MenuStrip1.Location = New Point(0, 0)
+        MenuStrip1.Name = "MenuStrip1"
+        MenuStrip1.Size = New Size(520, 24)
+        MenuStrip1.TabIndex = 13
+        MenuStrip1.Text = "MenuStrip1"
         ' 
-        ' btnDeleteRollingCache
+        ' mnuFile
         ' 
-        btnDeleteRollingCache.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnDeleteRollingCache.Location = New Point(127, 133)
-        btnDeleteRollingCache.Name = "btnDeleteRollingCache"
-        btnDeleteRollingCache.Size = New Size(133, 41)
-        btnDeleteRollingCache.TabIndex = 10
-        btnDeleteRollingCache.Text = "Clear Contents"
-        btnDeleteRollingCache.UseVisualStyleBackColor = False
+        mnuFile.DropDownItems.AddRange(New ToolStripItem() {ToolStripSeparator1, mnuEditProfile, mnuSaveProfile, mnuExport, ToolStripSeparator2, mnuMaintenance, ToolStripSeparator3, mnuExitProgram})
+        mnuFile.Name = "mnuFile"
+        mnuFile.Size = New Size(37, 20)
+        mnuFile.Text = "File"
         ' 
-        ' btnDeleteSceneryIndex
+        ' mnuMaintenance
         ' 
-        btnDeleteSceneryIndex.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnDeleteSceneryIndex.Location = New Point(127, 65)
-        btnDeleteSceneryIndex.Name = "btnDeleteSceneryIndex"
-        btnDeleteSceneryIndex.Size = New Size(133, 41)
-        btnDeleteSceneryIndex.TabIndex = 9
-        btnDeleteSceneryIndex.Text = "Clear Contents"
-        btnDeleteSceneryIndex.UseVisualStyleBackColor = False
+        mnuMaintenance.Name = "mnuMaintenance"
+        mnuMaintenance.Size = New Size(180, 22)
+        mnuMaintenance.Text = "Maintenance..."
         ' 
-        ' lblRollingCache
+        ' ToolStripSeparator1
         ' 
-        lblRollingCache.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblRollingCache.ImageAlign = ContentAlignment.MiddleRight
-        lblRollingCache.Location = New Point(21, 140)
-        lblRollingCache.Name = "lblRollingCache"
-        lblRollingCache.Size = New Size(100, 30)
-        lblRollingCache.TabIndex = 8
-        lblRollingCache.Text = "Rolling Cache"
+        ToolStripSeparator1.Name = "ToolStripSeparator1"
+        ToolStripSeparator1.Size = New Size(177, 6)
         ' 
-        ' lblSceneryIndex
+        ' mnuExitProgram
         ' 
-        lblSceneryIndex.AutoSize = True
-        lblSceneryIndex.Font = New Font("Segoe UI", 11.25F)
-        lblSceneryIndex.Location = New Point(21, 72)
-        lblSceneryIndex.Name = "lblSceneryIndex"
-        lblSceneryIndex.Size = New Size(100, 20)
-        lblSceneryIndex.TabIndex = 1
-        lblSceneryIndex.Text = "Scenery Index"
+        mnuExitProgram.Name = "mnuExitProgram"
+        mnuExitProgram.Size = New Size(180, 22)
+        mnuExitProgram.Text = "Exit Program"
         ' 
-        ' Form1
+        ' mnuEditProfile
+        ' 
+        mnuEditProfile.Name = "mnuEditProfile"
+        mnuEditProfile.Size = New Size(180, 22)
+        mnuEditProfile.Text = "Edit Profile"
+        ' 
+        ' mnuSaveProfile
+        ' 
+        mnuSaveProfile.Name = "mnuSaveProfile"
+        mnuSaveProfile.Size = New Size(180, 22)
+        mnuSaveProfile.Text = "Save Profile"
+        ' 
+        ' mnuExport
+        ' 
+        mnuExport.Name = "mnuExport"
+        mnuExport.Size = New Size(180, 22)
+        mnuExport.Text = "Export"
+        ' 
+        ' ToolStripSeparator2
+        ' 
+        ToolStripSeparator2.Name = "ToolStripSeparator2"
+        ToolStripSeparator2.Size = New Size(177, 6)
+        ' 
+        ' ToolStripSeparator3
+        ' 
+        ToolStripSeparator3.Name = "ToolStripSeparator3"
+        ToolStripSeparator3.Size = New Size(177, 6)
+        ' 
+        ' FrmMain
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        ClientSize = New Size(938, 550)
-        Controls.Add(gpbFileCleanup)
+        ClientSize = New Size(520, 541)
         Controls.Add(btnClose)
         Controls.Add(btnSwap)
         Controls.Add(gpbFile2)
         Controls.Add(gpbFile1)
+        Controls.Add(MenuStrip1)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
-        Name = "Form1"
-        Text = "Form1"
+        MainMenuStrip = MenuStrip1
+        Name = "FrmMain"
+        Text = "MSFS PROfile Editor"
         gpbFile1.ResumeLayout(False)
         gpbFile1.PerformLayout()
         gpbFile2.ResumeLayout(False)
         gpbFile2.PerformLayout()
-        gpbFileCleanup.ResumeLayout(False)
-        gpbFileCleanup.PerformLayout()
+        MenuStrip1.ResumeLayout(False)
+        MenuStrip1.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents gpbFile1 As GroupBox
@@ -322,10 +335,15 @@ Partial Class Form1
     Friend WithEvents btnBrowse2 As Button
     Friend WithEvents btnSwap As Button
     Friend WithEvents btnClose As Button
-    Friend WithEvents gpbFileCleanup As GroupBox
-    Friend WithEvents lblRollingCache As Label
-    Friend WithEvents lblSceneryIndex As Label
-    Friend WithEvents btnDeleteRollingCache As Button
-    Friend WithEvents btnDeleteSceneryIndex As Button
+    Friend WithEvents MenuStrip1 As MenuStrip
+    Friend WithEvents mnuFile As ToolStripMenuItem
+    Friend WithEvents mnuMaintenance As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents mnuExitProgram As ToolStripMenuItem
+    Friend WithEvents mnuEditProfile As ToolStripMenuItem
+    Friend WithEvents mnuSaveProfile As ToolStripMenuItem
+    Friend WithEvents mnuExport As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
+    Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
 
 End Class

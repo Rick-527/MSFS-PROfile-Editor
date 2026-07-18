@@ -1,7 +1,7 @@
 ﻿Imports System.IO
 Imports System.Diagnostics ' Required to open files in external programs
 
-Public Class Form1
+Public Class FrmMain
 
     ' Form Load event handles remembering the last used directory
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -245,11 +245,6 @@ Public Class Form1
                     Exit Sub
                 End If
 
-                'If backupResult = DialogResult.Yes Then
-                '    Dim backupPath = file1FullPath & ".bak"
-                '    File.Copy(file1FullPath, backupPath, True)
-                'End If
-
                 If backupResult = DialogResult.Yes Then
                     Dim backupPath = BackupName(file1FullPath)
                     File.Copy(file1FullPath, backupPath, True)
@@ -304,4 +299,5 @@ Public Class Form1
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
+
 End Class
