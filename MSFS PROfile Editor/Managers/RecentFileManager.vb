@@ -9,7 +9,6 @@ Public Class RecentFileManager
 
     End Class
 
-
     Public Sub SaveFile1(filePath As String)
 
             My.Settings.LastFile1Path = filePath
@@ -46,11 +45,33 @@ Public Class RecentFileManager
 
     End Function
 
-    Public Sub Save(filePath As String)
+    Private Sub OpenFileInDefaultApp(filePath As String)
 
-        My.Settings.LastFile1Path = filePath
-        My.Settings.LastFile1Name = Path.GetFileName(filePath)
-        My.Settings.Save()
+        If String.IsNullOrWhiteSpace(filePath) Then
+            MessageBox.Show("Please select a file first before trying to view it.", "No File Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Exit Sub
+        End If
+
+        If Not File.Exists(filePath) Then
+            MessageBox.Show("The file could not be found. It may have been moved or deleted.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Exit Sub
+        End If
+
+        'open Notepad to view file - else prompt user for viewer if Notepad is not found
+        Dim notepadPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows),
+    "System32", "notepad.exe")
+        If File.Exists(notepadPath) Then
+            Process.Start(notepadPath, filePath)
+        Else
+            Process.Start(New ProcessStartInfo() With {.FileName = filePath, .UseShellExecute = True})
+        End If
+
+    End Sub
+
+    Public Sub ViewFile(filetoview As TextBox)
+
+        Dim fullPath = If(filetoview.Tag IsNot Nothing, filetoview.Tag.ToString(), "")
+        OpenFileInDefaultApp(fullPath)
 
     End Sub
 

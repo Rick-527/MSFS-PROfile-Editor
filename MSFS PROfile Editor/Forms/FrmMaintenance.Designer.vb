@@ -22,77 +22,188 @@ Partial Class FrmMaintenance
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        mnuFrmMaintenance = New MenuStrip()
-        mnuFile = New ToolStripMenuItem()
-        mnuDeleteBackupFiles = New ToolStripMenuItem()
-        ToolStripSeparator1 = New ToolStripSeparator()
-        mnuClose = New ToolStripMenuItem()
         dlgOpenFile = New OpenFileDialog()
-        mnuFrmMaintenance.SuspendLayout()
+        btnClose = New Button()
+        btnClearRolingCache = New Button()
+        btnDeleteSceneryIndexes = New Button()
+        btnRestoreBackup = New Button()
+        btnViewXmlExe = New Button()
+        Button5 = New Button()
+        Label1 = New Label()
+        Label2 = New Label()
+        Label3 = New Label()
+        Label4 = New Label()
+        Label5 = New Label()
+        Label6 = New Label()
         SuspendLayout()
-        ' 
-        ' mnuFrmMaintenance
-        ' 
-        mnuFrmMaintenance.Items.AddRange(New ToolStripItem() {mnuFile})
-        mnuFrmMaintenance.Location = New Point(0, 0)
-        mnuFrmMaintenance.Name = "mnuFrmMaintenance"
-        mnuFrmMaintenance.Size = New Size(426, 24)
-        mnuFrmMaintenance.TabIndex = 19
-        mnuFrmMaintenance.Text = "MenuStrip1"
-        ' 
-        ' mnuFile
-        ' 
-        mnuFile.DropDownItems.AddRange(New ToolStripItem() {mnuDeleteBackupFiles, ToolStripSeparator1, mnuClose})
-        mnuFile.Name = "mnuFile"
-        mnuFile.Size = New Size(37, 20)
-        mnuFile.Text = "&File"
-        ' 
-        ' mnuDeleteBackupFiles
-        ' 
-        mnuDeleteBackupFiles.Name = "mnuDeleteBackupFiles"
-        mnuDeleteBackupFiles.Size = New Size(175, 22)
-        mnuDeleteBackupFiles.Text = "&Delete Backup Files"
-        ' 
-        ' ToolStripSeparator1
-        ' 
-        ToolStripSeparator1.Name = "ToolStripSeparator1"
-        ToolStripSeparator1.Size = New Size(172, 6)
-        ' 
-        ' mnuClose
-        ' 
-        mnuClose.Name = "mnuClose"
-        mnuClose.Size = New Size(175, 22)
-        mnuClose.Text = "&Close"
         ' 
         ' dlgOpenFile
         ' 
         dlgOpenFile.Filter = """opt file|*.opt"""
+        ' 
+        ' btnClose
+        ' 
+        btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnClose.Location = New Point(513, 491)
+        btnClose.Margin = New Padding(4, 3, 4, 3)
+        btnClose.Name = "btnClose"
+        btnClose.RightToLeft = RightToLeft.Yes
+        btnClose.Size = New Size(172, 42)
+        btnClose.TabIndex = 21
+        btnClose.Text = "&Close"
+        btnClose.UseVisualStyleBackColor = False
+        ' 
+        ' btnClearRolingCache
+        ' 
+        btnClearRolingCache.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnClearRolingCache.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnClearRolingCache.Location = New Point(313, 58)
+        btnClearRolingCache.Name = "btnClearRolingCache"
+        btnClearRolingCache.Size = New Size(172, 47)
+        btnClearRolingCache.TabIndex = 22
+        btnClearRolingCache.Text = "Clear &Rolling Cache"
+        btnClearRolingCache.UseVisualStyleBackColor = False
+        ' 
+        ' btnDeleteSceneryIndexes
+        ' 
+        btnDeleteSceneryIndexes.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnDeleteSceneryIndexes.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnDeleteSceneryIndexes.Location = New Point(313, 130)
+        btnDeleteSceneryIndexes.Name = "btnDeleteSceneryIndexes"
+        btnDeleteSceneryIndexes.Size = New Size(172, 47)
+        btnDeleteSceneryIndexes.TabIndex = 23
+        btnDeleteSceneryIndexes.Text = "Delete &Scenery Indexes"
+        btnDeleteSceneryIndexes.UseVisualStyleBackColor = False
+        ' 
+        ' btnRestoreBackup
+        ' 
+        btnRestoreBackup.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnRestoreBackup.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnRestoreBackup.Location = New Point(313, 202)
+        btnRestoreBackup.Name = "btnRestoreBackup"
+        btnRestoreBackup.Size = New Size(172, 47)
+        btnRestoreBackup.TabIndex = 24
+        btnRestoreBackup.Text = "Restore &Backup File (UserCfg.opt)"
+        btnRestoreBackup.UseVisualStyleBackColor = False
+        ' 
+        ' btnViewXmlExe
+        ' 
+        btnViewXmlExe.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnViewXmlExe.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnViewXmlExe.Location = New Point(313, 274)
+        btnViewXmlExe.Name = "btnViewXmlExe"
+        btnViewXmlExe.Size = New Size(172, 47)
+        btnViewXmlExe.TabIndex = 25
+        btnViewXmlExe.Text = "View/&Edit xml.exe"
+        btnViewXmlExe.UseVisualStyleBackColor = False
+        ' 
+        ' Button5
+        ' 
+        Button5.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        Button5.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        Button5.Location = New Point(313, 346)
+        Button5.Name = "Button5"
+        Button5.Size = New Size(172, 47)
+        Button5.TabIndex = 26
+        Button5.Text = "View/E&dit Cameras (cameras.exe)"
+        Button5.UseVisualStyleBackColor = False
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Location = New Point(584, 50)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(41, 15)
+        Label1.TabIndex = 27
+        Label1.Text = "Label1"
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(592, 90)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(41, 15)
+        Label2.TabIndex = 28
+        Label2.Text = "Label2"
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Location = New Point(595, 130)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(41, 15)
+        Label3.TabIndex = 29
+        Label3.Text = "Label3"
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Location = New Point(596, 171)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(41, 15)
+        Label4.TabIndex = 30
+        Label4.Text = "Label4"
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Location = New Point(600, 221)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(41, 15)
+        Label5.TabIndex = 31
+        Label5.Text = "Label5"
+        ' 
+        ' Label6
+        ' 
+        Label6.AutoSize = True
+        Label6.Location = New Point(603, 261)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(41, 15)
+        Label6.TabIndex = 32
+        Label6.Text = "Label6"
         ' 
         ' FrmMaintenance
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        ClientSize = New Size(426, 356)
-        Controls.Add(mnuFrmMaintenance)
+        ClientSize = New Size(698, 545)
+        Controls.Add(Label6)
+        Controls.Add(Label5)
+        Controls.Add(Label4)
+        Controls.Add(Label3)
+        Controls.Add(Label2)
+        Controls.Add(Label1)
+        Controls.Add(Button5)
+        Controls.Add(btnViewXmlExe)
+        Controls.Add(btnRestoreBackup)
+        Controls.Add(btnDeleteSceneryIndexes)
+        Controls.Add(btnClearRolingCache)
+        Controls.Add(btnClose)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
         FormBorderStyle = FormBorderStyle.FixedDialog
-        MainMenuStrip = mnuFrmMaintenance
         MaximizeBox = False
         MinimizeBox = False
         Name = "FrmMaintenance"
         ShowInTaskbar = False
         StartPosition = FormStartPosition.CenterParent
         Text = "MSFS PROfile Editor - Maintenance Module"
-        mnuFrmMaintenance.ResumeLayout(False)
-        mnuFrmMaintenance.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
-    Friend WithEvents mnuFrmMaintenance As MenuStrip
-    Friend WithEvents mnuFile As ToolStripMenuItem
-    Friend WithEvents mnuDeleteBackupFiles As ToolStripMenuItem
-    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
-    Friend WithEvents mnuClose As ToolStripMenuItem
     Friend WithEvents dlgOpenFile As OpenFileDialog
+    Friend WithEvents btnClose As Button
+    Friend WithEvents btnClearRolingCache As Button
+    Friend WithEvents btnDeleteSceneryIndexes As Button
+    Friend WithEvents btnRestoreBackup As Button
+    Friend WithEvents btnViewXmlExe As Button
+    Friend WithEvents Button5 As Button
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Label6 As Label
 End Class

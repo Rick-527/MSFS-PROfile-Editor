@@ -187,7 +187,7 @@ Partial Class FrmProfileEditor
         btnViewSourceFile.Location = New Point(313, 42)
         btnViewSourceFile.Margin = New Padding(4, 3, 4, 3)
         btnViewSourceFile.Name = "btnViewSourceFile"
-        btnViewSourceFile.Size = New Size(75, 29)
+        btnViewSourceFile.Size = New Size(97, 29)
         btnViewSourceFile.TabIndex = 6
         btnViewSourceFile.Text = "View File"
         btnViewSourceFile.UseVisualStyleBackColor = False
@@ -256,7 +256,7 @@ Partial Class FrmProfileEditor
         btnSaveAsCurrentProfile.Location = New Point(36, 89)
         btnSaveAsCurrentProfile.Margin = New Padding(4, 3, 4, 3)
         btnSaveAsCurrentProfile.Name = "btnSaveAsCurrentProfile"
-        btnSaveAsCurrentProfile.Size = New Size(352, 29)
+        btnSaveAsCurrentProfile.Size = New Size(374, 29)
         btnSaveAsCurrentProfile.TabIndex = 3
         btnSaveAsCurrentProfile.Text = "Save Current Profile As..."
         btnSaveAsCurrentProfile.UseVisualStyleBackColor = False
@@ -270,7 +270,7 @@ Partial Class FrmProfileEditor
         btnViewDestinationFile.Location = New Point(313, 42)
         btnViewDestinationFile.Margin = New Padding(4, 3, 4, 3)
         btnViewDestinationFile.Name = "btnViewDestinationFile"
-        btnViewDestinationFile.Size = New Size(75, 29)
+        btnViewDestinationFile.Size = New Size(97, 29)
         btnViewDestinationFile.TabIndex = 2
         btnViewDestinationFile.Text = "View File"
         btnViewDestinationFile.UseVisualStyleBackColor = False

@@ -137,6 +137,18 @@ Namespace My
                 Me("LastFile2Name") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property MSFSVersion() As String
+            Get
+                Return CType(Me("MSFSVersion"),String)
+            End Get
+            Set
+                Me("MSFSVersion") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

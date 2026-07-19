@@ -99,26 +99,6 @@ Public Class FrmProfileEditor
 
             End If
 
-            'If ofd1.ShowDialog = DialogResult.OK Then
-            '    ' Display ONLY the short file name to the user in the textbox
-            '    txtDestinationFile.Text = Path.GetFileName(ofd1.FileName)
-
-            '    ' Display the FULL absolute path to the user in the label
-            '    lblDestinationFilePath.Text = ofd1.FileName
-            '    lblSourceFilePath.Text = ofd1.FileName
-
-            '    ' Store the full hidden path inside the .Tag property for background use
-            '    txtDestinationFile.Tag = ofd1.FileName
-
-            '    ' SAVE FILE 1 PERSISTENT MEMORY VALUES
-            '    My.Settings.LastFile1Path = ofd1.FileName
-            '    My.Settings.LastFile1Name = Path.GetFileName(ofd1.FileName)
-
-            '    ' Save the folder path to memory
-            '    My.Settings.LastDirectory = Path.GetDirectoryName(ofd1.FileName)
-            '    My.Settings.Save()
-
-            'End If
         End Using
 
     End Sub
@@ -143,24 +123,6 @@ Public Class FrmProfileEditor
 
             End If
 
-            'If ofd2.ShowDialog = DialogResult.OK Then
-            '    ' Display only the short file name to the user in the textbox
-            '    txtSourceFile.Text = Path.GetFileName(ofd2.FileName)
-
-            '    ' Display the full absolute path to the user in the new label
-            '    lblSourceFilePath.Text = ofd2.FileName
-
-            '    ' Store the full hidden path inside the .Tag property for background use
-            '    txtSourceFile.Tag = ofd2.FileName
-
-            '    ' save file 2 persistent values
-            '    My.Settings.LastFile2Path = ofd2.FileName
-            '    My.Settings.LastFile2Name = Path.GetFileName(ofd2.FileName)
-
-            '    ' Save the folder path to memory
-            '    My.Settings.LastDirectory2 = Path.GetDirectoryName(ofd2.FileName)
-            '    My.Settings.Save()
-            'End If
         End Using
 
     End Sub
@@ -175,4 +137,21 @@ Public Class FrmProfileEditor
         Me.Close()
     End Sub
 
+    Private Sub btnViewDestinationFile_Click(sender As Object, e As EventArgs) Handles btnViewDestinationFile.Click
+
+        _recentFileManager.ViewFile(txtDestinationFile)
+
+    End Sub
+
+    Private Sub btnViewSourceFile_Click(sender As Object, e As EventArgs) Handles btnViewSourceFile.Click
+
+        _recentFileManager.ViewFile(txtSourceFile)
+
+    End Sub
+
+    Private Sub btnSwap_Click(sender As Object, e As EventArgs) Handles btnSwap.Click
+
+        _profileManager.ReplaceProfile(txtSourceFile.Tag, txtDestinationFile.Tag)
+
+    End Sub
 End Class
