@@ -120,6 +120,12 @@ Public Class FrmMain
     '    End Using
     'End Sub
 
+    Private Sub btnProfileEditor_Click(sender As Object, e As EventArgs) Handles btnProfileEditor.Click
+        Using frm As New FrmProfileEditor
+            frm.ShowDialog(Me)
+        End Using
+    End Sub
+
     Private Sub mnuMaintenance_Click(sender As Object, e As EventArgs) Handles mnuMaintenance.Click
         Using frm As New FrmMaintenance()
             frm.ShowDialog(Me)

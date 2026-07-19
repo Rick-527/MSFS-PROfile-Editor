@@ -101,6 +101,42 @@ Namespace My
                 Me("ProfileFolder") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property LastDirectory2() As String
+            Get
+                Return CType(Me("LastDirectory2"),String)
+            End Get
+            Set
+                Me("LastDirectory2") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property LastFile2Path() As String
+            Get
+                Return CType(Me("LastFile2Path"),String)
+            End Get
+            Set
+                Me("LastFile2Path") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property LastFile2Name() As String
+            Get
+                Return CType(Me("LastFile2Name"),String)
+            End Get
+            Set
+                Me("LastFile2Name") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

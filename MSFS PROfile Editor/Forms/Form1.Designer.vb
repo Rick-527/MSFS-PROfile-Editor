@@ -34,15 +34,18 @@ Partial Class FrmMain
         ToolStripSeparator3 = New ToolStripSeparator()
         mnuExitProgram = New ToolStripMenuItem()
         btnMaintenance = New Button()
+        btnProfileEditor = New Button()
         MenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' btnClose
         ' 
+        btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnClose.Location = New Point(42, 469)
+        btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnClose.Location = New Point(191, 280)
         btnClose.Name = "btnClose"
-        btnClose.Size = New Size(429, 36)
+        btnClose.Size = New Size(172, 41)
         btnClose.TabIndex = 12
         btnClose.Text = "Close Program"
         btnClose.UseVisualStyleBackColor = False
@@ -53,7 +56,7 @@ Partial Class FrmMain
         MenuStrip1.Items.AddRange(New ToolStripItem() {mnuFile})
         MenuStrip1.Location = New Point(0, 0)
         MenuStrip1.Name = "MenuStrip1"
-        MenuStrip1.Size = New Size(520, 24)
+        MenuStrip1.Size = New Size(375, 24)
         MenuStrip1.TabIndex = 13
         MenuStrip1.Text = "MenuStrip1"
         ' 
@@ -112,12 +115,24 @@ Partial Class FrmMain
         ' btnMaintenance
         ' 
         btnMaintenance.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnMaintenance.Location = New Point(46, 252)
+        btnMaintenance.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnMaintenance.Location = New Point(12, 113)
         btnMaintenance.Name = "btnMaintenance"
         btnMaintenance.Size = New Size(172, 41)
         btnMaintenance.TabIndex = 14
         btnMaintenance.Text = "Setup"
         btnMaintenance.UseVisualStyleBackColor = False
+        ' 
+        ' btnProfileEditor
+        ' 
+        btnProfileEditor.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnProfileEditor.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnProfileEditor.Location = New Point(12, 49)
+        btnProfileEditor.Name = "btnProfileEditor"
+        btnProfileEditor.Size = New Size(172, 41)
+        btnProfileEditor.TabIndex = 34
+        btnProfileEditor.Text = "Profile Editor"
+        btnProfileEditor.UseVisualStyleBackColor = False
         ' 
         ' FrmMain
         ' 
@@ -125,7 +140,8 @@ Partial Class FrmMain
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnClose
-        ClientSize = New Size(520, 541)
+        ClientSize = New Size(375, 333)
+        Controls.Add(btnProfileEditor)
         Controls.Add(btnMaintenance)
         Controls.Add(btnClose)
         Controls.Add(MenuStrip1)
@@ -154,5 +170,6 @@ Partial Class FrmMain
     Friend WithEvents ToolStripSeparator2 As ToolStripSeparator
     Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
     Friend WithEvents btnMaintenance As Button
+    Friend WithEvents btnProfileEditor As Button
 
 End Class

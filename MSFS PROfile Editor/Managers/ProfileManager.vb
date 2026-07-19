@@ -86,7 +86,72 @@ Public Class ProfileManager
 
         Return False
 
+    End Function
+
+    Public Function NewProfile(destinationFile As TextBox) As Boolean
+
+        'sets the new profile in the Profiles Directory
+        ' save the new Profile in the Profiles Directory
+        Dim file1FullPath = If(destinationFile.Tag IsNot Nothing, destinationFile.Tag.ToString(), "")
+
+        If String.IsNullOrWhiteSpace(file1FullPath) Then
+            MessageBox.Show("Please select UserCfg.opt first before attempting to save the file to a new destination.", "No Source File Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+
+        If Not File.Exists(file1FullPath) Then
+            MessageBox.Show("The UserCfg.opt could not be found. It may have been moved or deleted.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Return False
+        End If
+
+        Using sfd As New SaveFileDialog
+            sfd.Title = "Save Profile to New Destination"
+            sfd.Filter = "opt Files (.opt)|*.opt"
+            sfd.FileName = Path.GetFileName(file1FullPath)
+
+            If Not String.IsNullOrWhiteSpace(My.Settings.ProfileFolder) Then
+                sfd.InitialDirectory = My.Settings.ProfileFolder
+            End If
+
+            If sfd.ShowDialog = DialogResult.OK Then
+                Try
+                    File.Copy(file1FullPath, sfd.FileName, True)
+
+                    My.Settings.ProfileFolder = Path.GetDirectoryName(sfd.FileName)
+                    My.Settings.Save()
+
+                    MessageBox.Show("Profile saved successfully to its new destination!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Catch ex As Exception
+                    MessageBox.Show($"An error occurred while saving the profile: {ex.Message}", "Operation Failed", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Try
+            End If
+
+            Return True
+
+        End Using
+
+        Return False
 
     End Function
+
+    'Public Sub Save(filePath As String, fileType As RecentFileType)
+
+    '    Select Case fileType
+
+    '        Case RecentFileType.Destination
+    '            My.Settings.LastFile1Path = filePath
+    '            My.Settings.LastFile1Name = Path.GetFileName(filePath)
+    '            My.Settings.LastDirectory = Path.GetDirectoryName(filePath)
+
+    '        Case RecentFileType.Source
+    '            My.Settings.LastFile2Path = filePath
+    '            My.Settings.LastFile2Name = Path.GetFileName(filePath)
+    '            My.Settings.LastDirectory2 = Path.GetDirectoryName(filePath)
+
+    '    End Select
+
+    '    My.Settings.Save()
+
+    'End Sub
 
 End Class
