@@ -22,7 +22,6 @@ Partial Class FrmMaintenance
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        btnBrowseFile = New Button()
         btnOk = New Button()
         mnuFrmMaintenance = New MenuStrip()
         mnuFile = New ToolStripMenuItem()
@@ -33,28 +32,15 @@ Partial Class FrmMaintenance
         lblTotalSize = New Label()
         lblOldestBackup = New Label()
         dlgOpenFile = New OpenFileDialog()
-        txtProfileFolder = New TextBox()
-        lblProfileFolderPath = New Label()
-        lblFolderPathInstructions = New Label()
+        btnProfileEditor = New Button()
         mnuFrmMaintenance.SuspendLayout()
         SuspendLayout()
-        ' 
-        ' btnBrowseFile
-        ' 
-        btnBrowseFile.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnBrowseFile.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnBrowseFile.Location = New Point(12, 115)
-        btnBrowseFile.Name = "btnBrowseFile"
-        btnBrowseFile.Size = New Size(172, 41)
-        btnBrowseFile.TabIndex = 17
-        btnBrowseFile.Text = "Browse..."
-        btnBrowseFile.UseVisualStyleBackColor = False
         ' 
         ' btnOk
         ' 
         btnOk.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnOk.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnOk.Location = New Point(490, 418)
+        btnOk.Location = New Point(1069, 641)
         btnOk.Name = "btnOk"
         btnOk.Size = New Size(172, 41)
         btnOk.TabIndex = 15
@@ -66,7 +52,7 @@ Partial Class FrmMaintenance
         mnuFrmMaintenance.Items.AddRange(New ToolStripItem() {mnuFile})
         mnuFrmMaintenance.Location = New Point(0, 0)
         mnuFrmMaintenance.Name = "mnuFrmMaintenance"
-        mnuFrmMaintenance.Size = New Size(674, 24)
+        mnuFrmMaintenance.Size = New Size(1253, 24)
         mnuFrmMaintenance.TabIndex = 19
         mnuFrmMaintenance.Text = "MenuStrip1"
         ' 
@@ -97,7 +83,7 @@ Partial Class FrmMaintenance
         ' lblBackupCount
         ' 
         lblBackupCount.Font = New Font("Segoe UI", 11.25F)
-        lblBackupCount.Location = New Point(12, 372)
+        lblBackupCount.Location = New Point(591, 595)
         lblBackupCount.Name = "lblBackupCount"
         lblBackupCount.Size = New Size(120, 30)
         lblBackupCount.TabIndex = 20
@@ -107,7 +93,7 @@ Partial Class FrmMaintenance
         ' lblTotalSize
         ' 
         lblTotalSize.Font = New Font("Segoe UI", 11.25F)
-        lblTotalSize.Location = New Point(12, 432)
+        lblTotalSize.Location = New Point(591, 655)
         lblTotalSize.Name = "lblTotalSize"
         lblTotalSize.Size = New Size(120, 30)
         lblTotalSize.TabIndex = 22
@@ -117,7 +103,7 @@ Partial Class FrmMaintenance
         ' lblOldestBackup
         ' 
         lblOldestBackup.Font = New Font("Segoe UI", 11.25F)
-        lblOldestBackup.Location = New Point(12, 402)
+        lblOldestBackup.Location = New Point(591, 625)
         lblOldestBackup.Name = "lblOldestBackup"
         lblOldestBackup.Size = New Size(120, 30)
         lblOldestBackup.TabIndex = 23
@@ -128,35 +114,16 @@ Partial Class FrmMaintenance
         ' 
         dlgOpenFile.Filter = """opt file|*.opt"""
         ' 
-        ' txtProfileFolder
+        ' btnProfileEditor
         ' 
-        txtProfileFolder.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        txtProfileFolder.Location = New Point(12, 82)
-        txtProfileFolder.Name = "txtProfileFolder"
-        txtProfileFolder.ReadOnly = True
-        txtProfileFolder.Size = New Size(441, 27)
-        txtProfileFolder.TabIndex = 24
-        txtProfileFolder.Text = "Click the 'Browse' button to set the Profiles Folder"
-        ' 
-        ' lblProfileFolderPath
-        ' 
-        lblProfileFolderPath.AutoSize = True
-        lblProfileFolderPath.Font = New Font("Segoe UI", 11.25F)
-        lblProfileFolderPath.Location = New Point(12, 59)
-        lblProfileFolderPath.Name = "lblProfileFolderPath"
-        lblProfileFolderPath.Size = New Size(148, 20)
-        lblProfileFolderPath.TabIndex = 25
-        lblProfileFolderPath.Text = "Path to Profile Folder"
-        lblProfileFolderPath.TextAlign = ContentAlignment.MiddleLeft
-        ' 
-        ' lblFolderPathInstructions
-        ' 
-        lblFolderPathInstructions.Font = New Font("Segoe UI", 11.25F)
-        lblFolderPathInstructions.Location = New Point(190, 114)
-        lblFolderPathInstructions.Name = "lblFolderPathInstructions"
-        lblFolderPathInstructions.Size = New Size(472, 82)
-        lblFolderPathInstructions.TabIndex = 26
-        lblFolderPathInstructions.Text = "Folder Instructions"
+        btnProfileEditor.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnProfileEditor.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnProfileEditor.Location = New Point(12, 557)
+        btnProfileEditor.Name = "btnProfileEditor"
+        btnProfileEditor.Size = New Size(172, 41)
+        btnProfileEditor.TabIndex = 33
+        btnProfileEditor.Text = "Profile Editor"
+        btnProfileEditor.UseVisualStyleBackColor = False
         ' 
         ' FrmMaintenance
         ' 
@@ -164,14 +131,11 @@ Partial Class FrmMaintenance
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnOk
-        ClientSize = New Size(674, 471)
-        Controls.Add(lblFolderPathInstructions)
-        Controls.Add(lblProfileFolderPath)
-        Controls.Add(txtProfileFolder)
+        ClientSize = New Size(1253, 694)
+        Controls.Add(btnProfileEditor)
         Controls.Add(lblOldestBackup)
         Controls.Add(lblTotalSize)
         Controls.Add(lblBackupCount)
-        Controls.Add(btnBrowseFile)
         Controls.Add(btnOk)
         Controls.Add(mnuFrmMaintenance)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
@@ -188,7 +152,6 @@ Partial Class FrmMaintenance
         ResumeLayout(False)
         PerformLayout()
     End Sub
-    Friend WithEvents btnBrowseFile As Button
     Friend WithEvents btnOk As Button
     Friend WithEvents mnuFrmMaintenance As MenuStrip
     Friend WithEvents mnuFile As ToolStripMenuItem
@@ -199,7 +162,5 @@ Partial Class FrmMaintenance
     Friend WithEvents lblTotalSize As Label
     Friend WithEvents lblOldestBackup As Label
     Friend WithEvents dlgOpenFile As OpenFileDialog
-    Friend WithEvents txtProfileFolder As TextBox
-    Friend WithEvents lblProfileFolderPath As Label
-    Friend WithEvents lblFolderPathInstructions As Label
+    Friend WithEvents btnProfileEditor As Button
 End Class
