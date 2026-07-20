@@ -5,27 +5,27 @@ Public Class SimulatorDetector
     Private Const MSFSStorePackageName As String =
     "Microsoft.Limitless_8wekyb3d8bbwe"
 
-    Public Function DetectSimulator() As SimulatorDetectionResult
+    Public Shared Function DetectSimulator() As SimulatorDetectionResult
 
         Dim result As New SimulatorDetectionResult()
 
         ' Steam
-        result.SteamUserCfgPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "Microsoft Flight Simulator 2024",
-            "UserCfg.opt")
+        result.SteamConfigFolder = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        "Microsoft Flight Simulator 2024")
 
-        result.SteamInstalled = File.Exists(result.SteamUserCfgPath)
+        result.SteamInstalled =
+        Directory.Exists(result.SteamConfigFolder)
 
         ' Microsoft Store
-        result.StoreUserCfgPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "Packages",
-            MSFSStorePackageName,
-            "LocalCache",
-            "UserCfg.opt")
+        result.StoreConfigFolder = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+        "Packages",
+        MSFSStorePackageName,
+        "LocalCache")
 
-        result.StoreInstalled = File.Exists(result.StoreUserCfgPath)
+        result.StoreInstalled =
+        Directory.Exists(result.StoreConfigFolder)
 
         Return result
 

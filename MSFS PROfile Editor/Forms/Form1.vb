@@ -17,34 +17,50 @@ Public Class FrmMain
 
         ThemeManager.ApplyModernTheme(Me)
 
-        ' Lock down the form sizing capabilities completely
-        'Me.FormBorderStyle = FormBorderStyle.FixedSingle ' Disables edge dragging
-        'Me.MaximizeBox = False                           ' Disables the maximize box window utility
-
         'update the latest version of the MSFS PROfile Editor
         Dim rawVersion As String = Application.ProductVersion
         Dim currentVersion As String = rawVersion.Split("+"c)(0)
-        Me.Text = Me.Text & " - v" & currentVersion
+        Me.Text = Me.Text & " - v" & currentVersion & " - MSFS Version: " & My.Settings.MSFSVersion
 
-        Select Case True
+        Select Case result.InstalledCount
 
-            Case result.SteamInstalled AndAlso result.StoreInstalled
+            Case 0
 
-                MessageBox.Show("Both versions were found.")
+                MessageBox.Show(
+                    "Microsoft Flight Simulator 2024 could not be found on this computer.",
+                    "MSFS PROfile Editor",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning)
 
-            Case result.SteamInstalled
+            Case 1
 
-                My.Settings.MSFSVersion = "Steam"
+                If result.SteamInstalled Then
+                    My.Settings.MSFSVersion = "Steam"
+                Else
+                    My.Settings.MSFSVersion = "Store"
+                End If
 
-            Case result.StoreInstalled
+                My.Settings.Save()
 
-                My.Settings.MSFSVersion = "Store"
+            Case 2
 
-            Case Else
+                Using frm As New FrmSimulatorSelection()
 
-                MessageBox.Show("Microsoft Flight Simulator 2024 was not found.")
+                    frm.RememberChoice = My.Settings.RememberSimulatorChoice
+
+                    If frm.ShowDialog(Me) = DialogResult.OK Then
+
+                        My.Settings.RememberSimulatorChoice = frm.RememberChoice
+                        My.Settings.MSFSVersion = frm.SelectedVersion.ToString()
+                        My.Settings.Save()
+
+                    End If
+
+                End Using
 
         End Select
+
+        tslMsfsVersion.Text = "MSFS Version: " & My.Settings.MSFSVersion
 
     End Sub
 

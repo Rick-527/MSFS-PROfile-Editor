@@ -9,9 +9,20 @@ Public Class FrmMaintenance
 
     End Sub
 
+    Private Sub btnClearRolingCache_Click(sender As Object, e As EventArgs) Handles btnClearRolingCache.Click
+
+        If SimulatorFilesManager.DeleteFile(SimulatorFile.RollingCache) Then
+            MessageBox.Show("Rolling cache deleted.")
+        Else
+            MessageBox.Show("Rolling cache not found.")
+        End If
+
+    End Sub
+
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
 
         Me.Close()
 
     End Sub
+
 End Class

@@ -25,6 +25,9 @@ Partial Class FrmMain
         btnClose = New Button()
         btnMaintenance = New Button()
         btnProfileEditor = New Button()
+        stsMSFSVersion = New StatusStrip()
+        tslMsfsVersion = New ToolStripStatusLabel()
+        stsMSFSVersion.SuspendLayout()
         SuspendLayout()
         ' 
         ' btnClose
@@ -32,7 +35,7 @@ Partial Class FrmMain
         btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnClose.Location = New Point(351, 371)
+        btnClose.Location = New Point(362, 378)
         btnClose.Name = "btnClose"
         btnClose.Size = New Size(172, 41)
         btnClose.TabIndex = 12
@@ -61,13 +64,30 @@ Partial Class FrmMain
         btnProfileEditor.Text = "Profile Editor"
         btnProfileEditor.UseVisualStyleBackColor = False
         ' 
+        ' stsMSFSVersion
+        ' 
+        stsMSFSVersion.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
+        stsMSFSVersion.Items.AddRange(New ToolStripItem() {tslMsfsVersion})
+        stsMSFSVersion.Location = New Point(0, 422)
+        stsMSFSVersion.Name = "stsMSFSVersion"
+        stsMSFSVersion.Size = New Size(546, 22)
+        stsMSFSVersion.TabIndex = 35
+        stsMSFSVersion.Text = "MSFSVersion:"
+        ' 
+        ' tslMsfsVersion
+        ' 
+        tslMsfsVersion.Name = "tslMsfsVersion"
+        tslMsfsVersion.Size = New Size(80, 17)
+        tslMsfsVersion.Text = "MSFS Version:"
+        ' 
         ' FrmMain
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnClose
-        ClientSize = New Size(535, 424)
+        ClientSize = New Size(546, 444)
+        Controls.Add(stsMSFSVersion)
         Controls.Add(btnProfileEditor)
         Controls.Add(btnMaintenance)
         Controls.Add(btnClose)
@@ -78,10 +98,15 @@ Partial Class FrmMain
         Name = "FrmMain"
         StartPosition = FormStartPosition.CenterScreen
         Text = "MSFS PROfile Editor"
+        stsMSFSVersion.ResumeLayout(False)
+        stsMSFSVersion.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
     Friend WithEvents btnClose As Button
     Friend WithEvents btnMaintenance As Button
     Friend WithEvents btnProfileEditor As Button
+    Friend WithEvents stsMSFSVersion As StatusStrip
+    Friend WithEvents tslMsfsVersion As ToolStripStatusLabel
 
 End Class
