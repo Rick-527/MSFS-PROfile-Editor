@@ -9,7 +9,7 @@ Public Class FrmMaintenance
 
     End Sub
 
-    Private Sub btnClearRolingCache_Click(sender As Object, e As EventArgs) Handles btnClearRolingCache.Click
+    Private Sub btnClearRollingCache_Click(sender As Object, e As EventArgs) Handles btnClearRollingCache.Click
 
         If SimulatorFilesManager.DeleteFile(SimulatorFile.RollingCache) Then
             MessageBox.Show("Rolling cache deleted.")
@@ -25,4 +25,36 @@ Public Class FrmMaintenance
 
     End Sub
 
+    Private Sub btnDeleteSceneryIndexes_Click(sender As Object, e As EventArgs) Handles btnDeleteSceneryIndexes.Click
+
+        Dim sceneryFolder As String =
+            SimulatorFilesManager.GetSceneryIndexesFolder()
+
+        If String.IsNullOrWhiteSpace(sceneryFolder) Then
+            MessageBox.Show("SceneryIndexes folder not found.")
+            Exit Sub
+        End If
+
+        If MessageBox.Show("Would you like to back up your existing scenery indexes before deleting them?",
+                           "Backup",
+                           MessageBoxButtons.YesNo,
+                           MessageBoxIcon.Question) = DialogResult.Yes Then
+
+            Using fbd As New FolderBrowserDialog()
+
+                If fbd.ShowDialog() = DialogResult.OK Then
+
+                    Dim copied As Integer =
+                        SimulatorFilesManager.BackupSceneryIndexes(
+                            sceneryFolder,
+                            fbd.SelectedPath)
+
+                    MessageBox.Show($"{copied} scenery index files backed up.")
+
+                End If
+
+            End Using
+
+        End If
+    End Sub
 End Class

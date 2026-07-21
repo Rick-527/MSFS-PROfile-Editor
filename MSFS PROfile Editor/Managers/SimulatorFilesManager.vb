@@ -1,6 +1,9 @@
 ﻿Imports System.IO
 
 Public Class SimulatorFilesManager
+
+    Private Shared _paths As SimulatorPaths
+
     Public Shared Function GetPaths() As SimulatorPaths
 
         Dim result = SimulatorDetector.DetectSimulator()
@@ -47,29 +50,22 @@ Public Class SimulatorFilesManager
 
     End Function
 
-    Private Shared _paths As SimulatorPaths
+    Private Shared Function GetFilePath(simFile As SimulatorFile) As String
+
+        Dim paths = GetPaths()
+
+        If String.IsNullOrWhiteSpace(paths.ConfigFolder) Then
+            Throw New InvalidOperationException(
+            "The simulator configuration folder has not been determined.")
+        End If
+
+        Return Path.Combine(paths.ConfigFolder, GetFileName(simFile))
+
+    End Function
 
     Public Shared Function DeleteFile(simFile As SimulatorFile) As Boolean
 
-        Dim paths = GetPaths()
-        'Dim simulatorFileName As String
-
-        If String.IsNullOrWhiteSpace(paths.ConfigFolder) Then
-            Throw New InvalidOperationException("The simulator configuration folder has not been determined.")
-        End If
-
-        Dim simulatorFileName = GetFileName(simFile)
-        Dim fullPath = Path.Combine(paths.ConfigFolder, simulatorFileName)
-
-        'file.Delete(fullPath)
-
-        MessageBox.Show("SimulatorFileName = " & simulatorFileName)
-
-        'Dim fullPath = Path.Combine(paths.ConfigFolder, simulatorFileName)
-
-        MessageBox.Show("Combined = " & fullPath)
-
-        MessageBox.Show(fullPath)
+        Dim fullPath = GetFilePath(simFile)
 
         If File.Exists(fullPath) Then
             File.Delete(fullPath)
@@ -77,6 +73,75 @@ Public Class SimulatorFilesManager
         End If
 
         Return False
+
+    End Function
+
+    Public Shared Function BackupSceneryIndexes(sceneryFolder As String,
+                                     backupFolder As String) As Integer
+
+        Dim filesCopied As Integer = 0
+
+        ' Create one timestamped backup folder for this operation.
+        Dim backupSessionFolder As String =
+            Path.Combine(
+            backupFolder,
+            DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"))
+
+        Directory.CreateDirectory(backupSessionFolder)
+
+        For Each sourceFile As String In Directory.GetFiles(sceneryFolder)
+
+            Try
+
+                Dim destinationFile As String =
+                    Path.Combine(
+                    backupSessionFolder,
+                    Path.GetFileName(sourceFile) & ".bak")
+
+                Dim fileBytes() As Byte = File.ReadAllBytes(sourceFile)
+                File.WriteAllBytes(destinationFile, fileBytes)
+
+                filesCopied += 1
+
+            Catch ex As Exception
+
+                MessageBox.Show(
+            $"Failed on:{Environment.NewLine}{sourceFile}{Environment.NewLine}{Environment.NewLine}{ex.Message}")
+
+            End Try
+
+        Next
+
+        Return filesCopied
+
+    End Function
+    Public Shared Function DeleteSceneryIndexes() As String
+
+        'For Each file In Directory.GetFiles(sceneryFolder)
+        '    file.Delete(file)
+        'Next
+
+        Return ""
+
+    End Function
+    Public Shared Function GetSceneryIndexesFolder() As String
+
+        Dim paths = GetPaths()
+
+        If String.IsNullOrWhiteSpace(paths.ConfigFolder) Then
+            Throw New InvalidOperationException(
+            "The simulator configuration folder has not been determined.")
+        End If
+
+        Dim sceneryFolder = Path.Combine(paths.ConfigFolder, "SceneryIndexes")
+
+        If Directory.Exists(sceneryFolder) Then
+
+            Return sceneryFolder
+
+        End If
+
+        Return String.Empty
 
     End Function
 

@@ -161,6 +161,18 @@ Namespace My
                 Me("RememberSimulatorChoice") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property IndexesBackupPath() As String
+            Get
+                Return CType(Me("IndexesBackupPath"),String)
+            End Get
+            Set
+                Me("IndexesBackupPath") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

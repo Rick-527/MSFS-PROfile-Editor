@@ -24,7 +24,7 @@ Partial Class FrmMaintenance
     Private Sub InitializeComponent()
         dlgOpenFile = New OpenFileDialog()
         btnClose = New Button()
-        btnClearRolingCache = New Button()
+        btnClearRollingCache = New Button()
         btnDeleteSceneryIndexes = New Button()
         btnRestoreBackup = New Button()
         btnViewXmlExe = New Button()
@@ -55,24 +55,24 @@ Partial Class FrmMaintenance
         btnClose.Text = "&Close"
         btnClose.UseVisualStyleBackColor = False
         ' 
-        ' btnClearRolingCache
+        ' btnClearRollingCache
         ' 
-        btnClearRolingCache.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnClearRolingCache.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnClearRolingCache.Location = New Point(313, 58)
-        btnClearRolingCache.Name = "btnClearRolingCache"
-        btnClearRolingCache.Size = New Size(172, 47)
-        btnClearRolingCache.TabIndex = 22
-        btnClearRolingCache.Text = "Clear &Rolling Cache"
-        btnClearRolingCache.UseVisualStyleBackColor = False
+        btnClearRollingCache.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnClearRollingCache.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnClearRollingCache.Location = New Point(316, 50)
+        btnClearRollingCache.Name = "btnClearRollingCache"
+        btnClearRollingCache.Size = New Size(186, 47)
+        btnClearRollingCache.TabIndex = 22
+        btnClearRollingCache.Text = "Clear &Rolling Cache"
+        btnClearRollingCache.UseVisualStyleBackColor = False
         ' 
         ' btnDeleteSceneryIndexes
         ' 
         btnDeleteSceneryIndexes.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnDeleteSceneryIndexes.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnDeleteSceneryIndexes.Location = New Point(313, 130)
+        btnDeleteSceneryIndexes.Location = New Point(316, 122)
         btnDeleteSceneryIndexes.Name = "btnDeleteSceneryIndexes"
-        btnDeleteSceneryIndexes.Size = New Size(172, 47)
+        btnDeleteSceneryIndexes.Size = New Size(186, 47)
         btnDeleteSceneryIndexes.TabIndex = 23
         btnDeleteSceneryIndexes.Text = "Delete &Scenery Indexes"
         btnDeleteSceneryIndexes.UseVisualStyleBackColor = False
@@ -81,9 +81,9 @@ Partial Class FrmMaintenance
         ' 
         btnRestoreBackup.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnRestoreBackup.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnRestoreBackup.Location = New Point(313, 202)
+        btnRestoreBackup.Location = New Point(316, 194)
         btnRestoreBackup.Name = "btnRestoreBackup"
-        btnRestoreBackup.Size = New Size(172, 47)
+        btnRestoreBackup.Size = New Size(186, 47)
         btnRestoreBackup.TabIndex = 24
         btnRestoreBackup.Text = "Restore &Backup File (UserCfg.opt)"
         btnRestoreBackup.UseVisualStyleBackColor = False
@@ -92,9 +92,9 @@ Partial Class FrmMaintenance
         ' 
         btnViewXmlExe.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnViewXmlExe.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnViewXmlExe.Location = New Point(313, 274)
+        btnViewXmlExe.Location = New Point(316, 266)
         btnViewXmlExe.Name = "btnViewXmlExe"
-        btnViewXmlExe.Size = New Size(172, 47)
+        btnViewXmlExe.Size = New Size(186, 47)
         btnViewXmlExe.TabIndex = 25
         btnViewXmlExe.Text = "View/&Edit xml.exe"
         btnViewXmlExe.UseVisualStyleBackColor = False
@@ -103,9 +103,9 @@ Partial Class FrmMaintenance
         ' 
         Button5.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         Button5.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        Button5.Location = New Point(313, 346)
+        Button5.Location = New Point(316, 338)
         Button5.Name = "Button5"
-        Button5.Size = New Size(172, 47)
+        Button5.Size = New Size(186, 47)
         Button5.TabIndex = 26
         Button5.Text = "View/E&dit Cameras (cameras.exe)"
         Button5.UseVisualStyleBackColor = False
@@ -180,7 +180,7 @@ Partial Class FrmMaintenance
         Controls.Add(btnViewXmlExe)
         Controls.Add(btnRestoreBackup)
         Controls.Add(btnDeleteSceneryIndexes)
-        Controls.Add(btnClearRolingCache)
+        Controls.Add(btnClearRollingCache)
         Controls.Add(btnClose)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
         FormBorderStyle = FormBorderStyle.FixedDialog
@@ -195,7 +195,7 @@ Partial Class FrmMaintenance
     End Sub
     Friend WithEvents dlgOpenFile As OpenFileDialog
     Friend WithEvents btnClose As Button
-    Friend WithEvents btnClearRolingCache As Button
+    Friend WithEvents btnClearRollingCache As Button
     Friend WithEvents btnDeleteSceneryIndexes As Button
     Friend WithEvents btnRestoreBackup As Button
     Friend WithEvents btnViewXmlExe As Button

@@ -12,8 +12,7 @@ Public Class FrmMain
     ' Form Load event handles remembering the last used directory
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Dim detector As New SimulatorDetector()
-        Dim result = detector.DetectSimulator()
+        Dim result = SimulatorDetector.DetectSimulator()
 
         ThemeManager.ApplyModernTheme(Me)
 
