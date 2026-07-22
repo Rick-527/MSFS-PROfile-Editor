@@ -2,25 +2,25 @@
 
 Public Class SimulatorFilesManager
 
-    Private Shared _paths As SimulatorPaths
+    Private Shared _simulatorPaths As SimulatorPaths
 
     Public Shared Function GetPaths() As SimulatorPaths
 
         Dim result = SimulatorDetector.DetectSimulator()
 
-        If _paths Is Nothing Then
+        If _simulatorPaths Is Nothing Then
 
-            _paths = New SimulatorPaths()
+            _simulatorPaths = New SimulatorPaths()
 
             If result.SteamInstalled Then
 
-                _paths.ConfigFolder = result.SteamConfigFolder
-                _paths.IsSteam = True
+                _simulatorPaths.ConfigFolder = result.SteamConfigFolder
+                _simulatorPaths.IsSteam = True
 
             ElseIf result.StoreInstalled Then
 
-                _paths.ConfigFolder = result.StoreConfigFolder
-                _paths.IsStore = True
+                _simulatorPaths.ConfigFolder = result.StoreConfigFolder
+                _simulatorPaths.IsStore = True
 
             Else
 
@@ -31,7 +31,7 @@ Public Class SimulatorFilesManager
 
         End If
 
-        Return _paths
+        Return _simulatorPaths
 
     End Function
 
@@ -77,13 +77,14 @@ Public Class SimulatorFilesManager
     End Function
 
     Public Shared Function BackupSceneryIndexes(sceneryFolder As String,
-                                     backupFolder As String) As Integer
+                                                backupFolder As String) As BackupOperationResult
 
+        Dim result As New BackupOperationResult
         Dim filesCopied As Integer = 0
 
-        ' Create one timestamped backup folder for this operation.
+        ' Create timestamp folder.
         Dim backupSessionFolder As String =
-            Path.Combine(
+        Path.Combine(
             backupFolder,
             DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"))
 
@@ -91,39 +92,65 @@ Public Class SimulatorFilesManager
 
         For Each sourceFile As String In Directory.GetFiles(sceneryFolder)
 
-            Try
+            Dim destinationFile As String =
+            Path.Combine(
+                backupSessionFolder,
+                Path.GetFileName(sourceFile) & ".bak")
 
-                Dim destinationFile As String =
-                    Path.Combine(
-                    backupSessionFolder,
-                    Path.GetFileName(sourceFile) & ".bak")
+            Dim fileBytes() As Byte = File.ReadAllBytes(sourceFile)
+            File.WriteAllBytes(destinationFile, fileBytes)
 
-                Dim fileBytes() As Byte = File.ReadAllBytes(sourceFile)
-                File.WriteAllBytes(destinationFile, fileBytes)
-
-                filesCopied += 1
-
-            Catch ex As Exception
-
-                MessageBox.Show(
-            $"Failed on:{Environment.NewLine}{sourceFile}{Environment.NewLine}{Environment.NewLine}{ex.Message}")
-
-            End Try
+            filesCopied += 1
 
         Next
 
-        Return filesCopied
+        result.Success = True
+        result.FilesCopied = filesCopied
+        result.BackupFolder = backupSessionFolder
+
+        Return result
 
     End Function
-    Public Shared Function DeleteSceneryIndexes() As String
 
-        'For Each file In Directory.GetFiles(sceneryFolder)
-        '    file.Delete(file)
-        'Next
+    'Public Shared Function BackupSceneryIndexes(sceneryFolder As Integer,
+    '                                 backupFolder As String) As BackupOperationResult 'Integer
 
-        Return ""
+    '    Dim filesCopied As Integer = 0
 
-    End Function
+    '    Dim result As New BackupOperationResult
+
+    '    ' Create one timestamped backup folder for this operation.
+    '    Dim backupSessionFolder As String =
+    '        Path.Combine(
+    '        backupFolder,
+    '        DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"))
+
+    '    Directory.CreateDirectory(backupSessionFolder)
+
+    '    result.Success = True
+    '    result.FilesCopied = filesCopied
+    '    result.BackupFolder = backupSessionFolder
+
+    '    For Each sourceFile As String In Directory.GetFiles(sceneryFolder)
+
+    '        Dim destinationFile As String =
+    '                Path.Combine(
+    '                backupSessionFolder,
+    '                Path.GetFileName(sourceFile) & ".bak")
+
+    '        Dim fileBytes() As Byte = File.ReadAllBytes(sourceFile)
+    '        File.WriteAllBytes(destinationFile, fileBytes)
+
+    '        filesCopied += 1
+
+    '    Next
+
+    '    Return result
+
+    '    'Return filesCopied
+
+    'End Function
+
     Public Shared Function GetSceneryIndexesFolder() As String
 
         Dim paths = GetPaths()
@@ -144,6 +171,17 @@ Public Class SimulatorFilesManager
         Return String.Empty
 
     End Function
+
+    Public Shared Function DeleteSceneryIndexes() As String
+
+        'For Each file In Directory.GetFiles(sceneryFolder)
+        '    file.Delete(file)
+        'Next
+
+        Return ""
+
+    End Function
+
 
     'Public Shared Sub DeleteAllFiles()
 

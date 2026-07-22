@@ -42,14 +42,38 @@ Public Class FrmMaintenance
 
             Using fbd As New FolderBrowserDialog()
 
+                ' If the user has previously selected a backup folder,
+                ' start the dialog there.
+                If Directory.Exists(My.Settings.IndexesBackupPath) Then
+                    fbd.SelectedPath = My.Settings.IndexesBackupPath
+                End If
+
                 If fbd.ShowDialog() = DialogResult.OK Then
 
-                    Dim copied As Integer =
-                        SimulatorFilesManager.BackupSceneryIndexes(
-                            sceneryFolder,
-                            fbd.SelectedPath)
+                    ' Remember the user's preferred backup folder.
+                    My.Settings.IndexesBackupPath = fbd.SelectedPath
+                    My.Settings.Save()
 
-                    MessageBox.Show($"{copied} scenery index files backed up.")
+                    Dim result As BackupOperationResult =
+                        SimulatorFilesManager.BackupSceneryIndexes(
+                        sceneryFolder,
+                        fbd.SelectedPath)
+
+                    If result.Success Then
+
+                        MessageBox.Show(
+                            $"{result.FilesCopied} scenery index files were backed up." &
+                            Environment.NewLine &
+                            Environment.NewLine &
+                            "Backup Location:" &
+                            Environment.NewLine &
+                            result.BackupFolder)
+
+                    Else
+
+                        MessageBox.Show(result.ErrorMessage)
+
+                    End If
 
                 End If
 
