@@ -112,45 +112,6 @@ Public Class SimulatorFilesManager
 
     End Function
 
-    'Public Shared Function BackupSceneryIndexes(sceneryFolder As Integer,
-    '                                 backupFolder As String) As BackupOperationResult 'Integer
-
-    '    Dim filesCopied As Integer = 0
-
-    '    Dim result As New BackupOperationResult
-
-    '    ' Create one timestamped backup folder for this operation.
-    '    Dim backupSessionFolder As String =
-    '        Path.Combine(
-    '        backupFolder,
-    '        DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss"))
-
-    '    Directory.CreateDirectory(backupSessionFolder)
-
-    '    result.Success = True
-    '    result.FilesCopied = filesCopied
-    '    result.BackupFolder = backupSessionFolder
-
-    '    For Each sourceFile As String In Directory.GetFiles(sceneryFolder)
-
-    '        Dim destinationFile As String =
-    '                Path.Combine(
-    '                backupSessionFolder,
-    '                Path.GetFileName(sourceFile) & ".bak")
-
-    '        Dim fileBytes() As Byte = File.ReadAllBytes(sourceFile)
-    '        File.WriteAllBytes(destinationFile, fileBytes)
-
-    '        filesCopied += 1
-
-    '    Next
-
-    '    Return result
-
-    '    'Return filesCopied
-
-    'End Function
-
     Public Shared Function GetSceneryIndexesFolder() As String
 
         Dim paths = GetPaths()
@@ -172,13 +133,38 @@ Public Class SimulatorFilesManager
 
     End Function
 
-    Public Shared Function DeleteSceneryIndexes() As String
+    Public Shared Function DeleteSceneryIndexes(sceneryFolder As String) As Integer
 
-        'For Each file In Directory.GetFiles(sceneryFolder)
-        '    file.Delete(file)
+        Dim filesDeleted As Integer = 0
+        Dim files = Directory.GetFiles(sceneryFolder)
+
+        If Not Directory.Exists(sceneryFolder) Then
+            Throw New DirectoryNotFoundException(sceneryFolder)
+        End If
+
+        For Each sourceFile As String In files
+
+            File.Delete(sourceFile)
+            filesDeleted += 1
+
+        Next
+
+        Return filesDeleted
+
+        'For Each sourceFile As String In Directory.GetFiles(sceneryFolder)
+
+        '    If Directory.GetFiles(sceneryFolder).Length = 0 Then
+
+        '        Return 0
+
+        '    End If
+
+        '    File.Delete(sourceFile)
+        '    filesDeleted += 1
+
         'Next
 
-        Return ""
+        'Return filesDeleted
 
     End Function
 

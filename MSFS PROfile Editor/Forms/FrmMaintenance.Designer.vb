@@ -35,6 +35,10 @@ Partial Class FrmMaintenance
         Label4 = New Label()
         Label5 = New Label()
         Label6 = New Label()
+        btnNewIndexesBackupPath = New Button()
+        Button2 = New Button()
+        grpSceneryIndexes = New GroupBox()
+        grpSceneryIndexes.SuspendLayout()
         SuspendLayout()
         ' 
         ' dlgOpenFile
@@ -46,7 +50,7 @@ Partial Class FrmMaintenance
         btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnClose.Location = New Point(513, 491)
+        btnClose.Location = New Point(715, 553)
         btnClose.Margin = New Padding(4, 3, 4, 3)
         btnClose.Name = "btnClose"
         btnClose.RightToLeft = RightToLeft.Yes
@@ -59,7 +63,7 @@ Partial Class FrmMaintenance
         ' 
         btnClearRollingCache.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClearRollingCache.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnClearRollingCache.Location = New Point(316, 50)
+        btnClearRollingCache.Location = New Point(518, 52)
         btnClearRollingCache.Name = "btnClearRollingCache"
         btnClearRollingCache.Size = New Size(186, 47)
         btnClearRollingCache.TabIndex = 22
@@ -70,7 +74,7 @@ Partial Class FrmMaintenance
         ' 
         btnDeleteSceneryIndexes.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnDeleteSceneryIndexes.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnDeleteSceneryIndexes.Location = New Point(316, 122)
+        btnDeleteSceneryIndexes.Location = New Point(18, 28)
         btnDeleteSceneryIndexes.Name = "btnDeleteSceneryIndexes"
         btnDeleteSceneryIndexes.Size = New Size(186, 47)
         btnDeleteSceneryIndexes.TabIndex = 23
@@ -81,7 +85,7 @@ Partial Class FrmMaintenance
         ' 
         btnRestoreBackup.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnRestoreBackup.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnRestoreBackup.Location = New Point(316, 194)
+        btnRestoreBackup.Location = New Point(518, 132)
         btnRestoreBackup.Name = "btnRestoreBackup"
         btnRestoreBackup.Size = New Size(186, 47)
         btnRestoreBackup.TabIndex = 24
@@ -92,7 +96,7 @@ Partial Class FrmMaintenance
         ' 
         btnViewXmlExe.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnViewXmlExe.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnViewXmlExe.Location = New Point(316, 266)
+        btnViewXmlExe.Location = New Point(518, 204)
         btnViewXmlExe.Name = "btnViewXmlExe"
         btnViewXmlExe.Size = New Size(186, 47)
         btnViewXmlExe.TabIndex = 25
@@ -103,7 +107,7 @@ Partial Class FrmMaintenance
         ' 
         Button5.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         Button5.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        Button5.Location = New Point(316, 338)
+        Button5.Location = New Point(518, 276)
         Button5.Name = "Button5"
         Button5.Size = New Size(186, 47)
         Button5.TabIndex = 26
@@ -113,7 +117,7 @@ Partial Class FrmMaintenance
         ' Label1
         ' 
         Label1.AutoSize = True
-        Label1.Location = New Point(584, 50)
+        Label1.Location = New Point(786, 52)
         Label1.Name = "Label1"
         Label1.Size = New Size(41, 15)
         Label1.TabIndex = 27
@@ -122,7 +126,7 @@ Partial Class FrmMaintenance
         ' Label2
         ' 
         Label2.AutoSize = True
-        Label2.Location = New Point(592, 90)
+        Label2.Location = New Point(794, 92)
         Label2.Name = "Label2"
         Label2.Size = New Size(41, 15)
         Label2.TabIndex = 28
@@ -131,7 +135,7 @@ Partial Class FrmMaintenance
         ' Label3
         ' 
         Label3.AutoSize = True
-        Label3.Location = New Point(595, 130)
+        Label3.Location = New Point(797, 132)
         Label3.Name = "Label3"
         Label3.Size = New Size(41, 15)
         Label3.TabIndex = 29
@@ -140,7 +144,7 @@ Partial Class FrmMaintenance
         ' Label4
         ' 
         Label4.AutoSize = True
-        Label4.Location = New Point(596, 171)
+        Label4.Location = New Point(798, 173)
         Label4.Name = "Label4"
         Label4.Size = New Size(41, 15)
         Label4.TabIndex = 30
@@ -149,7 +153,7 @@ Partial Class FrmMaintenance
         ' Label5
         ' 
         Label5.AutoSize = True
-        Label5.Location = New Point(600, 221)
+        Label5.Location = New Point(802, 223)
         Label5.Name = "Label5"
         Label5.Size = New Size(41, 15)
         Label5.TabIndex = 31
@@ -158,18 +162,52 @@ Partial Class FrmMaintenance
         ' Label6
         ' 
         Label6.AutoSize = True
-        Label6.Location = New Point(603, 261)
+        Label6.Location = New Point(805, 263)
         Label6.Name = "Label6"
         Label6.Size = New Size(41, 15)
         Label6.TabIndex = 32
         Label6.Text = "Label6"
+        ' 
+        ' btnNewIndexesBackupPath
+        ' 
+        btnNewIndexesBackupPath.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnNewIndexesBackupPath.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnNewIndexesBackupPath.Location = New Point(18, 94)
+        btnNewIndexesBackupPath.Name = "btnNewIndexesBackupPath"
+        btnNewIndexesBackupPath.Size = New Size(186, 47)
+        btnNewIndexesBackupPath.TabIndex = 33
+        btnNewIndexesBackupPath.Text = "&Change Backup Folder"
+        btnNewIndexesBackupPath.UseVisualStyleBackColor = False
+        ' 
+        ' Button2
+        ' 
+        Button2.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        Button2.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        Button2.Location = New Point(18, 160)
+        Button2.Name = "Button2"
+        Button2.Size = New Size(186, 47)
+        Button2.TabIndex = 34
+        Button2.Text = "&Restore Backup Files"
+        Button2.UseVisualStyleBackColor = False
+        ' 
+        ' grpSceneryIndexes
+        ' 
+        grpSceneryIndexes.Controls.Add(btnDeleteSceneryIndexes)
+        grpSceneryIndexes.Controls.Add(Button2)
+        grpSceneryIndexes.Controls.Add(btnNewIndexesBackupPath)
+        grpSceneryIndexes.Location = New Point(205, 283)
+        grpSceneryIndexes.Name = "grpSceneryIndexes"
+        grpSceneryIndexes.Size = New Size(227, 244)
+        grpSceneryIndexes.TabIndex = 35
+        grpSceneryIndexes.TabStop = False
         ' 
         ' FrmMaintenance
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        ClientSize = New Size(698, 545)
+        ClientSize = New Size(900, 607)
+        Controls.Add(grpSceneryIndexes)
         Controls.Add(Label6)
         Controls.Add(Label5)
         Controls.Add(Label4)
@@ -179,7 +217,6 @@ Partial Class FrmMaintenance
         Controls.Add(Button5)
         Controls.Add(btnViewXmlExe)
         Controls.Add(btnRestoreBackup)
-        Controls.Add(btnDeleteSceneryIndexes)
         Controls.Add(btnClearRollingCache)
         Controls.Add(btnClose)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
@@ -190,6 +227,7 @@ Partial Class FrmMaintenance
         ShowInTaskbar = False
         StartPosition = FormStartPosition.CenterParent
         Text = "MSFS PROfile Editor - Maintenance Module"
+        grpSceneryIndexes.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -206,4 +244,7 @@ Partial Class FrmMaintenance
     Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
     Friend WithEvents Label6 As Label
+    Friend WithEvents btnNewIndexesBackupPath As Button
+    Friend WithEvents Button2 As Button
+    Friend WithEvents grpSceneryIndexes As GroupBox
 End Class
