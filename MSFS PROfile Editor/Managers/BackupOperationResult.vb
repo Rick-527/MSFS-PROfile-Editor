@@ -8,4 +8,6 @@
 
     Public Property ErrorMessage As String
 
+    Public Property BackupFile As String
+
 End Class

@@ -2,6 +2,6 @@
 
     UserCfg
     RollingCache
-    XmlExe
+    EXExml
 
 End Enum

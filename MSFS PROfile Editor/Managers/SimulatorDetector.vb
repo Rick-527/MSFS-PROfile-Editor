@@ -1,9 +1,13 @@
 ﻿Imports System.IO
 
-Public Class SimulatorDetector
+Public NotInheritable Class SimulatorDetector
 
     Private Const MSFSStorePackageName As String =
     "Microsoft.Limitless_8wekyb3d8bbwe"
+
+    Private Const SteamConfigFolderName As String =
+    "Microsoft Flight Simulator 2024"
+
 
     Public Shared Function DetectSimulator() As SimulatorDetectionResult
 
@@ -12,10 +16,9 @@ Public Class SimulatorDetector
         ' Steam
         result.SteamConfigFolder = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "Microsoft Flight Simulator 2024")
+        SteamConfigFolderName)
 
-        result.SteamInstalled =
-        Directory.Exists(result.SteamConfigFolder)
+        result.SteamInstalled = Directory.Exists(result.SteamConfigFolder)
 
         ' Microsoft Store
         result.StoreConfigFolder = Path.Combine(
@@ -24,8 +27,7 @@ Public Class SimulatorDetector
         MSFSStorePackageName,
         "LocalCache")
 
-        result.StoreInstalled =
-        Directory.Exists(result.StoreConfigFolder)
+        result.StoreInstalled = Directory.Exists(result.StoreConfigFolder)
 
         Return result
 

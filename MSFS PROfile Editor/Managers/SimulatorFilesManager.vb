@@ -1,86 +1,17 @@
 ﻿Imports System.IO
+Imports System.IO.Compression
 
 Public Class SimulatorFilesManager
 
     Private Shared _simulatorPaths As SimulatorPaths
 
-    Public Shared Function GetPaths() As SimulatorPaths
-
-        Dim result = SimulatorDetector.DetectSimulator()
-
-        If _simulatorPaths Is Nothing Then
-
-            _simulatorPaths = New SimulatorPaths()
-
-            If result.SteamInstalled Then
-
-                _simulatorPaths.ConfigFolder = result.SteamConfigFolder
-                _simulatorPaths.IsSteam = True
-
-            ElseIf result.StoreInstalled Then
-
-                _simulatorPaths.ConfigFolder = result.StoreConfigFolder
-                _simulatorPaths.IsStore = True
-
-            Else
-
-                Throw New DirectoryNotFoundException(
-                "Microsoft Flight Simulator 2024 could not be found.")
-
-            End If
-
-        End If
-
-        Return _simulatorPaths
-
-    End Function
-
-    Public Shared Function GetFileName(file As SimulatorFile) As String
-
-        Select Case file
-            Case SimulatorFile.RollingCache
-                Return "ROLLINGCACHE.CCC"
-
-            Case SimulatorFile.UserCfg
-                Return "UserCfg.opt"
-
-            Case Else
-                Throw New ArgumentOutOfRangeException(NameOf(file))
-        End Select
-
-    End Function
-
-    Private Shared Function GetFilePath(simFile As SimulatorFile) As String
-
-        Dim paths = GetPaths()
-
-        If String.IsNullOrWhiteSpace(paths.ConfigFolder) Then
-            Throw New InvalidOperationException(
-            "The simulator configuration folder has not been determined.")
-        End If
-
-        Return Path.Combine(paths.ConfigFolder, GetFileName(simFile))
-
-    End Function
-
-    Public Shared Function DeleteFile(simFile As SimulatorFile) As Boolean
-
-        Dim fullPath = GetFilePath(simFile)
-
-        If File.Exists(fullPath) Then
-            File.Delete(fullPath)
-            Return True
-        End If
-
-        Return False
-
-    End Function
+    Private Const BackupTimestampFormat As String = "yyyyMMdd-HHmmss"
 
     Public Shared Function BackupSceneryIndexes(sceneryFolder As String,
                                                 backupFolder As String) As BackupOperationResult
 
         Dim result As New BackupOperationResult
-        Dim filesCopied As Integer = 0
+        Dim filesCopied = 0
 
         ' Create timestamp folder.
         Dim backupSessionFolder As String =
@@ -114,19 +45,11 @@ Public Class SimulatorFilesManager
 
     Public Shared Function GetSceneryIndexesFolder() As String
 
-        Dim paths = GetPaths()
-
-        If String.IsNullOrWhiteSpace(paths.ConfigFolder) Then
-            Throw New InvalidOperationException(
-            "The simulator configuration folder has not been determined.")
-        End If
-
-        Dim sceneryFolder = Path.Combine(paths.ConfigFolder, "SceneryIndexes")
+        Dim sceneryFolder =
+            Path.Combine(GetConfigFolder(), "SceneryIndexes")
 
         If Directory.Exists(sceneryFolder) Then
-
             Return sceneryFolder
-
         End If
 
         Return String.Empty
@@ -135,12 +58,13 @@ Public Class SimulatorFilesManager
 
     Public Shared Function DeleteSceneryIndexes(sceneryFolder As String) As Integer
 
-        Dim filesDeleted As Integer = 0
-        Dim files = Directory.GetFiles(sceneryFolder)
+        Dim filesDeleted = 0
 
         If Not Directory.Exists(sceneryFolder) Then
             Throw New DirectoryNotFoundException(sceneryFolder)
         End If
+
+        Dim files = Directory.GetFiles(sceneryFolder)
 
         For Each sourceFile As String In files
 
@@ -151,30 +75,144 @@ Public Class SimulatorFilesManager
 
         Return filesDeleted
 
-        'For Each sourceFile As String In Directory.GetFiles(sceneryFolder)
+    End Function
 
-        '    If Directory.GetFiles(sceneryFolder).Length = 0 Then
+    Private Shared Function GetPaths() As SimulatorPaths
 
-        '        Return 0
+        Dim result = SimulatorDetector.DetectSimulator()
 
-        '    End If
+        If _simulatorPaths Is Nothing Then
 
-        '    File.Delete(sourceFile)
-        '    filesDeleted += 1
+            _simulatorPaths = New SimulatorPaths()
 
-        'Next
+            If result.SteamInstalled Then
 
-        'Return filesDeleted
+                _simulatorPaths.ConfigFolder = result.SteamConfigFolder
+                _simulatorPaths.IsSteam = True
+
+            ElseIf result.StoreInstalled Then
+
+                _simulatorPaths.ConfigFolder = result.StoreConfigFolder
+                _simulatorPaths.IsStore = True
+
+            Else
+
+                Throw New DirectoryNotFoundException(
+                "Microsoft Flight Simulator 2024 could not be found.")
+
+            End If
+
+        End If
+
+        Return _simulatorPaths
 
     End Function
 
+    Private Shared Function GetConfigFolder() As String
 
-    'Public Shared Sub DeleteAllFiles()
+        Dim folder = GetPaths().ConfigFolder
 
-    '    DeleteFile(SimulatorFile.UserCfgOpt.ToString())
-    '    DeleteFile(SimulatorFile.RollingCache.ToString())
-    '    DeleteFile(SimulatorFile.XmlExe.ToString())
+        If String.IsNullOrWhiteSpace(folder) Then
 
-    'End Sub
+            Throw New InvalidOperationException("The simulator configuration folder has not been determined.")
+
+        End If
+
+        Return folder
+
+    End Function
+
+    Private Shared Function GetFilePath(simFile As SimulatorFile) As String
+
+        Return Path.Combine(GetConfigFolder(), GetFileName(simFile))
+
+    End Function
+
+    Public Shared Function GetFileName(file As SimulatorFile) As String
+
+        Select Case file
+            Case SimulatorFile.RollingCache
+                Return "ROLLINGCACHE.CCC"
+
+            Case SimulatorFile.UserCfg
+                Return "UserCfg.opt"
+
+            Case SimulatorFile.EXExml
+                Return "EXE.xml"
+
+            Case Else
+                Throw New ArgumentOutOfRangeException(NameOf(file))
+        End Select
+
+    End Function
+
+    Public Shared Sub OpenExeXml()
+
+        Dim filePath = GetFilePath(SimulatorFile.EXExml)
+
+        If Not File.Exists(filePath) Then
+            Throw New FileNotFoundException(
+            "The EXE.xml file could not be found.", filePath)
+        End If
+
+        Process.Start("notepad.exe", filePath)
+
+    End Sub
+
+    Private Shared Function GetBackupFileName(simFile As SimulatorFile) As String
+
+        Select Case simFile
+
+            Case SimulatorFile.EXExml
+
+                Return $"{GetFileName(simFile)}_MSFSProfileEditor_{DateTime.Now.ToString(BackupTimestampFormat)}.bak"
+
+            Case Else
+
+                Throw New ArgumentOutOfRangeException(
+                NameOf(simFile),
+                $"No backup filename has been defined for {simFile}.")
+
+        End Select
+
+    End Function
+
+    Public Shared Function BackupExeXml() As BackupOperationResult
+
+        Dim result As New BackupOperationResult()
+
+        Dim sourceFile = GetFilePath(SimulatorFile.EXExml)
+
+        If Not File.Exists(sourceFile) Then
+            Throw New FileNotFoundException(
+            "The EXE.xml file could not be found.", sourceFile)
+        End If
+
+        Dim backupFile = Path.Combine(
+        GetConfigFolder(),
+        GetBackupFileName(SimulatorFile.EXExml))
+
+        File.Copy(sourceFile, backupFile, True)
+
+        result.Success = True
+        result.FilesCopied = 1
+        result.BackupFile = backupFile
+
+        Return result
+
+    End Function
+
+    Public Shared Function DeleteFile(simFile As SimulatorFile) As Boolean
+
+        Dim fullPath = GetFilePath(simFile)
+
+        If File.Exists(fullPath) Then
+            File.Delete(fullPath)
+            Return True
+        End If
+
+        Return False
+
+    End Function
 
 End Class

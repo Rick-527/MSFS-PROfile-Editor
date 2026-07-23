@@ -27,7 +27,7 @@ Partial Class FrmMaintenance
         btnClearRollingCache = New Button()
         btnDeleteSceneryIndexes = New Button()
         btnRestoreBackup = New Button()
-        btnViewXmlExe = New Button()
+        btnViewExeXml = New Button()
         Button5 = New Button()
         Label1 = New Label()
         Label2 = New Label()
@@ -36,7 +36,7 @@ Partial Class FrmMaintenance
         Label5 = New Label()
         Label6 = New Label()
         btnNewIndexesBackupPath = New Button()
-        Button2 = New Button()
+        btnBackupXmlExe = New Button()
         grpSceneryIndexes = New GroupBox()
         grpSceneryIndexes.SuspendLayout()
         SuspendLayout()
@@ -74,7 +74,7 @@ Partial Class FrmMaintenance
         ' 
         btnDeleteSceneryIndexes.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnDeleteSceneryIndexes.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnDeleteSceneryIndexes.Location = New Point(18, 28)
+        btnDeleteSceneryIndexes.Location = New Point(19, 48)
         btnDeleteSceneryIndexes.Name = "btnDeleteSceneryIndexes"
         btnDeleteSceneryIndexes.Size = New Size(186, 47)
         btnDeleteSceneryIndexes.TabIndex = 23
@@ -92,16 +92,16 @@ Partial Class FrmMaintenance
         btnRestoreBackup.Text = "Restore &Backup File (UserCfg.opt)"
         btnRestoreBackup.UseVisualStyleBackColor = False
         ' 
-        ' btnViewXmlExe
+        ' btnViewExeXml
         ' 
-        btnViewXmlExe.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnViewXmlExe.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnViewXmlExe.Location = New Point(518, 204)
-        btnViewXmlExe.Name = "btnViewXmlExe"
-        btnViewXmlExe.Size = New Size(186, 47)
-        btnViewXmlExe.TabIndex = 25
-        btnViewXmlExe.Text = "View/&Edit xml.exe"
-        btnViewXmlExe.UseVisualStyleBackColor = False
+        btnViewExeXml.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnViewExeXml.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnViewExeXml.Location = New Point(518, 204)
+        btnViewExeXml.Name = "btnViewExeXml"
+        btnViewExeXml.Size = New Size(186, 47)
+        btnViewExeXml.TabIndex = 25
+        btnViewExeXml.Text = "View/&Edit xml.exe"
+        btnViewExeXml.UseVisualStyleBackColor = False
         ' 
         ' Button5
         ' 
@@ -172,30 +172,29 @@ Partial Class FrmMaintenance
         ' 
         btnNewIndexesBackupPath.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnNewIndexesBackupPath.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnNewIndexesBackupPath.Location = New Point(18, 94)
+        btnNewIndexesBackupPath.Location = New Point(19, 114)
         btnNewIndexesBackupPath.Name = "btnNewIndexesBackupPath"
         btnNewIndexesBackupPath.Size = New Size(186, 47)
         btnNewIndexesBackupPath.TabIndex = 33
         btnNewIndexesBackupPath.Text = "&Change Backup Folder"
         btnNewIndexesBackupPath.UseVisualStyleBackColor = False
         ' 
-        ' Button2
+        ' btnBackupXmlExe
         ' 
-        Button2.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        Button2.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        Button2.Location = New Point(18, 160)
-        Button2.Name = "Button2"
-        Button2.Size = New Size(186, 47)
-        Button2.TabIndex = 34
-        Button2.Text = "&Restore Backup Files"
-        Button2.UseVisualStyleBackColor = False
+        btnBackupXmlExe.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnBackupXmlExe.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnBackupXmlExe.Location = New Point(580, 378)
+        btnBackupXmlExe.Name = "btnBackupXmlExe"
+        btnBackupXmlExe.Size = New Size(186, 47)
+        btnBackupXmlExe.TabIndex = 34
+        btnBackupXmlExe.Text = "Create EXE.xml Bac&kup"
+        btnBackupXmlExe.UseVisualStyleBackColor = False
         ' 
         ' grpSceneryIndexes
         ' 
         grpSceneryIndexes.Controls.Add(btnDeleteSceneryIndexes)
-        grpSceneryIndexes.Controls.Add(Button2)
         grpSceneryIndexes.Controls.Add(btnNewIndexesBackupPath)
-        grpSceneryIndexes.Location = New Point(205, 283)
+        grpSceneryIndexes.Location = New Point(43, 52)
         grpSceneryIndexes.Name = "grpSceneryIndexes"
         grpSceneryIndexes.Size = New Size(227, 244)
         grpSceneryIndexes.TabIndex = 35
@@ -208,6 +207,7 @@ Partial Class FrmMaintenance
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         ClientSize = New Size(900, 607)
         Controls.Add(grpSceneryIndexes)
+        Controls.Add(btnBackupXmlExe)
         Controls.Add(Label6)
         Controls.Add(Label5)
         Controls.Add(Label4)
@@ -215,7 +215,7 @@ Partial Class FrmMaintenance
         Controls.Add(Label2)
         Controls.Add(Label1)
         Controls.Add(Button5)
-        Controls.Add(btnViewXmlExe)
+        Controls.Add(btnViewExeXml)
         Controls.Add(btnRestoreBackup)
         Controls.Add(btnClearRollingCache)
         Controls.Add(btnClose)
@@ -236,7 +236,7 @@ Partial Class FrmMaintenance
     Friend WithEvents btnClearRollingCache As Button
     Friend WithEvents btnDeleteSceneryIndexes As Button
     Friend WithEvents btnRestoreBackup As Button
-    Friend WithEvents btnViewXmlExe As Button
+    Friend WithEvents btnViewExeXml As Button
     Friend WithEvents Button5 As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
@@ -245,6 +245,6 @@ Partial Class FrmMaintenance
     Friend WithEvents Label5 As Label
     Friend WithEvents Label6 As Label
     Friend WithEvents btnNewIndexesBackupPath As Button
-    Friend WithEvents Button2 As Button
+    Friend WithEvents btnBackupXmlExe As Button
     Friend WithEvents grpSceneryIndexes As GroupBox
 End Class
