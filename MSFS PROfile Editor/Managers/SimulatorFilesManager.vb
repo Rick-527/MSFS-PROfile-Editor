@@ -79,9 +79,9 @@ Public Class SimulatorFilesManager
 
     Private Shared Function GetPaths() As SimulatorPaths
 
-        Dim result = SimulatorDetector.DetectSimulator()
-
         If _simulatorPaths Is Nothing Then
+
+            Dim result = SimulatorDetector.DetectSimulator()
 
             _simulatorPaths = New SimulatorPaths()
 

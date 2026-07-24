@@ -35,7 +35,7 @@ Partial Class FrmMain
         btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnClose.Location = New Point(362, 378)
+        btnClose.Location = New Point(362, 349)
         btnClose.Name = "btnClose"
         btnClose.Size = New Size(172, 41)
         btnClose.TabIndex = 12

@@ -11,11 +11,11 @@ Public Class FrmMaintenance
 
     Private Sub btnClearRollingCache_Click(sender As Object, e As EventArgs) Handles btnClearRollingCache.Click
 
-        If SimulatorFilesManager.DeleteFile(SimulatorFile.RollingCache) Then
-            MessageBox.Show("Rolling cache deleted.")
-        Else
-            MessageBox.Show("Rolling cache not found.")
-        End If
+        UiActionRunner.Run(Me, lblStatus,
+            Sub()
+                SimulatorFilesManager.DeleteFile(SimulatorFile.RollingCache)
+            End Sub
+            )
 
     End Sub
 
@@ -27,8 +27,8 @@ Public Class FrmMaintenance
 
     Private Sub btnDeleteSceneryIndexes_Click(sender As Object, e As EventArgs) Handles btnDeleteSceneryIndexes.Click
 
-        Dim sceneryFolder As String =
-            SimulatorFilesManager.GetSceneryIndexesFolder()
+        Dim sceneryFolder =
+            SimulatorFilesManager.GetSceneryIndexesFolder
         Dim backupFolder As String
 
 
@@ -43,11 +43,11 @@ Public Class FrmMaintenance
 
         Else
 
-            Using fbd As New FolderBrowserDialog()
+            Using fbd As New FolderBrowserDialog
 
                 fbd.Description = "Select a backup folder for your scenery index backups."
 
-                If fbd.ShowDialog() <> DialogResult.OK Then
+                If fbd.ShowDialog <> DialogResult.OK Then
                     Exit Sub
                 End If
 
@@ -85,11 +85,11 @@ Public Class FrmMaintenance
 
             Else
 
-                Using fbd As New FolderBrowserDialog()
+                Using fbd As New FolderBrowserDialog
 
                     fbd.Description = "Select a backup folder for your scenery index backups."
 
-                    If fbd.ShowDialog() <> DialogResult.OK Then
+                    If fbd.ShowDialog <> DialogResult.OK Then
                         Exit Sub
                     End If
 
@@ -102,14 +102,14 @@ Public Class FrmMaintenance
 
             End If
 
-            Dim result As BackupOperationResult =
+            Dim result =
                 SimulatorFilesManager.BackupSceneryIndexes(
                 sceneryFolder,
                 backupFolder)
 
             If result.Success Then
 
-                Dim deleted As Integer =
+                Dim deleted =
                 SimulatorFilesManager.DeleteSceneryIndexes(sceneryFolder)
 
                 MessageBox.Show(
@@ -132,4 +132,39 @@ Public Class FrmMaintenance
         End If
     End Sub
 
+    Private Sub btnBackupXmlExe_Click(sender As Object, e As EventArgs) Handles btnBackupXmlExe.Click
+
+        Dim result = UiActionRunner.RunWithResult(
+            Me,
+            lblStatus,
+            "Creating EXE.xml backup...",
+            Function() SimulatorFilesManager.BackupExeXml()
+            )
+
+        If result IsNot Nothing Then
+
+            MessageBox.Show(
+            $"Backup created successfully." & Environment.NewLine &
+            Path.GetFileName(result.BackupFile),
+            "Backup Complete",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information)
+
+        End If
+
+    End Sub
+
+    Private Sub btnViewExeXml_Click(sender As Object, e As EventArgs) Handles btnViewExeXml.Click
+
+        UiActionRunner.Run(Me, lblStatus,
+            Sub()
+                SimulatorFilesManager.OpenExeXml()
+            End Sub
+            )
+
+    End Sub
+
+    Private Sub btnNewIndexesBackupPath_Click(sender As Object, e As EventArgs) Handles btnNewIndexesBackupPath.Click
+
+    End Sub
 End Class
