@@ -6,6 +6,14 @@ Public Class FrmProfileEditor
     Private ReadOnly _profileManager As New ProfileManager()
     Private ReadOnly _recentFileManager As New RecentFileManager()
 
+    Private Const folderInstructions As String = "The Profile Folder stores all of your saved MSFS profiles." & vbCrLf & vbCrLf &
+                                    "Each profile contains your graphics settings," & vbCrLf &
+                                    "located in your UserCfg.opt file." & vbCrLf & vbCrLf &
+                                    "Creating profiles allow you to save and load" & vbCrLf &
+                                    "MSFS graphic settings quickly for your type of flight." & vbCrLf & vbCrLf &
+                                    "Click Browse to choose the folder used by" & vbCrLf &
+                                    "MSFS PROfile Editor."
+
     Private Sub FrmProfileEditor_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         ThemeManager.ApplyModernTheme(Me)
@@ -24,9 +32,14 @@ Public Class FrmProfileEditor
 
         'load the UserCfg.opt file from the last session
         Dim lastFile = _recentFileManager.LoadLastFile()
-        txtDestinationFile.Text = lastFile.FileName
-        txtDestinationFile.Tag = lastFile.FilePath
-        lblDestinationFilePath.Text = lastFile.FilePath
+
+        If lastFile IsNot Nothing Then
+
+            txtDestinationFile.Text = lastFile.FileName
+            txtDestinationFile.Tag = lastFile.FilePath
+            lblDestinationFilePath.Text = lastFile.FilePath
+
+        End If
 
         RefreshBackupInformation()
 
@@ -56,9 +69,7 @@ Public Class FrmProfileEditor
 
         txtProfileFolder.Text = _profileManager.CurrentProfileFolder
 
-        lblFolderPathInstructions.Text = "The Profile Folder is where your MSFS profiles are stored. " &
-           "This folder contains your various profiles that store your graphics settings. " &
-           "You can change the Profile Folder by clicking the 'Browse' button."
+        lblFolderPathInstructions.Text = folderInstructions
 
     End Sub
 
@@ -82,11 +93,21 @@ Public Class FrmProfileEditor
     Private Sub btnBrowseDestinationFile_Click(sender As Object, e As EventArgs) Handles btnBrowseDestinationFile.Click
 
         Using ofd1 As New OpenFileDialog
-            ofd1.Title = "Select your UserCfg.opt file (File to Overwrite)"
-            ofd1.Filter = "opt Files (*.opt)|*.opt"
 
-            If Not String.IsNullOrWhiteSpace(My.Settings.LastDirectory) Then
-                ofd1.InitialDirectory = My.Settings.LastDirectory
+
+        End Using
+
+        Using ofd1 As New OpenFileDialog
+
+            ofd1.Title = "Select your UserCfg.opt file (File to Overwrite)"
+            ofd1.Filter = "OPT Files (*.opt)|*.opt"
+
+            Dim simulatorFolder = SimulatorFilesManager.GetConfigFolderPath()
+
+            If Directory.Exists(simulatorFolder) Then
+
+                ofd1.InitialDirectory = simulatorFolder
+
             End If
 
             If ofd1.ShowDialog() = DialogResult.OK Then
@@ -133,10 +154,6 @@ Public Class FrmProfileEditor
 
     End Sub
 
-    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
-        Me.Close()
-    End Sub
-
     Private Sub btnViewDestinationFile_Click(sender As Object, e As EventArgs) Handles btnViewDestinationFile.Click
 
         _recentFileManager.ViewFile(txtDestinationFile)
@@ -154,4 +171,9 @@ Public Class FrmProfileEditor
         _profileManager.ReplaceProfile(txtSourceFile.Tag, txtDestinationFile.Tag)
 
     End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
+    End Sub
+
 End Class

@@ -19,7 +19,7 @@ Public Class FrmMain
         'update the latest version of the MSFS PROfile Editor
         Dim rawVersion As String = Application.ProductVersion
         Dim currentVersion As String = rawVersion.Split("+"c)(0)
-        Me.Text = Me.Text & " - v" & currentVersion & " - MSFS Version: " & My.Settings.MSFSVersion
+        Me.Text = Me.Text & " - v" & currentVersion & " - Simulator: " & My.Settings.MSFSVersion
 
         Select Case result.InstalledCount
 
@@ -36,7 +36,7 @@ Public Class FrmMain
                 If result.SteamInstalled Then
                     My.Settings.MSFSVersion = "Steam"
                 Else
-                    My.Settings.MSFSVersion = "Store"
+                    My.Settings.MSFSVersion = "Microsoft Store"
                 End If
 
                 My.Settings.Save()
@@ -58,8 +58,6 @@ Public Class FrmMain
                 End Using
 
         End Select
-
-        tslMsfsVersion.Text = "MSFS Version: " & My.Settings.MSFSVersion
 
     End Sub
 

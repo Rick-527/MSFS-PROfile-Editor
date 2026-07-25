@@ -3,5 +3,6 @@
     UserCfg
     RollingCache
     EXExml
+    CamerasCfg
 
 End Enum

@@ -22,7 +22,6 @@ Partial Class FrmProfileEditor
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        GroupBox1 = New GroupBox()
         btnBrowseProfileFolder = New Button()
         txtProfileFolder = New TextBox()
         lblFolderPathInstructions = New Label()
@@ -43,33 +42,19 @@ Partial Class FrmProfileEditor
         lblUserCfgCaption = New Label()
         txtDestinationFile = New TextBox()
         btnClose = New Button()
-        GroupBox1.SuspendLayout()
+        StatusStrip1 = New StatusStrip()
+        lblStatus = New ToolStripStatusLabel()
         grpProfileEditor.SuspendLayout()
         gpbFile2.SuspendLayout()
         gpbFile1.SuspendLayout()
+        StatusStrip1.SuspendLayout()
         SuspendLayout()
-        ' 
-        ' GroupBox1
-        ' 
-        GroupBox1.Controls.Add(btnBrowseProfileFolder)
-        GroupBox1.Controls.Add(txtProfileFolder)
-        GroupBox1.Controls.Add(lblFolderPathInstructions)
-        GroupBox1.Controls.Add(lblProfileFolderPath)
-        GroupBox1.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        GroupBox1.Location = New Point(500, 66)
-        GroupBox1.Margin = New Padding(4, 3, 4, 3)
-        GroupBox1.Name = "GroupBox1"
-        GroupBox1.Padding = New Padding(4, 3, 4, 3)
-        GroupBox1.Size = New Size(455, 284)
-        GroupBox1.TabIndex = 22
-        GroupBox1.TabStop = False
-        GroupBox1.Text = "PROfile Folder Selection"
         ' 
         ' btnBrowseProfileFolder
         ' 
         btnBrowseProfileFolder.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnBrowseProfileFolder.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnBrowseProfileFolder.Location = New Point(8, 198)
+        btnBrowseProfileFolder.Location = New Point(528, 321)
         btnBrowseProfileFolder.Margin = New Padding(4, 3, 4, 3)
         btnBrowseProfileFolder.Name = "btnBrowseProfileFolder"
         btnBrowseProfileFolder.Size = New Size(436, 42)
@@ -80,7 +65,7 @@ Partial Class FrmProfileEditor
         ' txtProfileFolder
         ' 
         txtProfileFolder.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        txtProfileFolder.Location = New Point(8, 166)
+        txtProfileFolder.Location = New Point(528, 280)
         txtProfileFolder.Margin = New Padding(4, 3, 4, 3)
         txtProfileFolder.Name = "txtProfileFolder"
         txtProfileFolder.ReadOnly = True
@@ -91,24 +76,25 @@ Partial Class FrmProfileEditor
         ' 
         ' lblFolderPathInstructions
         ' 
+        lblFolderPathInstructions.AutoSize = True
         lblFolderPathInstructions.Font = New Font("Segoe UI", 11.25F)
-        lblFolderPathInstructions.Location = New Point(6, 33)
+        lblFolderPathInstructions.Location = New Point(528, 80)
         lblFolderPathInstructions.Margin = New Padding(4, 0, 4, 0)
         lblFolderPathInstructions.Name = "lblFolderPathInstructions"
-        lblFolderPathInstructions.Size = New Size(443, 82)
+        lblFolderPathInstructions.Size = New Size(130, 20)
         lblFolderPathInstructions.TabIndex = 26
         lblFolderPathInstructions.Text = "Folder Instructions"
         ' 
         ' lblProfileFolderPath
         ' 
         lblProfileFolderPath.AutoSize = True
-        lblProfileFolderPath.Font = New Font("Segoe UI", 11.25F)
-        lblProfileFolderPath.Location = New Point(6, 143)
+        lblProfileFolderPath.Font = New Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblProfileFolderPath.Location = New Point(528, 37)
         lblProfileFolderPath.Margin = New Padding(4, 0, 4, 0)
         lblProfileFolderPath.Name = "lblProfileFolderPath"
-        lblProfileFolderPath.Size = New Size(148, 20)
+        lblProfileFolderPath.Size = New Size(146, 30)
         lblProfileFolderPath.TabIndex = 25
-        lblProfileFolderPath.Text = "Path to Profile Folder"
+        lblProfileFolderPath.Text = "Profile Folder"
         lblProfileFolderPath.TextAlign = ContentAlignment.MiddleLeft
         ' 
         ' grpProfileEditor
@@ -318,7 +304,7 @@ Partial Class FrmProfileEditor
         btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnClose.Location = New Point(803, 526)
+        btnClose.Location = New Point(792, 492)
         btnClose.Margin = New Padding(4, 3, 4, 3)
         btnClose.Name = "btnClose"
         btnClose.RightToLeft = RightToLeft.Yes
@@ -327,6 +313,21 @@ Partial Class FrmProfileEditor
         btnClose.Text = "&Close"
         btnClose.UseVisualStyleBackColor = False
         ' 
+        ' StatusStrip1
+        ' 
+        StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus})
+        StatusStrip1.Location = New Point(0, 557)
+        StatusStrip1.Name = "StatusStrip1"
+        StatusStrip1.Size = New Size(987, 22)
+        StatusStrip1.TabIndex = 23
+        StatusStrip1.Text = "StatusStrip1"
+        ' 
+        ' lblStatus
+        ' 
+        lblStatus.Name = "lblStatus"
+        lblStatus.Size = New Size(39, 17)
+        lblStatus.Text = "Ready"
+        ' 
         ' FrmProfileEditor
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -334,8 +335,12 @@ Partial Class FrmProfileEditor
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnClose
         ClientSize = New Size(987, 579)
+        Controls.Add(btnBrowseProfileFolder)
+        Controls.Add(StatusStrip1)
+        Controls.Add(txtProfileFolder)
         Controls.Add(btnClose)
-        Controls.Add(GroupBox1)
+        Controls.Add(lblProfileFolderPath)
+        Controls.Add(lblFolderPathInstructions)
         Controls.Add(grpProfileEditor)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
         FormBorderStyle = FormBorderStyle.FixedDialog
@@ -346,17 +351,16 @@ Partial Class FrmProfileEditor
         ShowInTaskbar = False
         StartPosition = FormStartPosition.CenterParent
         Text = "MSFS PROfile Editor -Profile Editor Module"
-        GroupBox1.ResumeLayout(False)
-        GroupBox1.PerformLayout()
         grpProfileEditor.ResumeLayout(False)
         gpbFile2.ResumeLayout(False)
         gpbFile2.PerformLayout()
         gpbFile1.ResumeLayout(False)
         gpbFile1.PerformLayout()
+        StatusStrip1.ResumeLayout(False)
+        StatusStrip1.PerformLayout()
         ResumeLayout(False)
+        PerformLayout()
     End Sub
-
-    Friend WithEvents GroupBox1 As GroupBox
     Friend WithEvents btnBrowseProfileFolder As Button
     Friend WithEvents txtProfileFolder As TextBox
     Friend WithEvents lblFolderPathInstructions As Label
@@ -377,4 +381,6 @@ Partial Class FrmProfileEditor
     Friend WithEvents lblUserCfgCaption As Label
     Friend WithEvents txtDestinationFile As TextBox
     Friend WithEvents btnClose As Button
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents lblStatus As ToolStripStatusLabel
 End Class

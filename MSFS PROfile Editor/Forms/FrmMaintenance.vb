@@ -9,13 +9,43 @@ Public Class FrmMaintenance
 
     End Sub
 
-    Private Sub btnClearRollingCache_Click(sender As Object, e As EventArgs) Handles btnClearRollingCache.Click
+    Private Sub btnDeleteRollingCache_Click(sender As Object, e As EventArgs) Handles btnDeleteRollingCache.Click
 
-        UiActionRunner.Run(Me, lblStatus,
-            Sub()
-                SimulatorFilesManager.DeleteFile(SimulatorFile.RollingCache)
-            End Sub
-            )
+        If Not SimulatorFilesManager.FileExists(SimulatorFile.RollingCache) Then
+
+            MessageBox.Show(
+                "The Rolling Cache file was not found.",
+                "Rolling Cache",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
+
+            Exit Sub
+
+        End If
+
+        Dim response As DialogResult = MessageBox.Show(
+            "Are you sure you want to delete the Rolling Cache file?",
+            "Rolling Cache",
+            MessageBoxButtons.YesNoCancel,
+            MessageBoxIcon.Question)
+
+        If response <> DialogResult.Yes Then Exit Sub
+
+        Dim deleted = UiActionRunner.RunWithResult(
+            Me,
+            lblStatus,
+            "Deleting Rolling Cache...",
+            Function() SimulatorFilesManager.DeleteFile(SimulatorFile.RollingCache))
+
+        If deleted Then
+
+            MessageBox.Show(
+                "The Rolling Cache was deleted successfully.",
+                "Rolling Cache",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
+
+        End If
 
     End Sub
 
@@ -29,7 +59,6 @@ Public Class FrmMaintenance
 
         Dim sceneryFolder =
             SimulatorFilesManager.GetSceneryIndexesFolder
-        Dim backupFolder As String
 
 
         If String.IsNullOrWhiteSpace(sceneryFolder) Then
@@ -42,10 +71,10 @@ Public Class FrmMaintenance
         If sceneryFiles.Length = 0 Then
 
             MessageBox.Show(
-        "The SceneryIndexes folder is already empty.",
-        "Nothing to Delete",
-        MessageBoxButtons.OK,
-        MessageBoxIcon.Information)
+                "The SceneryIndexes folder is already empty.",
+                "Nothing to Delete",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
 
             Exit Sub
 
@@ -56,75 +85,14 @@ Public Class FrmMaintenance
                            MessageBoxButtons.YesNo,
                            MessageBoxIcon.Question) = DialogResult.Yes Then
 
-            If Directory.Exists(My.Settings.IndexesBackupPath) Then
+            Dim backupFolder = GetBackupFolderForSceneryIndexes()
 
-                Dim response = MessageBox.Show(
-        "Current backup folder:" &
-        Environment.NewLine &
-        Environment.NewLine &
-        My.Settings.IndexesBackupPath &
-        Environment.NewLine &
-        Environment.NewLine &
-        "Would you like to continue using this folder?" &
-        Environment.NewLine &
-        Environment.NewLine &
-        "Yes = Use this folder" &
-        Environment.NewLine &
-        "No = Choose a different folder" &
-        Environment.NewLine &
-        "Cancel = Cancel the operation",
-        "Scenery Index Backup Location",
-        MessageBoxButtons.YesNoCancel,
-        MessageBoxIcon.Question)
-
-                Select Case response
-
-                    Case DialogResult.Yes
-
-                        backupFolder = My.Settings.IndexesBackupPath
-
-                    Case DialogResult.No
-
-                        Using fbd As New FolderBrowserDialog
-
-                            fbd.Description = "Select a backup folder for your scenery index backups."
-
-                            If fbd.ShowDialog <> DialogResult.OK Then Exit Sub
-
-                            backupFolder = fbd.SelectedPath
-
-                            My.Settings.IndexesBackupPath = backupFolder
-                            My.Settings.Save()
-
-                        End Using
-
-                    Case Else
-
-                        Exit Sub
-
-                End Select
-
-            Else
-
-                Using fbd As New FolderBrowserDialog
-
-                    fbd.Description = "Select a backup folder for your scenery index backups."
-
-                    If fbd.ShowDialog <> DialogResult.OK Then Exit Sub
-
-                    backupFolder = fbd.SelectedPath
-
-                    My.Settings.IndexesBackupPath = backupFolder
-                    My.Settings.Save()
-
-                End Using
-
-            End If
+            If String.IsNullOrEmpty(backupFolder) Then Exit Sub
 
             Dim result =
-            SimulatorFilesManager.BackupSceneryIndexes(
-                sceneryFolder,
-                backupFolder)
+                SimulatorFilesManager.BackupSceneryIndexes(
+                    sceneryFolder,
+                    backupFolder)
 
             If result.Success Then
 
@@ -151,25 +119,73 @@ Public Class FrmMaintenance
         End If
     End Sub
 
-    Private Sub btnBackupXmlExe_Click(sender As Object, e As EventArgs) Handles btnBackupXmlExe.Click
+    Private Function GetBackupFolderForSceneryIndexes() As String
 
-        Dim result = UiActionRunner.RunWithResult(
-            Me,
-            lblStatus,
-            "Creating EXE.xml backup...",
-            Function() SimulatorFilesManager.BackupExeXml()
-            )
+        If Directory.Exists(My.Settings.IndexesBackupPath) Then
 
-        If result IsNot Nothing Then
+            Dim response = MessageBox.Show(
+            "Current backup folder:" &
+            Environment.NewLine &
+            Environment.NewLine &
+            My.Settings.IndexesBackupPath &
+            Environment.NewLine &
+            Environment.NewLine &
+            "Would you like to continue using this folder?" &
+            Environment.NewLine &
+            Environment.NewLine &
+            "Yes = Use this folder" &
+            Environment.NewLine &
+            "No = Choose a different folder" &
+            Environment.NewLine &
+            "Cancel = Cancel the operation",
+            "Scenery Index Backup Location",
+            MessageBoxButtons.YesNoCancel,
+            MessageBoxIcon.Question)
 
-            MessageBox.Show(
-            $"Backup created successfully." & Environment.NewLine &
-            Path.GetFileName(result.BackupFile),
-            "Backup Complete",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Information)
+            Select Case response
+
+                Case DialogResult.Yes
+                    Return My.Settings.IndexesBackupPath
+
+                Case DialogResult.No
+                    Return BrowseForBackupFolder()
+
+                Case Else
+                    Return Nothing
+
+            End Select
 
         End If
+
+        Return BrowseForBackupFolder()
+
+    End Function
+
+    Private Function BrowseForBackupFolder() As String
+
+        Using fbd As New FolderBrowserDialog
+
+            fbd.Description =
+            "Select a backup folder for your scenery index backups."
+
+            If fbd.ShowDialog <> DialogResult.OK Then
+                Return Nothing
+            End If
+
+            My.Settings.IndexesBackupPath = fbd.SelectedPath
+            My.Settings.Save()
+
+            Return fbd.SelectedPath
+
+        End Using
+
+    End Function
+
+    Private Sub btnBackupXmlExe_Click(sender As Object, e As EventArgs) Handles btnBackupXmlExe.Click
+
+        RunSimulatorFileBackup(
+            "Creating EXE.xml backup...",
+            AddressOf SimulatorFilesManager.BackupExeXml)
 
     End Sub
 
@@ -183,7 +199,39 @@ Public Class FrmMaintenance
 
     End Sub
 
-    Private Sub btnNewIndexesBackupPath_Click(sender As Object, e As EventArgs) Handles btnNewIndexesBackupPath.Click
+    Private Sub btnViewCamerasCfg_Click(sender As Object, e As EventArgs) Handles btnViewCamerasCfg.Click
+        UiActionRunner.Run(Me, lblStatus,
+            Sub()
+                SimulatorFilesManager.OpenCamerasCfg()
+            End Sub
+            )
+    End Sub
+
+    Private Sub btnBackupCamerasCfg_Click(sender As Object, e As EventArgs) Handles btnBackupCamerasCfg.Click
+
+        RunSimulatorFileBackup("Creating Cameras.cfg backup...",
+                AddressOf SimulatorFilesManager.BackupCamerasCfg)
 
     End Sub
+
+    Private Sub RunSimulatorFileBackup(statusMessage As String, backupAction As Func(Of BackupOperationResult))
+
+        Dim result = UiActionRunner.RunWithResult(
+            Me,
+            lblStatus,
+            statusMessage,
+            backupAction)
+
+        If result Is Nothing Then Return
+
+        MessageBox.Show(
+            "Backup created successfully." &
+            Environment.NewLine &
+            Path.GetFileName(result.BackupFile),
+            "Backup Complete",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information)
+
+    End Sub
+
 End Class

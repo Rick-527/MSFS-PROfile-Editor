@@ -25,9 +25,11 @@ Partial Class FrmMain
         btnClose = New Button()
         btnMaintenance = New Button()
         btnProfileEditor = New Button()
-        stsMSFSVersion = New StatusStrip()
-        tslMsfsVersion = New ToolStripStatusLabel()
-        stsMSFSVersion.SuspendLayout()
+        StatusStrip1 = New StatusStrip()
+        lblStatus = New ToolStripStatusLabel()
+        lblMainHeader = New Label()
+        lblSecondaryHeader = New Label()
+        StatusStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' btnClose
@@ -35,7 +37,7 @@ Partial Class FrmMain
         btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnClose.Location = New Point(362, 349)
+        btnClose.Location = New Point(228, 211)
         btnClose.Name = "btnClose"
         btnClose.Size = New Size(172, 41)
         btnClose.TabIndex = 12
@@ -46,7 +48,7 @@ Partial Class FrmMain
         ' 
         btnMaintenance.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnMaintenance.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnMaintenance.Location = New Point(12, 113)
+        btnMaintenance.Location = New Point(228, 130)
         btnMaintenance.Name = "btnMaintenance"
         btnMaintenance.Size = New Size(172, 41)
         btnMaintenance.TabIndex = 14
@@ -57,28 +59,48 @@ Partial Class FrmMain
         ' 
         btnProfileEditor.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnProfileEditor.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnProfileEditor.Location = New Point(12, 49)
+        btnProfileEditor.Location = New Point(24, 130)
         btnProfileEditor.Name = "btnProfileEditor"
         btnProfileEditor.Size = New Size(172, 41)
         btnProfileEditor.TabIndex = 34
         btnProfileEditor.Text = "Profile Editor"
         btnProfileEditor.UseVisualStyleBackColor = False
         ' 
-        ' stsMSFSVersion
+        ' StatusStrip1
         ' 
-        stsMSFSVersion.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        stsMSFSVersion.Items.AddRange(New ToolStripItem() {tslMsfsVersion})
-        stsMSFSVersion.Location = New Point(0, 422)
-        stsMSFSVersion.Name = "stsMSFSVersion"
-        stsMSFSVersion.Size = New Size(546, 22)
-        stsMSFSVersion.TabIndex = 35
-        stsMSFSVersion.Text = "MSFSVersion:"
+        StatusStrip1.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
+        StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus})
+        StatusStrip1.Location = New Point(0, 274)
+        StatusStrip1.Name = "StatusStrip1"
+        StatusStrip1.Size = New Size(425, 22)
+        StatusStrip1.TabIndex = 35
+        StatusStrip1.Text = "MSFSVersion:"
         ' 
-        ' tslMsfsVersion
+        ' lblStatus
         ' 
-        tslMsfsVersion.Name = "tslMsfsVersion"
-        tslMsfsVersion.Size = New Size(80, 17)
-        tslMsfsVersion.Text = "MSFS Version:"
+        lblStatus.Name = "lblStatus"
+        lblStatus.Size = New Size(39, 17)
+        lblStatus.Text = "Ready"
+        ' 
+        ' lblMainHeader
+        ' 
+        lblMainHeader.AutoSize = True
+        lblMainHeader.Font = New Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblMainHeader.Location = New Point(75, 23)
+        lblMainHeader.Name = "lblMainHeader"
+        lblMainHeader.Size = New Size(275, 37)
+        lblMainHeader.TabIndex = 36
+        lblMainHeader.Text = "MSFS PROfile Editor"
+        ' 
+        ' lblSecondaryHeader
+        ' 
+        lblSecondaryHeader.AutoSize = True
+        lblSecondaryHeader.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblSecondaryHeader.Location = New Point(59, 60)
+        lblSecondaryHeader.Name = "lblSecondaryHeader"
+        lblSecondaryHeader.Size = New Size(307, 20)
+        lblSecondaryHeader.TabIndex = 37
+        lblSecondaryHeader.Text = "Manage and maintain your simulator profiles"
         ' 
         ' FrmMain
         ' 
@@ -86,8 +108,10 @@ Partial Class FrmMain
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnClose
-        ClientSize = New Size(546, 444)
-        Controls.Add(stsMSFSVersion)
+        ClientSize = New Size(425, 296)
+        Controls.Add(lblSecondaryHeader)
+        Controls.Add(lblMainHeader)
+        Controls.Add(StatusStrip1)
         Controls.Add(btnProfileEditor)
         Controls.Add(btnMaintenance)
         Controls.Add(btnClose)
@@ -98,15 +122,17 @@ Partial Class FrmMain
         Name = "FrmMain"
         StartPosition = FormStartPosition.CenterScreen
         Text = "MSFS PROfile Editor"
-        stsMSFSVersion.ResumeLayout(False)
-        stsMSFSVersion.PerformLayout()
+        StatusStrip1.ResumeLayout(False)
+        StatusStrip1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
     Friend WithEvents btnClose As Button
     Friend WithEvents btnMaintenance As Button
     Friend WithEvents btnProfileEditor As Button
-    Friend WithEvents stsMSFSVersion As StatusStrip
-    Friend WithEvents tslMsfsVersion As ToolStripStatusLabel
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents lblStatus As ToolStripStatusLabel
+    Friend WithEvents lblMainHeader As Label
+    Friend WithEvents lblSecondaryHeader As Label
 
 End Class

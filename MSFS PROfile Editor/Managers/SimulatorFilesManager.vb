@@ -56,6 +56,9 @@ Public Class SimulatorFilesManager
 
     End Function
 
+
+
+
     Public Shared Function DeleteSceneryIndexes(sceneryFolder As String) As Integer
 
         Dim filesDeleted = 0
@@ -108,7 +111,7 @@ Public Class SimulatorFilesManager
 
     End Function
 
-    Private Shared Function GetConfigFolder() As String
+    Public Shared Function GetConfigFolder() As String
 
         Dim folder = GetPaths().ConfigFolder
 
@@ -121,6 +124,26 @@ Public Class SimulatorFilesManager
         Return folder
 
     End Function
+
+    Public Shared ReadOnly Property GetConfigFolderPath As String
+        Get
+            Return GetConfigFolder()
+        End Get
+
+        'Dim simulatorFolder = SimulatorFilesManager.GetConfigFolder()
+
+        'If Directory.Exists(simulatorFolder) Then
+
+        '    ofd1.InitialDirectory = simulatorFolder
+
+        'ElseIf Not String.IsNullOrWhiteSpace(My.Settings.LastDirectory) Then
+
+        '    ofd1.InitialDirectory = My.Settings.LastDirectory
+
+        'End If
+        'Return GetConfigFolder()
+
+    End Property
 
     Private Shared Function GetFilePath(simFile As SimulatorFile) As String
 
@@ -140,9 +163,18 @@ Public Class SimulatorFilesManager
             Case SimulatorFile.EXExml
                 Return "EXE.xml"
 
+            Case SimulatorFile.CamerasCfg
+                Return "Cameras.cfg"
+
             Case Else
                 Throw New ArgumentOutOfRangeException(NameOf(file))
         End Select
+
+    End Function
+
+    Public Shared Function FileExists(simFile As SimulatorFile) As Boolean
+
+        Return File.Exists(GetFilePath(simFile))
 
     End Function
 
@@ -159,24 +191,6 @@ Public Class SimulatorFilesManager
 
     End Sub
 
-    Private Shared Function GetBackupFileName(simFile As SimulatorFile) As String
-
-        Select Case simFile
-
-            Case SimulatorFile.EXExml
-
-                Return $"{GetFileName(simFile)}_MSFSProfileEditor_{DateTime.Now.ToString(BackupTimestampFormat)}.bak"
-
-            Case Else
-
-                Throw New ArgumentOutOfRangeException(
-                NameOf(simFile),
-                $"No backup filename has been defined for {simFile}.")
-
-        End Select
-
-    End Function
-
     Public Shared Function BackupExeXml() As BackupOperationResult
 
         Dim result As New BackupOperationResult()
@@ -191,6 +205,66 @@ Public Class SimulatorFilesManager
         Dim backupFile = Path.Combine(
         GetConfigFolder(),
         GetBackupFileName(SimulatorFile.EXExml))
+
+        File.Copy(sourceFile, backupFile, True)
+
+        result.Success = True
+        result.FilesCopied = 1
+        result.BackupFile = backupFile
+
+        Return result
+
+    End Function
+
+    Private Shared Function GetBackupFileName(simFile As SimulatorFile) As String
+
+        Select Case simFile
+
+            Case SimulatorFile.EXExml
+
+                Return $"{GetFileName(simFile)}_MSFSProfileEditor_{DateTime.Now.ToString(BackupTimestampFormat)}.bak"
+
+            Case SimulatorFile.CamerasCfg
+
+                Return $"{GetFileName(simFile)}_MSFSProfileEditor_{DateTime.Now.ToString(BackupTimestampFormat)}.bak"
+
+            Case Else
+
+                Throw New ArgumentOutOfRangeException(
+                NameOf(simFile),
+                $"No backup filename has been defined for {simFile}.")
+
+        End Select
+
+    End Function
+
+    Public Shared Sub OpenCamerasCfg()
+
+        Dim filePath = GetFilePath(SimulatorFile.CamerasCfg)
+
+        If Not File.Exists(filePath) Then
+            Throw New FileNotFoundException(
+            "The Cameras.cfg file could not be found.", filePath)
+        End If
+
+        Process.Start("notepad.exe", filePath)
+
+    End Sub
+
+    Public Shared Function BackupCamerasCfg() As BackupOperationResult
+
+        Dim result As New BackupOperationResult()
+
+        Dim sourceFile = GetFilePath(SimulatorFile.CamerasCfg)
+
+        If Not File.Exists(sourceFile) Then
+            Throw New FileNotFoundException(
+            "The CamerasCfg file could not be found.", sourceFile)
+        End If
+
+        Dim backupFile = Path.Combine(
+        GetConfigFolder(),
+        GetBackupFileName(SimulatorFile.CamerasCfg))
 
         File.Copy(sourceFile, backupFile, True)
 
