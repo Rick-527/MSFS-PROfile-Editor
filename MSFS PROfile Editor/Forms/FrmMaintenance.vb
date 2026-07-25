@@ -37,29 +37,6 @@ Public Class FrmMaintenance
             Exit Sub
         End If
 
-        If Directory.Exists(My.Settings.IndexesBackupPath) Then
-
-            backupFolder = My.Settings.IndexesBackupPath
-
-        Else
-
-            Using fbd As New FolderBrowserDialog
-
-                fbd.Description = "Select a backup folder for your scenery index backups."
-
-                If fbd.ShowDialog <> DialogResult.OK Then
-                    Exit Sub
-                End If
-
-                backupFolder = fbd.SelectedPath
-
-                My.Settings.IndexesBackupPath = backupFolder
-                My.Settings.Save()
-
-            End Using
-
-        End If
-
         Dim sceneryFiles = Directory.GetFiles(sceneryFolder)
 
         If sceneryFiles.Length = 0 Then
@@ -81,7 +58,51 @@ Public Class FrmMaintenance
 
             If Directory.Exists(My.Settings.IndexesBackupPath) Then
 
-                backupFolder = My.Settings.IndexesBackupPath
+                Dim response = MessageBox.Show(
+        "Current backup folder:" &
+        Environment.NewLine &
+        Environment.NewLine &
+        My.Settings.IndexesBackupPath &
+        Environment.NewLine &
+        Environment.NewLine &
+        "Would you like to continue using this folder?" &
+        Environment.NewLine &
+        Environment.NewLine &
+        "Yes = Use this folder" &
+        Environment.NewLine &
+        "No = Choose a different folder" &
+        Environment.NewLine &
+        "Cancel = Cancel the operation",
+        "Scenery Index Backup Location",
+        MessageBoxButtons.YesNoCancel,
+        MessageBoxIcon.Question)
+
+                Select Case response
+
+                    Case DialogResult.Yes
+
+                        backupFolder = My.Settings.IndexesBackupPath
+
+                    Case DialogResult.No
+
+                        Using fbd As New FolderBrowserDialog
+
+                            fbd.Description = "Select a backup folder for your scenery index backups."
+
+                            If fbd.ShowDialog <> DialogResult.OK Then Exit Sub
+
+                            backupFolder = fbd.SelectedPath
+
+                            My.Settings.IndexesBackupPath = backupFolder
+                            My.Settings.Save()
+
+                        End Using
+
+                    Case Else
+
+                        Exit Sub
+
+                End Select
 
             Else
 
@@ -89,9 +110,7 @@ Public Class FrmMaintenance
 
                     fbd.Description = "Select a backup folder for your scenery index backups."
 
-                    If fbd.ShowDialog <> DialogResult.OK Then
-                        Exit Sub
-                    End If
+                    If fbd.ShowDialog <> DialogResult.OK Then Exit Sub
 
                     backupFolder = fbd.SelectedPath
 
@@ -103,14 +122,14 @@ Public Class FrmMaintenance
             End If
 
             Dim result =
-                SimulatorFilesManager.BackupSceneryIndexes(
+            SimulatorFilesManager.BackupSceneryIndexes(
                 sceneryFolder,
                 backupFolder)
 
             If result.Success Then
 
                 Dim deleted =
-                SimulatorFilesManager.DeleteSceneryIndexes(sceneryFolder)
+                    SimulatorFilesManager.DeleteSceneryIndexes(sceneryFolder)
 
                 MessageBox.Show(
                     $"{result.FilesCopied} scenery index files were backed up." &
