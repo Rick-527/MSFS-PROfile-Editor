@@ -105,18 +105,6 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property LastDirectory2() As String
-            Get
-                Return CType(Me("LastDirectory2"),String)
-            End Get
-            Set
-                Me("LastDirectory2") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property LastFile2Path() As String
             Get
                 Return CType(Me("LastFile2Path"),String)
@@ -171,6 +159,18 @@ Namespace My
             End Get
             Set
                 Me("IndexesBackupPath") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property CurrentProfile() As String
+            Get
+                Return CType(Me("CurrentProfile"),String)
+            End Get
+            Set
+                Me("CurrentProfile") = value
             End Set
         End Property
     End Class

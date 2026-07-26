@@ -22,7 +22,6 @@ Public Class RecentFileManager
 
         My.Settings.LastFile2Path = filePath
         My.Settings.LastFile2Name = Path.GetFileName(filePath)
-        My.Settings.LastDirectory2 = Path.GetDirectoryName(filePath)
         My.Settings.Save()
 
     End Sub

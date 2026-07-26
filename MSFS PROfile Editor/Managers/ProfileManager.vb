@@ -24,6 +24,7 @@ Public Class ProfileManager
     Private Function BackupName(path As String) As String
         Return $"{path}.bak"
     End Function
+
     Public Function ReplaceProfile(destinationFile As String,
                                sourceFile As String) As Boolean
 
@@ -133,25 +134,5 @@ Public Class ProfileManager
         Return False
 
     End Function
-
-    'Public Sub Save(filePath As String, fileType As RecentFileType)
-
-    '    Select Case fileType
-
-    '        Case RecentFileType.Destination
-    '            My.Settings.LastFile1Path = filePath
-    '            My.Settings.LastFile1Name = Path.GetFileName(filePath)
-    '            My.Settings.LastDirectory = Path.GetDirectoryName(filePath)
-
-    '        Case RecentFileType.Source
-    '            My.Settings.LastFile2Path = filePath
-    '            My.Settings.LastFile2Name = Path.GetFileName(filePath)
-    '            My.Settings.LastDirectory2 = Path.GetDirectoryName(filePath)
-
-    '    End Select
-
-    '    My.Settings.Save()
-
-    'End Sub
 
 End Class

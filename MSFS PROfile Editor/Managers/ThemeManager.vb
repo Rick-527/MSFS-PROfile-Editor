@@ -83,7 +83,7 @@ Public Class ThemeManager
                 If btn.Name = "btnSaveAs" Then
                     btn.BackColor = btnPrimary
                     btn.ForeColor = Color.FromArgb(43, 50, 64) ' Dark text on sage green
-                ElseIf btn.Name = "btnSwap" Then
+                ElseIf btn.Name = "btnUpdateCurrentProfile" Then
                     btn.BackColor = Color.DarkOrange
                     btn.ForeColor = Color.FromArgb(43, 50, 64)
                 Else

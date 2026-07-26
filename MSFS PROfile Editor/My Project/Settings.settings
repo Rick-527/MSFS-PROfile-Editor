@@ -14,9 +14,6 @@
     <Setting Name="ProfileFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="LastDirectory2" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="LastFile2Path" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -30,6 +27,9 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="IndexesBackupPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CurrentProfile" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

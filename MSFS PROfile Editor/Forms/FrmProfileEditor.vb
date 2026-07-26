@@ -9,23 +9,26 @@ Public Class FrmProfileEditor
     Private Const folderInstructions As String = "The Profile Folder stores all of your saved MSFS profiles." & vbCrLf & vbCrLf &
                                     "Each profile contains your graphics settings," & vbCrLf &
                                     "located in your UserCfg.opt file." & vbCrLf & vbCrLf &
-                                    "Creating profiles allow you to save and load" & vbCrLf &
-                                    "MSFS graphic settings quickly for your type of flight." & vbCrLf & vbCrLf &
-                                    "Click Browse to choose the folder used by" & vbCrLf &
-                                    "MSFS PROfile Editor."
+                                    "Profiles let you quickly switch between different" & vbCrLf &
+                                    "MSFS graphics settings for different types of flying." & vbCrLf & vbCrLf &
+                                    "Click 'Browse' to set your profiles folder."
 
     Private Sub FrmProfileEditor_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         ThemeManager.ApplyModernTheme(Me)
 
+        lblProfilesFolderPath.Text = Path.GetFileName(My.Settings.ProfileFolder)
+        If My.Settings.CurrentProfile = "" Then
+
+            lblInfoRight.Text = ""
+        Else
+            lblInfoRight.Text = My.Settings.CurrentProfile
+        End If
+
         ' Validate and clear old directory histories if they no longer exist on disk
-        If Not String.IsNullOrWhiteSpace(My.Settings.LastDirectory) OrElse Not String.IsNullOrWhiteSpace(My.Settings.LastDirectory2) Then
+        If Not String.IsNullOrWhiteSpace(My.Settings.LastDirectory) Then
             If Not Directory.Exists(My.Settings.LastDirectory) Then
                 My.Settings.LastDirectory = ""
-                My.Settings.Save()
-            End If
-            If Not Directory.Exists(My.Settings.LastDirectory2) Then
-                My.Settings.LastDirectory2 = ""
                 My.Settings.Save()
             End If
         End If
@@ -37,11 +40,10 @@ Public Class FrmProfileEditor
 
             txtDestinationFile.Text = lastFile.FileName
             txtDestinationFile.Tag = lastFile.FilePath
-            lblDestinationFilePath.Text = lastFile.FilePath
 
         End If
 
-        RefreshBackupInformation()
+        RefreshProfileInformation()
 
     End Sub
 
@@ -63,24 +65,55 @@ Public Class FrmProfileEditor
         End If
     End Sub
 
-    Private Sub RefreshBackupInformation()
+    Private Sub RefreshProfileInformation()
 
-        Dim backups = _backupManager.GetBackupFiles(_profileManager.CurrentProfileFolder)
+        Dim profileFolder = _profileManager.CurrentProfileFolder
 
-        txtProfileFolder.Text = _profileManager.CurrentProfileFolder
+        If Not Directory.Exists(profileFolder) Then
 
+            lblProfilesFolderPath.Text = "(Not Set)"
+            lblStatusCenter.Text = "No profile folder selected"
+            lblInfoRight.Text = ""
+
+            Exit Sub
+
+        End If
+
+        lblProfilesFolderPath.Text = Path.GetFileName(profileFolder)
+
+        Dim profileCount = Directory.GetFiles(profileFolder, "*.opt").Length
+
+        Select Case profileCount
+
+            Case 0
+                lblStatusCenter.Text = "No profiles found"
+
+            Case 1
+                lblStatusCenter.Text = "1 profile found"
+
+            Case Else
+                lblStatusCenter.Text = $"{profileCount} profiles found"
+
+        End Select
+
+        lblProfilesFolderPath.Text = Path.GetFileName(My.Settings.ProfileFolder)
         lblFolderPathInstructions.Text = folderInstructions
+        lblInfoRight.Text = "Latest Profile installed: " & My.Settings.CurrentProfile
 
     End Sub
 
-    ' Button to select the Target File (File 1)
-    Private Sub btnBrowseFolder_Click(sender As Object, e As EventArgs) Handles btnBrowseProfileFolder.Click
+    Private Sub btnSelectProfilesFolder_Click(sender As Object, e As EventArgs) Handles btnSelectProfilesFolder.Click
+
         Using dlg As New FolderBrowserDialog
 
-            If dlg.ShowDialog = DialogResult.OK Then
+            If Directory.Exists(My.Settings.ProfileFolder) Then
+                dlg.SelectedPath = My.Settings.ProfileFolder
+            End If
+
+            If dlg.ShowDialog() = DialogResult.OK Then
 
                 If _profileManager.SetCurrentProfileFolder(dlg.SelectedPath) Then
-                    RefreshBackupInformation()
+                    RefreshProfileInformation()
                 Else
                     MessageBox.Show("Invalid profile folder.")
                 End If
@@ -88,6 +121,7 @@ Public Class FrmProfileEditor
             End If
 
         End Using
+
     End Sub
 
     Private Sub btnBrowseDestinationFile_Click(sender As Object, e As EventArgs) Handles btnBrowseDestinationFile.Click
@@ -127,18 +161,18 @@ Public Class FrmProfileEditor
     Private Sub btnBrowseSourceFile_Click(sender As Object, e As EventArgs) Handles btnBrowseSourceFile.Click
 
         Using ofd2 As New OpenFileDialog
-            ofd2.Title = "Select Your Stored Profile (Source of New Data)"
-            ofd2.Filter = "opt Files (*.opt)|*.opt|Text Files (*.txt)|*.txt"
 
-            If Not String.IsNullOrWhiteSpace(My.Settings.LastDirectory2) Then
-                ofd2.InitialDirectory = My.Settings.LastDirectory2
+            ofd2.Title = "Select Your Stored Profile (Source of New Data)"
+            ofd2.Filter = "OPT Files (*.opt)|*.opt|Text Files (*.txt)|*.txt"
+
+            If Directory.Exists(My.Settings.ProfileFolder) Then
+                ofd2.InitialDirectory = My.Settings.ProfileFolder
             End If
 
             If ofd2.ShowDialog() = DialogResult.OK Then
 
                 txtSourceFile.Text = Path.GetFileName(ofd2.FileName)
                 txtSourceFile.Tag = ofd2.FileName
-                lblSourceFilePath.Text = ofd2.FileName
 
                 _recentFileManager.SaveFile2(ofd2.FileName)
 
@@ -166,9 +200,12 @@ Public Class FrmProfileEditor
 
     End Sub
 
-    Private Sub btnSwap_Click(sender As Object, e As EventArgs) Handles btnSwap.Click
+    Private Sub btnUpdateCurrentProfile_Click(sender As Object, e As EventArgs) Handles btnUpdateCurrentProfile.Click
 
         _profileManager.ReplaceProfile(txtSourceFile.Tag, txtDestinationFile.Tag)
+        My.Settings.CurrentProfile = txtSourceFile.Text
+        My.Settings.Save()
+        RefreshProfileInformation()
 
     End Sub
 

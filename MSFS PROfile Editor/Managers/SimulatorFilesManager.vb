@@ -130,19 +130,6 @@ Public Class SimulatorFilesManager
             Return GetConfigFolder()
         End Get
 
-        'Dim simulatorFolder = SimulatorFilesManager.GetConfigFolder()
-
-        'If Directory.Exists(simulatorFolder) Then
-
-        '    ofd1.InitialDirectory = simulatorFolder
-
-        'ElseIf Not String.IsNullOrWhiteSpace(My.Settings.LastDirectory) Then
-
-        '    ofd1.InitialDirectory = My.Settings.LastDirectory
-
-        'End If
-        'Return GetConfigFolder()
-
     End Property
 
     Private Shared Function GetFilePath(simFile As SimulatorFile) As String

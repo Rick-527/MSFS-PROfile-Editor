@@ -22,20 +22,14 @@ Partial Class FrmProfileEditor
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        btnBrowseProfileFolder = New Button()
-        txtProfileFolder = New TextBox()
+        btnSelectProfilesFolder = New Button()
         lblFolderPathInstructions = New Label()
-        lblProfileFolderPath = New Label()
-        grpProfileEditor = New GroupBox()
-        btnSwap = New Button()
-        gpbFile2 = New GroupBox()
-        lblSourceFilePath = New Label()
+        lblFolderSelection = New Label()
+        btnUpdateCurrentProfile = New Button()
         lblSourceFileCaption = New Label()
         btnViewSourceFile = New Button()
         txtSourceFile = New TextBox()
         btnBrowseSourceFile = New Button()
-        gpbFile1 = New GroupBox()
-        lblDestinationFilePath = New Label()
         btnSaveAsCurrentProfile = New Button()
         btnViewDestinationFile = New Button()
         btnBrowseDestinationFile = New Button()
@@ -44,122 +38,72 @@ Partial Class FrmProfileEditor
         btnClose = New Button()
         StatusStrip1 = New StatusStrip()
         lblStatus = New ToolStripStatusLabel()
-        grpProfileEditor.SuspendLayout()
-        gpbFile2.SuspendLayout()
-        gpbFile1.SuspendLayout()
+        lblStatusCenter = New ToolStripStatusLabel()
+        lblInfoRight = New ToolStripStatusLabel()
+        lblProfilesFolderPath = New Label()
+        lblProfileEditor = New Label()
+        lblMsfsProfileFolder = New Label()
+        btmLaunchSimulator = New Button()
         StatusStrip1.SuspendLayout()
         SuspendLayout()
         ' 
-        ' btnBrowseProfileFolder
+        ' btnSelectProfilesFolder
         ' 
-        btnBrowseProfileFolder.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnBrowseProfileFolder.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnBrowseProfileFolder.Location = New Point(528, 321)
-        btnBrowseProfileFolder.Margin = New Padding(4, 3, 4, 3)
-        btnBrowseProfileFolder.Name = "btnBrowseProfileFolder"
-        btnBrowseProfileFolder.Size = New Size(436, 42)
-        btnBrowseProfileFolder.TabIndex = 8
-        btnBrowseProfileFolder.Text = "Browse..."
-        btnBrowseProfileFolder.UseVisualStyleBackColor = False
-        ' 
-        ' txtProfileFolder
-        ' 
-        txtProfileFolder.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        txtProfileFolder.Location = New Point(528, 280)
-        txtProfileFolder.Margin = New Padding(4, 3, 4, 3)
-        txtProfileFolder.Name = "txtProfileFolder"
-        txtProfileFolder.ReadOnly = True
-        txtProfileFolder.Size = New Size(436, 23)
-        txtProfileFolder.TabIndex = 24
-        txtProfileFolder.TabStop = False
-        txtProfileFolder.Text = "Click the 'Browse' button to set the Profiles Folder"
+        btnSelectProfilesFolder.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnSelectProfilesFolder.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnSelectProfilesFolder.Location = New Point(511, 268)
+        btnSelectProfilesFolder.Margin = New Padding(4, 3, 4, 3)
+        btnSelectProfilesFolder.Name = "btnSelectProfilesFolder"
+        btnSelectProfilesFolder.Size = New Size(374, 46)
+        btnSelectProfilesFolder.TabIndex = 8
+        btnSelectProfilesFolder.Text = "Bro&wse"
+        btnSelectProfilesFolder.UseVisualStyleBackColor = False
         ' 
         ' lblFolderPathInstructions
         ' 
         lblFolderPathInstructions.AutoSize = True
-        lblFolderPathInstructions.Font = New Font("Segoe UI", 11.25F)
-        lblFolderPathInstructions.Location = New Point(528, 80)
+        lblFolderPathInstructions.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblFolderPathInstructions.Location = New Point(511, 80)
         lblFolderPathInstructions.Margin = New Padding(4, 0, 4, 0)
         lblFolderPathInstructions.Name = "lblFolderPathInstructions"
-        lblFolderPathInstructions.Size = New Size(130, 20)
+        lblFolderPathInstructions.Size = New Size(115, 17)
         lblFolderPathInstructions.TabIndex = 26
         lblFolderPathInstructions.Text = "Folder Instructions"
         ' 
-        ' lblProfileFolderPath
+        ' lblFolderSelection
         ' 
-        lblProfileFolderPath.AutoSize = True
-        lblProfileFolderPath.Font = New Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblProfileFolderPath.Location = New Point(528, 37)
-        lblProfileFolderPath.Margin = New Padding(4, 0, 4, 0)
-        lblProfileFolderPath.Name = "lblProfileFolderPath"
-        lblProfileFolderPath.Size = New Size(146, 30)
-        lblProfileFolderPath.TabIndex = 25
-        lblProfileFolderPath.Text = "Profile Folder"
-        lblProfileFolderPath.TextAlign = ContentAlignment.MiddleLeft
+        lblFolderSelection.AutoSize = True
+        lblFolderSelection.Font = New Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblFolderSelection.Location = New Point(511, 37)
+        lblFolderSelection.Margin = New Padding(4, 0, 4, 0)
+        lblFolderSelection.Name = "lblFolderSelection"
+        lblFolderSelection.Size = New Size(171, 30)
+        lblFolderSelection.TabIndex = 25
+        lblFolderSelection.Text = "Folder Selection"
+        lblFolderSelection.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' grpProfileEditor
+        ' btnUpdateCurrentProfile
         ' 
-        grpProfileEditor.Controls.Add(btnSwap)
-        grpProfileEditor.Controls.Add(gpbFile2)
-        grpProfileEditor.Controls.Add(gpbFile1)
-        grpProfileEditor.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        grpProfileEditor.Location = New Point(12, 66)
-        grpProfileEditor.Margin = New Padding(4, 3, 4, 3)
-        grpProfileEditor.Name = "grpProfileEditor"
-        grpProfileEditor.Padding = New Padding(4, 3, 4, 3)
-        grpProfileEditor.Size = New Size(455, 438)
-        grpProfileEditor.TabIndex = 21
-        grpProfileEditor.TabStop = False
-        grpProfileEditor.Text = "PROfile Editor"
-        ' 
-        ' btnSwap
-        ' 
-        btnSwap.BackColor = Color.DarkOrange
-        btnSwap.FlatAppearance.BorderSize = 0
-        btnSwap.FlatStyle = FlatStyle.Flat
-        btnSwap.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnSwap.Location = New Point(13, 385)
-        btnSwap.Margin = New Padding(4, 3, 4, 3)
-        btnSwap.Name = "btnSwap"
-        btnSwap.Size = New Size(429, 36)
-        btnSwap.TabIndex = 7
-        btnSwap.Text = "UPDATE PROFILE [UserCfg.opt]"
-        btnSwap.UseVisualStyleBackColor = False
-        ' 
-        ' gpbFile2
-        ' 
-        gpbFile2.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        gpbFile2.Controls.Add(lblSourceFilePath)
-        gpbFile2.Controls.Add(lblSourceFileCaption)
-        gpbFile2.Controls.Add(btnViewSourceFile)
-        gpbFile2.Controls.Add(txtSourceFile)
-        gpbFile2.Controls.Add(btnBrowseSourceFile)
-        gpbFile2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        gpbFile2.Location = New Point(13, 226)
-        gpbFile2.Margin = New Padding(4, 3, 4, 3)
-        gpbFile2.Name = "gpbFile2"
-        gpbFile2.Padding = New Padding(4, 3, 4, 3)
-        gpbFile2.Size = New Size(429, 148)
-        gpbFile2.TabIndex = 27
-        gpbFile2.TabStop = False
-        ' 
-        ' lblSourceFilePath
-        ' 
-        lblSourceFilePath.Font = New Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblSourceFilePath.Location = New Point(10, 85)
-        lblSourceFilePath.Margin = New Padding(4, 0, 4, 0)
-        lblSourceFilePath.Name = "lblSourceFilePath"
-        lblSourceFilePath.Size = New Size(400, 30)
-        lblSourceFilePath.TabIndex = 10
+        btnUpdateCurrentProfile.BackColor = Color.DarkOrange
+        btnUpdateCurrentProfile.FlatAppearance.BorderSize = 0
+        btnUpdateCurrentProfile.FlatStyle = FlatStyle.Flat
+        btnUpdateCurrentProfile.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnUpdateCurrentProfile.Location = New Point(37, 268)
+        btnUpdateCurrentProfile.Margin = New Padding(4, 3, 4, 3)
+        btnUpdateCurrentProfile.Name = "btnUpdateCurrentProfile"
+        btnUpdateCurrentProfile.Size = New Size(374, 46)
+        btnUpdateCurrentProfile.TabIndex = 7
+        btnUpdateCurrentProfile.Text = "&APPLY PROFILE"
+        btnUpdateCurrentProfile.UseVisualStyleBackColor = False
         ' 
         ' lblSourceFileCaption
         ' 
         lblSourceFileCaption.AutoSize = True
-        lblSourceFileCaption.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblSourceFileCaption.Location = New Point(36, 23)
+        lblSourceFileCaption.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        lblSourceFileCaption.Location = New Point(37, 200)
         lblSourceFileCaption.Margin = New Padding(4, 0, 4, 0)
         lblSourceFileCaption.Name = "lblSourceFileCaption"
-        lblSourceFileCaption.Size = New Size(98, 17)
+        lblSourceFileCaption.Size = New Size(104, 17)
         lblSourceFileCaption.TabIndex = 3
         lblSourceFileCaption.Text = "Selected Profile"
         ' 
@@ -170,12 +114,12 @@ Partial Class FrmProfileEditor
         btnViewSourceFile.FlatStyle = FlatStyle.Flat
         btnViewSourceFile.Font = New Font("Segoe UI", 11.25F)
         btnViewSourceFile.ForeColor = SystemColors.ControlText
-        btnViewSourceFile.Location = New Point(313, 42)
+        btnViewSourceFile.Location = New Point(314, 219)
         btnViewSourceFile.Margin = New Padding(4, 3, 4, 3)
         btnViewSourceFile.Name = "btnViewSourceFile"
         btnViewSourceFile.Size = New Size(97, 29)
         btnViewSourceFile.TabIndex = 6
-        btnViewSourceFile.Text = "View File"
+        btnViewSourceFile.Text = "O&pen"
         btnViewSourceFile.UseVisualStyleBackColor = False
         ' 
         ' txtSourceFile
@@ -184,7 +128,7 @@ Partial Class FrmProfileEditor
         txtSourceFile.BorderStyle = BorderStyle.FixedSingle
         txtSourceFile.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         txtSourceFile.ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
-        txtSourceFile.Location = New Point(36, 46)
+        txtSourceFile.Location = New Point(37, 223)
         txtSourceFile.Margin = New Padding(4, 3, 4, 3)
         txtSourceFile.Name = "txtSourceFile"
         txtSourceFile.ReadOnly = True
@@ -197,40 +141,13 @@ Partial Class FrmProfileEditor
         btnBrowseSourceFile.FlatAppearance.BorderSize = 0
         btnBrowseSourceFile.FlatStyle = FlatStyle.Flat
         btnBrowseSourceFile.Font = New Font("Segoe UI", 11.25F)
-        btnBrowseSourceFile.Location = New Point(232, 42)
+        btnBrowseSourceFile.Location = New Point(233, 219)
         btnBrowseSourceFile.Margin = New Padding(4, 3, 4, 3)
         btnBrowseSourceFile.Name = "btnBrowseSourceFile"
         btnBrowseSourceFile.Size = New Size(75, 29)
         btnBrowseSourceFile.TabIndex = 5
-        btnBrowseSourceFile.Text = "Browse..."
+        btnBrowseSourceFile.Text = "Brow&se"
         btnBrowseSourceFile.UseVisualStyleBackColor = False
-        ' 
-        ' gpbFile1
-        ' 
-        gpbFile1.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        gpbFile1.Controls.Add(lblDestinationFilePath)
-        gpbFile1.Controls.Add(btnSaveAsCurrentProfile)
-        gpbFile1.Controls.Add(btnViewDestinationFile)
-        gpbFile1.Controls.Add(btnBrowseDestinationFile)
-        gpbFile1.Controls.Add(lblUserCfgCaption)
-        gpbFile1.Controls.Add(txtDestinationFile)
-        gpbFile1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        gpbFile1.Location = New Point(13, 30)
-        gpbFile1.Margin = New Padding(4, 3, 4, 3)
-        gpbFile1.Name = "gpbFile1"
-        gpbFile1.Padding = New Padding(4, 3, 4, 3)
-        gpbFile1.Size = New Size(429, 182)
-        gpbFile1.TabIndex = 29
-        gpbFile1.TabStop = False
-        ' 
-        ' lblDestinationFilePath
-        ' 
-        lblDestinationFilePath.Font = New Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblDestinationFilePath.Location = New Point(10, 130)
-        lblDestinationFilePath.Margin = New Padding(4, 0, 4, 0)
-        lblDestinationFilePath.Name = "lblDestinationFilePath"
-        lblDestinationFilePath.Size = New Size(400, 30)
-        lblDestinationFilePath.TabIndex = 8
         ' 
         ' btnSaveAsCurrentProfile
         ' 
@@ -239,12 +156,12 @@ Partial Class FrmProfileEditor
         btnSaveAsCurrentProfile.FlatStyle = FlatStyle.Flat
         btnSaveAsCurrentProfile.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnSaveAsCurrentProfile.ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
-        btnSaveAsCurrentProfile.Location = New Point(36, 89)
+        btnSaveAsCurrentProfile.Location = New Point(37, 149)
         btnSaveAsCurrentProfile.Margin = New Padding(4, 3, 4, 3)
         btnSaveAsCurrentProfile.Name = "btnSaveAsCurrentProfile"
         btnSaveAsCurrentProfile.Size = New Size(374, 29)
         btnSaveAsCurrentProfile.TabIndex = 3
-        btnSaveAsCurrentProfile.Text = "Save Current Profile As..."
+        btnSaveAsCurrentProfile.Text = "Create Pro&file..."
         btnSaveAsCurrentProfile.UseVisualStyleBackColor = False
         ' 
         ' btnViewDestinationFile
@@ -253,12 +170,12 @@ Partial Class FrmProfileEditor
         btnViewDestinationFile.FlatAppearance.BorderSize = 0
         btnViewDestinationFile.FlatStyle = FlatStyle.Flat
         btnViewDestinationFile.Font = New Font("Segoe UI", 11.25F)
-        btnViewDestinationFile.Location = New Point(313, 42)
+        btnViewDestinationFile.Location = New Point(314, 108)
         btnViewDestinationFile.Margin = New Padding(4, 3, 4, 3)
         btnViewDestinationFile.Name = "btnViewDestinationFile"
         btnViewDestinationFile.Size = New Size(97, 29)
         btnViewDestinationFile.TabIndex = 2
-        btnViewDestinationFile.Text = "View File"
+        btnViewDestinationFile.Text = "Ope&n"
         btnViewDestinationFile.UseVisualStyleBackColor = False
         ' 
         ' btnBrowseDestinationFile
@@ -267,22 +184,22 @@ Partial Class FrmProfileEditor
         btnBrowseDestinationFile.FlatAppearance.BorderSize = 0
         btnBrowseDestinationFile.FlatStyle = FlatStyle.Flat
         btnBrowseDestinationFile.Font = New Font("Segoe UI", 11.25F)
-        btnBrowseDestinationFile.Location = New Point(232, 42)
+        btnBrowseDestinationFile.Location = New Point(233, 108)
         btnBrowseDestinationFile.Margin = New Padding(4, 3, 4, 3)
         btnBrowseDestinationFile.Name = "btnBrowseDestinationFile"
         btnBrowseDestinationFile.Size = New Size(75, 29)
         btnBrowseDestinationFile.TabIndex = 1
-        btnBrowseDestinationFile.Text = "Browse..."
+        btnBrowseDestinationFile.Text = "&Browse"
         btnBrowseDestinationFile.UseVisualStyleBackColor = False
         ' 
         ' lblUserCfgCaption
         ' 
         lblUserCfgCaption.AutoSize = True
-        lblUserCfgCaption.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblUserCfgCaption.Location = New Point(36, 23)
+        lblUserCfgCaption.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        lblUserCfgCaption.Location = New Point(37, 90)
         lblUserCfgCaption.Margin = New Padding(4, 0, 4, 0)
         lblUserCfgCaption.Name = "lblUserCfgCaption"
-        lblUserCfgCaption.Size = New Size(101, 17)
+        lblUserCfgCaption.Size = New Size(107, 17)
         lblUserCfgCaption.TabIndex = 1
         lblUserCfgCaption.Text = "UserCfg.opt File"
         ' 
@@ -292,7 +209,7 @@ Partial Class FrmProfileEditor
         txtDestinationFile.BorderStyle = BorderStyle.FixedSingle
         txtDestinationFile.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         txtDestinationFile.ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
-        txtDestinationFile.Location = New Point(36, 46)
+        txtDestinationFile.Location = New Point(37, 112)
         txtDestinationFile.Margin = New Padding(4, 3, 4, 3)
         txtDestinationFile.Name = "txtDestinationFile"
         txtDestinationFile.ReadOnly = True
@@ -301,24 +218,23 @@ Partial Class FrmProfileEditor
         ' 
         ' btnClose
         ' 
-        btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnClose.Location = New Point(792, 492)
+        btnClose.Location = New Point(713, 354)
         btnClose.Margin = New Padding(4, 3, 4, 3)
         btnClose.Name = "btnClose"
         btnClose.RightToLeft = RightToLeft.Yes
-        btnClose.Size = New Size(172, 42)
+        btnClose.Size = New Size(172, 46)
         btnClose.TabIndex = 20
         btnClose.Text = "&Close"
         btnClose.UseVisualStyleBackColor = False
         ' 
         ' StatusStrip1
         ' 
-        StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus})
-        StatusStrip1.Location = New Point(0, 557)
+        StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus, lblStatusCenter, lblInfoRight})
+        StatusStrip1.Location = New Point(0, 425)
         StatusStrip1.Name = "StatusStrip1"
-        StatusStrip1.Size = New Size(987, 22)
+        StatusStrip1.Size = New Size(910, 22)
         StatusStrip1.TabIndex = 23
         StatusStrip1.Text = "StatusStrip1"
         ' 
@@ -327,6 +243,65 @@ Partial Class FrmProfileEditor
         lblStatus.Name = "lblStatus"
         lblStatus.Size = New Size(39, 17)
         lblStatus.Text = "Ready"
+        lblStatus.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblStatusCenter
+        ' 
+        lblStatusCenter.Name = "lblStatusCenter"
+        lblStatusCenter.Size = New Size(786, 17)
+        lblStatusCenter.Spring = True
+        lblStatusCenter.Text = "Current Status"
+        ' 
+        ' lblInfoRight
+        ' 
+        lblInfoRight.Name = "lblInfoRight"
+        lblInfoRight.Size = New Size(70, 17)
+        lblInfoRight.Text = "Information"
+        lblInfoRight.TextAlign = ContentAlignment.MiddleRight
+        ' 
+        ' lblProfilesFolderPath
+        ' 
+        lblProfilesFolderPath.AutoSize = True
+        lblProfilesFolderPath.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblProfilesFolderPath.Location = New Point(656, 247)
+        lblProfilesFolderPath.Name = "lblProfilesFolderPath"
+        lblProfilesFolderPath.Size = New Size(116, 15)
+        lblProfilesFolderPath.TabIndex = 27
+        lblProfilesFolderPath.Text = "lblProfilesFolderPath"
+        ' 
+        ' lblProfileEditor
+        ' 
+        lblProfileEditor.AutoSize = True
+        lblProfileEditor.Font = New Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblProfileEditor.Location = New Point(37, 37)
+        lblProfileEditor.Margin = New Padding(4, 0, 4, 0)
+        lblProfileEditor.Name = "lblProfileEditor"
+        lblProfileEditor.Size = New Size(143, 30)
+        lblProfileEditor.TabIndex = 28
+        lblProfileEditor.Text = "Profile Editor"
+        lblProfileEditor.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblMsfsProfileFolder
+        ' 
+        lblMsfsProfileFolder.AutoSize = True
+        lblMsfsProfileFolder.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblMsfsProfileFolder.Location = New Point(511, 245)
+        lblMsfsProfileFolder.Name = "lblMsfsProfileFolder"
+        lblMsfsProfileFolder.Size = New Size(147, 17)
+        lblMsfsProfileFolder.TabIndex = 29
+        lblMsfsProfileFolder.Text = "Current Profile Folder:"
+        ' 
+        ' btmLaunchSimulator
+        ' 
+        btmLaunchSimulator.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btmLaunchSimulator.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btmLaunchSimulator.Location = New Point(37, 354)
+        btmLaunchSimulator.Margin = New Padding(4, 3, 4, 3)
+        btmLaunchSimulator.Name = "btmLaunchSimulator"
+        btmLaunchSimulator.Size = New Size(374, 46)
+        btmLaunchSimulator.TabIndex = 9
+        btmLaunchSimulator.Text = "&Launch Simulator"
+        btmLaunchSimulator.UseVisualStyleBackColor = False
         ' 
         ' FrmProfileEditor
         ' 
@@ -334,14 +309,26 @@ Partial Class FrmProfileEditor
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnClose
-        ClientSize = New Size(987, 579)
-        Controls.Add(btnBrowseProfileFolder)
+        ClientSize = New Size(910, 447)
+        Controls.Add(btmLaunchSimulator)
+        Controls.Add(lblMsfsProfileFolder)
+        Controls.Add(lblProfileEditor)
+        Controls.Add(lblSourceFileCaption)
+        Controls.Add(btnUpdateCurrentProfile)
+        Controls.Add(btnViewSourceFile)
+        Controls.Add(btnSaveAsCurrentProfile)
+        Controls.Add(txtSourceFile)
+        Controls.Add(btnBrowseSourceFile)
+        Controls.Add(lblProfilesFolderPath)
+        Controls.Add(btnViewDestinationFile)
+        Controls.Add(btnSelectProfilesFolder)
+        Controls.Add(btnBrowseDestinationFile)
+        Controls.Add(txtDestinationFile)
         Controls.Add(StatusStrip1)
-        Controls.Add(txtProfileFolder)
         Controls.Add(btnClose)
-        Controls.Add(lblProfileFolderPath)
+        Controls.Add(lblUserCfgCaption)
+        Controls.Add(lblFolderSelection)
         Controls.Add(lblFolderPathInstructions)
-        Controls.Add(grpProfileEditor)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
         FormBorderStyle = FormBorderStyle.FixedDialog
         Margin = New Padding(4, 3, 4, 3)
@@ -350,30 +337,21 @@ Partial Class FrmProfileEditor
         Name = "FrmProfileEditor"
         ShowInTaskbar = False
         StartPosition = FormStartPosition.CenterParent
-        Text = "MSFS PROfile Editor -Profile Editor Module"
-        grpProfileEditor.ResumeLayout(False)
-        gpbFile2.ResumeLayout(False)
-        gpbFile2.PerformLayout()
-        gpbFile1.ResumeLayout(False)
-        gpbFile1.PerformLayout()
+        Text = "MSFS PROfile Editor -Profile Editor"
         StatusStrip1.ResumeLayout(False)
         StatusStrip1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
-    Friend WithEvents btnBrowseProfileFolder As Button
-    Friend WithEvents txtProfileFolder As TextBox
+    Friend WithEvents btnSelectProfilesFolder As Button
     Friend WithEvents lblFolderPathInstructions As Label
-    Friend WithEvents lblProfileFolderPath As Label
-    Friend WithEvents grpProfileEditor As GroupBox
-    Friend WithEvents btnSwap As Button
-    Friend WithEvents gpbFile2 As GroupBox
+    Friend WithEvents lblFolderSelection As Label
+    Friend WithEvents btnUpdateCurrentProfile As Button
     Friend WithEvents lblSourceFilePath As Label
     Friend WithEvents lblSourceFileCaption As Label
     Friend WithEvents btnViewSourceFile As Button
     Friend WithEvents txtSourceFile As TextBox
     Friend WithEvents btnBrowseSourceFile As Button
-    Friend WithEvents gpbFile1 As GroupBox
     Friend WithEvents lblDestinationFilePath As Label
     Friend WithEvents btnSaveAsCurrentProfile As Button
     Friend WithEvents btnViewDestinationFile As Button
@@ -383,4 +361,10 @@ Partial Class FrmProfileEditor
     Friend WithEvents btnClose As Button
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents lblStatus As ToolStripStatusLabel
+    Friend WithEvents lblProfilesFolderPath As Label
+    Friend WithEvents lblProfileEditor As Label
+    Friend WithEvents lblMsfsProfileFolder As Label
+    Friend WithEvents btmLaunchSimulator As Button
+    Friend WithEvents lblStatusCenter As ToolStripStatusLabel
+    Friend WithEvents lblInfoRight As ToolStripStatusLabel
 End Class
