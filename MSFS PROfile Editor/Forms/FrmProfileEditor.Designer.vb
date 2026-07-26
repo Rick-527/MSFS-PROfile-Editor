@@ -248,15 +248,15 @@ Partial Class FrmProfileEditor
         ' lblStatusCenter
         ' 
         lblStatusCenter.Name = "lblStatusCenter"
-        lblStatusCenter.Size = New Size(786, 17)
+        lblStatusCenter.Size = New Size(779, 17)
         lblStatusCenter.Spring = True
         lblStatusCenter.Text = "Current Status"
         ' 
         ' lblInfoRight
         ' 
         lblInfoRight.Name = "lblInfoRight"
-        lblInfoRight.Size = New Size(70, 17)
-        lblInfoRight.Text = "Information"
+        lblInfoRight.Size = New Size(46, 17)
+        lblInfoRight.Text = "Not Set"
         lblInfoRight.TextAlign = ContentAlignment.MiddleRight
         ' 
         ' lblProfilesFolderPath
@@ -352,7 +352,6 @@ Partial Class FrmProfileEditor
     Friend WithEvents btnViewSourceFile As Button
     Friend WithEvents txtSourceFile As TextBox
     Friend WithEvents btnBrowseSourceFile As Button
-    Friend WithEvents lblDestinationFilePath As Label
     Friend WithEvents btnSaveAsCurrentProfile As Button
     Friend WithEvents btnViewDestinationFile As Button
     Friend WithEvents btnBrowseDestinationFile As Button

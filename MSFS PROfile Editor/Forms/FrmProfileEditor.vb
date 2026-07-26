@@ -139,11 +139,6 @@ Public Class FrmProfileEditor
 
         Using ofd1 As New OpenFileDialog
 
-
-        End Using
-
-        Using ofd1 As New OpenFileDialog
-
             ofd1.Title = "Select your UserCfg.opt file (File to Overwrite)"
             ofd1.Filter = "OPT Files (*.opt)|*.opt"
 
@@ -159,7 +154,6 @@ Public Class FrmProfileEditor
 
                 txtDestinationFile.Text = Path.GetFileName(ofd1.FileName)
                 txtDestinationFile.Tag = ofd1.FileName
-                lblDestinationFilePath.Text = ofd1.FileName
 
                 _recentFileManager.SaveFile1(ofd1.FileName)
 
@@ -213,7 +207,7 @@ Public Class FrmProfileEditor
 
     Private Sub btnUpdateCurrentProfile_Click(sender As Object, e As EventArgs) Handles btnUpdateCurrentProfile.Click
 
-        _profileManager.ReplaceProfile(txtSourceFile.Tag, txtDestinationFile.Tag)
+        _profileManager.ReplaceProfile(txtDestinationFile.Tag, txtSourceFile.Tag)
         My.Settings.CurrentProfile = txtSourceFile.Text
         My.Settings.Save()
         RefreshProfileInformation()

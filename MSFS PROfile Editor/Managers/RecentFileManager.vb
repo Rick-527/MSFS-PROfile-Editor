@@ -11,12 +11,12 @@ Public Class RecentFileManager
 
     Public Sub SaveFile1(filePath As String)
 
-            My.Settings.LastFile1Path = filePath
-            My.Settings.LastFile1Name = Path.GetFileName(filePath)
-            My.Settings.LastDirectory = Path.GetDirectoryName(filePath)
-            My.Settings.Save()
+        My.Settings.LastFile1Path = filePath
+        My.Settings.LastFile1Name = Path.GetFileName(filePath)
+        My.Settings.LastDirectory = Path.GetDirectoryName(filePath)
+        My.Settings.Save()
 
-        End Sub
+    End Sub
 
     Public Sub SaveFile2(filePath As String)
 

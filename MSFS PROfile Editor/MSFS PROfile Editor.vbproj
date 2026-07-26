@@ -7,6 +7,12 @@
     <StartupObject>Sub Main</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
     <MyType>WindowsForms</MyType>
+    <Version>1.1.0</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>MSFS Profile Editor for Microsoft Flight Simulator 2024</Description>
+    <Copyright>© 2026 Saugatech. All rights reserved.</Copyright>
+    <Company>Saugatech</Company>
+    <Title>MSFS Profile Editor</Title>
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,6 +54,13 @@
   <ItemGroup>
     <Folder Include="Helpers\" />
     <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
