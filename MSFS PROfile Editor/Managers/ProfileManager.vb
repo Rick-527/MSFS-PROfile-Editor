@@ -74,6 +74,8 @@ Public Class ProfileManager
                     File.Copy(destinationFile, backupPath, True)
                 End If
 
+                File.Copy(sourceFile, destinationFile, True)
+
                 MessageBox.Show("File updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Return True
