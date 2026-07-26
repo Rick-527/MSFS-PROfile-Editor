@@ -1,6 +1,9 @@
 ﻿Imports System.IO
 
-Public NotInheritable Class SimulatorDetector
+Public Class SimulatorDetector
+
+    Private Sub New()
+    End Sub
 
     Private Const MSFSStorePackageName As String =
     "Microsoft.Limitless_8wekyb3d8bbwe"

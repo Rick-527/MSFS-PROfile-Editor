@@ -47,6 +47,17 @@ Public Class FrmProfileEditor
 
     End Sub
 
+    Private Sub FrmProfileEditor_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
+
+        Dim running = SimulatorLauncher.IsRunning()
+
+        btnLaunchSimulator.Enabled = Not running
+        btnLaunchSimulator.Text = If(running,
+                                 "MSFS Already Running",
+                                 "Launch Simulator")
+
+    End Sub
+
     Private Sub LoadFileNameInTextbox(destinationFileName As String, destinationFilePath As TextBox, destinationFilePathLabel As Label)
 
         ' reload the last file name and path in the textbox and label
@@ -211,6 +222,18 @@ Public Class FrmProfileEditor
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
+    End Sub
+
+    Private Sub btnLaunchSimulator_Click(sender As Object, e As EventArgs) Handles btnLaunchSimulator.Click
+
+        lblStatus.Text = "Launching Microsoft Flight Simulator..."
+
+        If SimulatorLauncher.Launch() Then
+
+            Me.Close()
+
+        End If
+
     End Sub
 
 End Class

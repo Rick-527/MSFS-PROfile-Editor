@@ -43,7 +43,7 @@ Partial Class FrmProfileEditor
         lblProfilesFolderPath = New Label()
         lblProfileEditor = New Label()
         lblMsfsProfileFolder = New Label()
-        btmLaunchSimulator = New Button()
+        btnLaunchSimulator = New Button()
         StatusStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -291,17 +291,17 @@ Partial Class FrmProfileEditor
         lblMsfsProfileFolder.TabIndex = 29
         lblMsfsProfileFolder.Text = "Current Profile Folder:"
         ' 
-        ' btmLaunchSimulator
+        ' btnLaunchSimulator
         ' 
-        btmLaunchSimulator.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btmLaunchSimulator.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btmLaunchSimulator.Location = New Point(37, 354)
-        btmLaunchSimulator.Margin = New Padding(4, 3, 4, 3)
-        btmLaunchSimulator.Name = "btmLaunchSimulator"
-        btmLaunchSimulator.Size = New Size(374, 46)
-        btmLaunchSimulator.TabIndex = 9
-        btmLaunchSimulator.Text = "&Launch Simulator"
-        btmLaunchSimulator.UseVisualStyleBackColor = False
+        btnLaunchSimulator.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnLaunchSimulator.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
+        btnLaunchSimulator.Location = New Point(37, 354)
+        btnLaunchSimulator.Margin = New Padding(4, 3, 4, 3)
+        btnLaunchSimulator.Name = "btnLaunchSimulator"
+        btnLaunchSimulator.Size = New Size(374, 46)
+        btnLaunchSimulator.TabIndex = 9
+        btnLaunchSimulator.Text = "&Launch Simulator"
+        btnLaunchSimulator.UseVisualStyleBackColor = False
         ' 
         ' FrmProfileEditor
         ' 
@@ -310,7 +310,7 @@ Partial Class FrmProfileEditor
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnClose
         ClientSize = New Size(910, 447)
-        Controls.Add(btmLaunchSimulator)
+        Controls.Add(btnLaunchSimulator)
         Controls.Add(lblMsfsProfileFolder)
         Controls.Add(lblProfileEditor)
         Controls.Add(lblSourceFileCaption)
@@ -364,7 +364,7 @@ Partial Class FrmProfileEditor
     Friend WithEvents lblProfilesFolderPath As Label
     Friend WithEvents lblProfileEditor As Label
     Friend WithEvents lblMsfsProfileFolder As Label
-    Friend WithEvents btmLaunchSimulator As Button
+    Friend WithEvents btnLaunchSimulator As Button
     Friend WithEvents lblStatusCenter As ToolStripStatusLabel
     Friend WithEvents lblInfoRight As ToolStripStatusLabel
 End Class
