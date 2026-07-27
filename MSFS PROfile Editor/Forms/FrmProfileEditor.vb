@@ -17,6 +17,8 @@ Public Class FrmProfileEditor
 
         ThemeManager.ApplyModernTheme(Me)
 
+        lblFolderPathInstructions.Text = folderInstructions
+
         lblProfilesFolderPath.Text = Path.GetFileName(My.Settings.ProfileFolder)
         If My.Settings.CurrentProfile = "" Then
 
@@ -47,14 +49,40 @@ Public Class FrmProfileEditor
 
     End Sub
 
+    Private Sub UpdateLaunchButton()
+
+        Dim result = SimulatorDetector.DetectSimulator()
+
+        If result.InstalledCount = 0 Then
+
+            btnLaunchSimulator.Enabled = False
+            btnUpdateCurrentProfile.Enabled = False
+            btnLaunchSimulator.Text = "Launch Simulator"
+
+        ElseIf SimulatorLauncher.IsRunning() Then
+
+            btnLaunchSimulator.Enabled = False
+            btnLaunchSimulator.Text = "MSFS Already Running"
+
+        Else
+
+            btnLaunchSimulator.Enabled = True
+            btnLaunchSimulator.Text = "Launch Simulator"
+
+        End If
+
+    End Sub
+
     Private Sub FrmProfileEditor_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
 
-        Dim running = SimulatorLauncher.IsRunning()
+        UpdateLaunchButton()
 
-        btnLaunchSimulator.Enabled = Not running
-        btnLaunchSimulator.Text = If(running,
-                                 "MSFS Already Running",
-                                 "Launch Simulator")
+        'Dim running = SimulatorLauncher.IsRunning()
+
+        'btnLaunchSimulator.Enabled = Not running
+        'btnLaunchSimulator.Text = If(running,
+        '"MSFS Already Running",
+        '"Launch Simulator")
 
     End Sub
 
@@ -108,7 +136,6 @@ Public Class FrmProfileEditor
         End Select
 
         lblProfilesFolderPath.Text = Path.GetFileName(My.Settings.ProfileFolder)
-        lblFolderPathInstructions.Text = folderInstructions
         lblInfoRight.Text = "Latest Profile installed: " & My.Settings.CurrentProfile
 
     End Sub
@@ -144,11 +171,19 @@ Public Class FrmProfileEditor
 
             Dim simulatorFolder = SimulatorFilesManager.GetConfigFolderPath()
 
-            If Directory.Exists(simulatorFolder) Then
+            If String.IsNullOrWhiteSpace(simulatorFolder) Then
 
-                ofd1.InitialDirectory = simulatorFolder
+                MessageBox.Show(
+                    "Microsoft Flight Simulator 2024 was not detected on this computer.",
+                    "MSFS PROfile Editor",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information)
+
+                Exit Sub
 
             End If
+
+            ofd1.InitialDirectory = simulatorFolder
 
             If ofd1.ShowDialog() = DialogResult.OK Then
 

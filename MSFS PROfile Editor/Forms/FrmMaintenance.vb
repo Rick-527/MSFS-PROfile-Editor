@@ -35,7 +35,10 @@ Public Class FrmMaintenance
             Me,
             lblStatus,
             "Deleting Rolling Cache...",
-            Function() SimulatorFilesManager.DeleteFile(SimulatorFile.RollingCache))
+            Function()
+                Return SimulatorFilesManager.DeleteFile(SimulatorFile.RollingCache)
+            End Function
+            )
 
         If deleted Then
 
@@ -223,6 +226,18 @@ Public Class FrmMaintenance
             backupAction)
 
         If result Is Nothing Then Return
+
+        If Not result.Success Then
+
+            MessageBox.Show(
+                result.ErrorMessage,
+                "MSFS PROfile Editor",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information)
+
+            Return
+
+        End If
 
         MessageBox.Show(
             "Backup created successfully." &

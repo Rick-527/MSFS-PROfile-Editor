@@ -45,14 +45,13 @@ Public Class SimulatorFilesManager
 
     Public Shared Function GetSceneryIndexesFolder() As String
 
-        Dim sceneryFolder =
-            Path.Combine(GetConfigFolder(), "SceneryIndexes")
+        Dim configFolder = GetConfigFolder()
 
-        If Directory.Exists(sceneryFolder) Then
-            Return sceneryFolder
+        If String.IsNullOrWhiteSpace(configFolder) Then
+            Return Nothing
         End If
 
-        Return String.Empty
+        Return Path.Combine(configFolder, "SceneryIndexes")
 
     End Function
 
@@ -100,8 +99,7 @@ Public Class SimulatorFilesManager
 
             Else
 
-                Throw New DirectoryNotFoundException(
-                "Microsoft Flight Simulator 2024 could not be found.")
+                Return Nothing
 
             End If
 
@@ -113,15 +111,13 @@ Public Class SimulatorFilesManager
 
     Public Shared Function GetConfigFolder() As String
 
-        Dim folder = GetPaths().ConfigFolder
+        Dim paths = GetPaths()
 
-        If String.IsNullOrWhiteSpace(folder) Then
-
-            Throw New InvalidOperationException("The simulator configuration folder has not been determined.")
-
+        If paths Is Nothing Then
+            Return Nothing
         End If
 
-        Return folder
+        Return paths.ConfigFolder
 
     End Function
 
@@ -132,9 +128,15 @@ Public Class SimulatorFilesManager
 
     End Property
 
-    Private Shared Function GetFilePath(simFile As SimulatorFile) As String
+    Public Shared Function GetFilePath(simFile As SimulatorFile) As String
 
-        Return Path.Combine(GetConfigFolder(), GetFileName(simFile))
+        Dim configFolder = GetConfigFolder()
+
+        If String.IsNullOrWhiteSpace(configFolder) Then
+            Return Nothing
+        End If
+
+        Return Path.Combine(configFolder, GetFileName(simFile))
 
     End Function
 
@@ -161,7 +163,13 @@ Public Class SimulatorFilesManager
 
     Public Shared Function FileExists(simFile As SimulatorFile) As Boolean
 
-        Return File.Exists(GetFilePath(simFile))
+        Dim folder = GetConfigFolder()
+
+        If String.IsNullOrWhiteSpace(folder) Then
+            Return False
+        End If
+
+        Return File.Exists(Path.Combine(folder, GetFileName(simFile)))
 
     End Function
 
@@ -184,9 +192,13 @@ Public Class SimulatorFilesManager
 
         Dim sourceFile = GetFilePath(SimulatorFile.EXExml)
 
-        If Not File.Exists(sourceFile) Then
-            Throw New FileNotFoundException(
-            "The EXE.xml file could not be found.", sourceFile)
+        If String.IsNullOrWhiteSpace(sourceFile) Then
+
+            result.Success = False
+            result.ErrorMessage = "Microsoft Flight Simulator 2024 was not detected on this computer."
+
+            Return result
+
         End If
 
         Dim backupFile = Path.Combine(
@@ -243,6 +255,15 @@ Public Class SimulatorFilesManager
         Dim result As New BackupOperationResult()
 
         Dim sourceFile = GetFilePath(SimulatorFile.CamerasCfg)
+
+        If String.IsNullOrWhiteSpace(sourceFile) Then
+
+            result.Success = False
+            result.ErrorMessage = "Microsoft Flight Simulator 2024 was not detected on this computer."
+
+            Return result
+
+        End If
 
         If Not File.Exists(sourceFile) Then
             Throw New FileNotFoundException(

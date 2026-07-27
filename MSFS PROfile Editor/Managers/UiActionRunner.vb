@@ -3,9 +3,6 @@ Imports System.Windows.Forms
 
 Public NotInheritable Class UiActionRunner
 
-    Private Sub New()
-    End Sub
-
     Public Shared Sub Run(
     owner As Form,
     statusLabel As ToolStripStatusLabel,
