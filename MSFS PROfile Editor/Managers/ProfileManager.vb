@@ -49,8 +49,8 @@ Public Class ProfileManager
         End If
 
         Dim confirmResult = MessageBox.Show(
-            $"Are you sure you want to overwrite " & fileName & "? This will permanently delete its original contents.",
-            "Confirm Overwrite",
+            $"Are you sure you want to update the profile for " & fileName & "? This will remove the previous profile.",
+            "Confirm Profile Change",
             MessageBoxButtons.YesNo,
             MessageBoxIcon.Warning
         )
@@ -59,7 +59,7 @@ Public Class ProfileManager
             Try
 
                 Dim backupResult = MessageBox.Show(
-                        $"Would you like to create a backup copy of " & fileName & " before it is overwritten?",
+                        $"Would you like to create a backup copy of " & fileName & " before the profile is removed?",
                         "Create Backup?",
                         MessageBoxButtons.YesNoCancel,
                         MessageBoxIcon.Question
@@ -76,7 +76,7 @@ Public Class ProfileManager
 
                 File.Copy(sourceFile, destinationFile, True)
 
-                MessageBox.Show("File updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                MessageBox.Show("Profile updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
                 Return True
 

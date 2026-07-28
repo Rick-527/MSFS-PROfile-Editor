@@ -77,13 +77,6 @@ Public Class FrmProfileEditor
 
         UpdateLaunchButton()
 
-        'Dim running = SimulatorLauncher.IsRunning()
-
-        'btnLaunchSimulator.Enabled = Not running
-        'btnLaunchSimulator.Text = If(running,
-        '"MSFS Already Running",
-        '"Launch Simulator")
-
     End Sub
 
     Private Sub LoadFileNameInTextbox(destinationFileName As String, destinationFilePath As TextBox, destinationFilePathLabel As Label)
