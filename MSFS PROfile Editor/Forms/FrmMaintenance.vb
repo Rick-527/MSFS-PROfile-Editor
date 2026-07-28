@@ -60,9 +60,7 @@ Public Class FrmMaintenance
 
     Private Sub btnDeleteSceneryIndexes_Click(sender As Object, e As EventArgs) Handles btnDeleteSceneryIndexes.Click
 
-        Dim sceneryFolder =
-            SimulatorFilesManager.GetSceneryIndexesFolder
-
+        Dim sceneryFolder = SimulatorFilesManager.GetSceneryIndexesFolder
 
         If String.IsNullOrWhiteSpace(sceneryFolder) Then
             MessageBox.Show("SceneryIndexes folder not found.")
@@ -74,52 +72,79 @@ Public Class FrmMaintenance
         If sceneryFiles.Length = 0 Then
 
             MessageBox.Show(
-                "The SceneryIndexes folder is already empty.",
-                "Nothing to Delete",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information)
+            "The SceneryIndexes folder is already empty.",
+            "Nothing to Delete",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information)
 
             Exit Sub
 
         End If
 
-        If MessageBox.Show("Would you like to back up your existing scenery indexes before deleting them?",
-                           "Backup",
-                           MessageBoxButtons.YesNo,
-                           MessageBoxIcon.Question) = DialogResult.Yes Then
+        Dim backupPerformed As Boolean = False
+        Dim result As BackupOperationResult = Nothing
 
-            Dim backupFolder = GetBackupFolderForSceneryIndexes()
+        Dim response = MessageBox.Show(
+        "Would you like to back up your existing scenery indexes before deleting them?",
+        "Backup Scenery Indexes",
+        MessageBoxButtons.YesNoCancel,
+        MessageBoxIcon.Question)
 
-            If String.IsNullOrEmpty(backupFolder) Then Exit Sub
+        Select Case response
 
-            Dim result =
-                SimulatorFilesManager.BackupSceneryIndexes(
-                    sceneryFolder,
-                    backupFolder)
+            Case DialogResult.Cancel
+                Exit Sub
 
-            If result.Success Then
+            Case DialogResult.Yes
 
-                Dim deleted =
-                    SimulatorFilesManager.DeleteSceneryIndexes(sceneryFolder)
+                Dim backupFolder = GetBackupFolderForSceneryIndexes()
 
-                MessageBox.Show(
-                    $"{result.FilesCopied} scenery index files were backed up." &
-                    Environment.NewLine &
-                    Environment.NewLine &
-                    "Backup Location:" &
-                    Environment.NewLine &
-                    result.BackupFolder &
-                    Environment.NewLine &
-                    Environment.NewLine &
-                    $"{deleted} scenery index files were deleted.")
+                If String.IsNullOrEmpty(backupFolder) Then Exit Sub
 
-            Else
+                result = SimulatorFilesManager.BackupSceneryIndexes(
+                sceneryFolder,
+                backupFolder)
 
-                MessageBox.Show(result.ErrorMessage)
+                If Not result.Success Then
+                    MessageBox.Show(result.ErrorMessage)
+                    Exit Sub
+                End If
 
-            End If
+                backupPerformed = True
+
+            Case DialogResult.No
+                ' Continue directly to deletion.
+
+        End Select
+
+        Dim deleted = SimulatorFilesManager.DeleteSceneryIndexes(sceneryFolder)
+
+        If backupPerformed Then
+
+            MessageBox.Show(
+            $"{result.FilesCopied} scenery index files were backed up." &
+            Environment.NewLine &
+            Environment.NewLine &
+            "Backup Location:" &
+            Environment.NewLine &
+            result.BackupFolder &
+            Environment.NewLine &
+            Environment.NewLine &
+            $"{deleted} scenery index files were deleted.",
+            "Operation Complete",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information)
+
+        Else
+
+            MessageBox.Show(
+            $"{deleted} scenery index file(s) were deleted.",
+            "Delete Complete",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information)
 
         End If
+
     End Sub
 
     Private Function GetBackupFolderForSceneryIndexes() As String
