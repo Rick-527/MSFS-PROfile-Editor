@@ -1,25 +1,11 @@
-﻿Imports System.IO
-Imports System.Diagnostics ' Required to open files in external programs
-
-Public Enum SimulatorType
-    None
-    Steam
-    Store
-End Enum
-
+﻿
 Public Class FrmMain
 
-    ' Form Load event handles remembering the last used directory
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub FrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Dim result = SimulatorDetector.DetectSimulator()
 
         ThemeManager.ApplyModernTheme(Me)
-
-        'update the latest version of the MSFS PROfile Editor
-        Dim rawVersion As String = Application.ProductVersion
-        Dim currentVersion As String = rawVersion.Split("+"c)(0)
-        Me.Text = Me.Text & " - v" & currentVersion & " - Simulator: " & My.Settings.MSFSVersion
 
         Select Case result.InstalledCount
 
@@ -29,7 +15,8 @@ Public Class FrmMain
                     "Microsoft Flight Simulator 2024 could not be found on this computer.",
                     "MSFS PROfile Editor",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning)
+                    MessageBoxIcon.Warning
+                    )
 
             Case 1
 
@@ -59,6 +46,21 @@ Public Class FrmMain
 
         End Select
 
+        'Update the application version in the title bar.
+        UpdateTitleBar()
+
+    End Sub
+
+    Private Sub UpdateTitleBar()
+
+        Dim version = Application.ProductVersion.Split("+"c)(0)
+
+        If My.Settings.MSFSVersion = "" Then
+            Me.Text = $"MSFS PROfile Editor - v{version} - Simulator: No Simulator Detected"
+        Else
+            Me.Text = $"MSFS PROfile Editor - v{version} - Simulator: {My.Settings.MSFSVersion}"
+        End If
+
     End Sub
 
     Private Sub btnProfileEditor_Click(sender As Object, e As EventArgs) Handles btnProfileEditor.Click
@@ -74,8 +76,9 @@ Public Class FrmMain
     End Sub
 
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+
         Application.Exit()
-        'Me.Close()
+
     End Sub
 
 End Class

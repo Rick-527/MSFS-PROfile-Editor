@@ -15,9 +15,10 @@ Public Class FrmMaintenance
 
             MessageBox.Show(
                 "The Rolling Cache file was not found.",
-                "Rolling Cache",
+                "MSFS PROfile Editor",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Information)
+                MessageBoxIcon.Information
+                )
 
             Exit Sub
 
@@ -25,9 +26,10 @@ Public Class FrmMaintenance
 
         Dim response As DialogResult = MessageBox.Show(
             "Are you sure you want to delete the Rolling Cache file?",
-            "Rolling Cache",
+            "MSFS PROfile Editor",
             MessageBoxButtons.YesNoCancel,
-            MessageBoxIcon.Question)
+            MessageBoxIcon.Question
+            )
 
         If response <> DialogResult.Yes Then Exit Sub
 
@@ -44,9 +46,10 @@ Public Class FrmMaintenance
 
             MessageBox.Show(
                 "The Rolling Cache was deleted successfully.",
-                "Rolling Cache",
+                "MSFS PROfile Editor",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Information)
+                MessageBoxIcon.Information
+                )
 
         End If
 
@@ -60,10 +63,15 @@ Public Class FrmMaintenance
 
     Private Sub btnDeleteSceneryIndexes_Click(sender As Object, e As EventArgs) Handles btnDeleteSceneryIndexes.Click
 
-        Dim sceneryFolder = SimulatorFilesManager.GetSceneryIndexesFolder
+        Dim sceneryFolder = SimulatorFilesManager.GetSceneryIndexesFolder()
 
         If String.IsNullOrWhiteSpace(sceneryFolder) Then
-            MessageBox.Show("SceneryIndexes folder not found.")
+            MessageBox.Show(
+                "Unable to locate the SceneryIndexes folder.",
+                "MSFS PROfile Editor",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+                )
             Exit Sub
         End If
 
@@ -73,7 +81,7 @@ Public Class FrmMaintenance
 
             MessageBox.Show(
             "The SceneryIndexes folder is already empty.",
-            "Nothing to Delete",
+            "MSFS PROfile Editor",
             MessageBoxButtons.OK,
             MessageBoxIcon.Information)
 
@@ -86,7 +94,7 @@ Public Class FrmMaintenance
 
         Dim response = MessageBox.Show(
         "Would you like to back up your existing scenery indexes before deleting them?",
-        "Backup Scenery Indexes",
+        "MSFS PROfile Editor",
         MessageBoxButtons.YesNoCancel,
         MessageBoxIcon.Question)
 
@@ -99,11 +107,19 @@ Public Class FrmMaintenance
 
                 Dim backupFolder = GetBackupFolderForSceneryIndexes()
 
-                If String.IsNullOrEmpty(backupFolder) Then Exit Sub
+                If String.IsNullOrWhiteSpace(backupFolder) Then Exit Sub
 
-                result = SimulatorFilesManager.BackupSceneryIndexes(
-                sceneryFolder,
-                backupFolder)
+                result = UiActionRunner.RunWithResult(
+                            Me,
+                            lblStatus,
+                            "Backing up scenery indexes...",
+                            Function()
+                                Return SimulatorFilesManager.BackupSceneryIndexes(
+                                sceneryFolder,
+                                backupFolder)
+                            End Function
+                            )
+                If result Is Nothing Then Return
 
                 If Not result.Success Then
                     MessageBox.Show(result.ErrorMessage)
@@ -117,7 +133,14 @@ Public Class FrmMaintenance
 
         End Select
 
-        Dim deleted = SimulatorFilesManager.DeleteSceneryIndexes(sceneryFolder)
+        Dim deleted = UiActionRunner.RunWithResult(
+                        Me,
+                        lblStatus,
+                        "Deleting scenery indexes...",
+                        Function()
+                            Return SimulatorFilesManager.DeleteSceneryIndexes(sceneryFolder)
+                        End Function
+                        )
 
         If backupPerformed Then
 
@@ -131,17 +154,19 @@ Public Class FrmMaintenance
             Environment.NewLine &
             Environment.NewLine &
             $"{deleted} scenery index files were deleted.",
-            "Operation Complete",
+            "MSFS PROfile Editor",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Information)
+            MessageBoxIcon.Information
+            )
 
         Else
 
             MessageBox.Show(
             $"{deleted} scenery index file(s) were deleted.",
-            "Delete Complete",
+            "MSFS PROfile Editor",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Information)
+            MessageBoxIcon.Information
+            )
 
         End If
 
@@ -166,7 +191,7 @@ Public Class FrmMaintenance
             "No = Choose a different folder" &
             Environment.NewLine &
             "Cancel = Cancel the operation",
-            "Scenery Index Backup Location",
+            "MSFS PROfile Editor",
             MessageBoxButtons.YesNoCancel,
             MessageBoxIcon.Question)
 
@@ -213,7 +238,8 @@ Public Class FrmMaintenance
 
         RunSimulatorFileBackup(
             "Creating EXE.xml backup...",
-            AddressOf SimulatorFilesManager.BackupExeXml)
+            AddressOf SimulatorFilesManager.BackupExeXml
+            )
 
     End Sub
 
@@ -228,17 +254,20 @@ Public Class FrmMaintenance
     End Sub
 
     Private Sub btnViewCamerasCfg_Click(sender As Object, e As EventArgs) Handles btnViewCamerasCfg.Click
+
         UiActionRunner.Run(Me, lblStatus,
             Sub()
                 SimulatorFilesManager.OpenCamerasCfg()
             End Sub
             )
+
     End Sub
 
     Private Sub btnBackupCamerasCfg_Click(sender As Object, e As EventArgs) Handles btnBackupCamerasCfg.Click
 
         RunSimulatorFileBackup("Creating Cameras.cfg backup...",
-                AddressOf SimulatorFilesManager.BackupCamerasCfg)
+                AddressOf SimulatorFilesManager.BackupCamerasCfg
+                )
 
     End Sub
 
@@ -248,7 +277,8 @@ Public Class FrmMaintenance
             Me,
             lblStatus,
             statusMessage,
-            backupAction)
+            backupAction
+            )
 
         If result Is Nothing Then Return
 
@@ -258,7 +288,8 @@ Public Class FrmMaintenance
                 result.ErrorMessage,
                 "MSFS PROfile Editor",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Information)
+                MessageBoxIcon.Information
+                )
 
             Return
 
@@ -268,9 +299,10 @@ Public Class FrmMaintenance
             "Backup created successfully." &
             Environment.NewLine &
             Path.GetFileName(result.BackupFile),
-            "Backup Complete",
+            "MSFS PROfile Editor",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Information)
+            MessageBoxIcon.Information
+            )
 
     End Sub
 

@@ -7,7 +7,7 @@
     <StartupObject>Sub Main</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
     <MyType>WindowsForms</MyType>
-    <Version>1.1.1</Version>
+    <Version>1.1.0</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>MSFS Profile Editor for Microsoft Flight Simulator 2024</Description>
     <Copyright>© 2026 Saugatech. All rights reserved.</Copyright>

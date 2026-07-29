@@ -162,7 +162,7 @@ Public Class FrmProfileEditor
             ofd1.Title = "Select your UserCfg.opt file (File to Overwrite)"
             ofd1.Filter = "OPT Files (*.opt)|*.opt"
 
-            Dim simulatorFolder = SimulatorFilesManager.GetConfigFolderPath()
+            Dim simulatorFolder = SimulatorFilesManager.GetSimulatorConfigFolder()
 
             If String.IsNullOrWhiteSpace(simulatorFolder) Then
 
