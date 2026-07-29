@@ -55,6 +55,12 @@ Public Class SimulatorFilesManager
 
     End Function
 
+    Public Shared Function BackupFlightSimulator2024Cfg() As BackupOperationResult
+
+        Return BackupSimulatorFile(SimulatorFile.FlightSimulator2024Cfg)
+
+    End Function
+
     Private Shared Function BackupSimulatorFile(simFile As SimulatorFile) As BackupOperationResult
 
         Dim result As New BackupOperationResult()
@@ -257,6 +263,12 @@ Public Class SimulatorFilesManager
     Public Shared Sub OpenCamerasCfg()
 
         OpenSimulatorFile(SimulatorFile.CamerasCfg)
+
+    End Sub
+
+    Public Shared Sub OpenFlightSimulator2024Cfg()
+
+        OpenSimulatorFile(SimulatorFile.FlightSimulator2024Cfg)
 
     End Sub
 

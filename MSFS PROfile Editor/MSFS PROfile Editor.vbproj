@@ -16,6 +16,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\masterBackground.png" />
+    <None Remove="Resources\masterBackgroundForm1.png" />
+    <None Remove="Resources\masterBackgroundForm2.png" />
+    <None Remove="Resources\masterBackround.png" />
+    <None Remove="Resources\masterBackroundForm1.png" />
+    <None Remove="Resources\masterBackroundForm2.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\masterBackground.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\masterBackgroundForm1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\masterBackgroundForm2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Import Include="System.Data" />
     <Import Include="System.Drawing" />
     <Import Include="System.Windows.Forms" />
@@ -53,7 +74,6 @@
 
   <ItemGroup>
     <Folder Include="Helpers\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
 
   <ItemGroup>

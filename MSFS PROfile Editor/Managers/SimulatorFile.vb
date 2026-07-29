@@ -4,5 +4,6 @@
     RollingCache
     EXExml
     CamerasCfg
+    FlightSimulator2024Cfg
 
 End Enum

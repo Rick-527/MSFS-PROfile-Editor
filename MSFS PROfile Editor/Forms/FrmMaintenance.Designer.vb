@@ -35,6 +35,8 @@ Partial Class FrmMaintenance
         btnViewCamerasCfg = New Button()
         btnViewExeXml = New Button()
         btnBackupXmlExe = New Button()
+        btnViewFs2024Cfg = New Button()
+        btnBackupFs2024Cfg = New Button()
         StatusStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -44,14 +46,13 @@ Partial Class FrmMaintenance
         ' 
         ' btnClose
         ' 
-        btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnClose.Location = New Point(340, 477)
-        btnClose.Margin = New Padding(4, 3, 4, 3)
+        btnClose.Location = New Point(387, 636)
+        btnClose.Margin = New Padding(5, 4, 5, 4)
         btnClose.Name = "btnClose"
         btnClose.RightToLeft = RightToLeft.Yes
-        btnClose.Size = New Size(197, 47)
+        btnClose.Size = New Size(287, 63)
         btnClose.TabIndex = 21
         btnClose.Text = "&Close"
         btnClose.UseVisualStyleBackColor = False
@@ -60,9 +61,10 @@ Partial Class FrmMaintenance
         ' 
         btnDeleteRollingCache.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnDeleteRollingCache.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnDeleteRollingCache.Location = New Point(43, 360)
+        btnDeleteRollingCache.Location = New Point(71, 480)
+        btnDeleteRollingCache.Margin = New Padding(3, 4, 3, 4)
         btnDeleteRollingCache.Name = "btnDeleteRollingCache"
-        btnDeleteRollingCache.Size = New Size(197, 47)
+        btnDeleteRollingCache.Size = New Size(287, 63)
         btnDeleteRollingCache.TabIndex = 22
         btnDeleteRollingCache.Text = "&Delete Rolling Cache"
         btnDeleteRollingCache.UseVisualStyleBackColor = False
@@ -71,9 +73,10 @@ Partial Class FrmMaintenance
         ' 
         btnDeleteSceneryIndexes.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnDeleteSceneryIndexes.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnDeleteSceneryIndexes.Location = New Point(43, 477)
+        btnDeleteSceneryIndexes.Location = New Point(71, 636)
+        btnDeleteSceneryIndexes.Margin = New Padding(3, 4, 3, 4)
         btnDeleteSceneryIndexes.Name = "btnDeleteSceneryIndexes"
-        btnDeleteSceneryIndexes.Size = New Size(197, 47)
+        btnDeleteSceneryIndexes.Size = New Size(287, 63)
         btnDeleteSceneryIndexes.TabIndex = 23
         btnDeleteSceneryIndexes.Text = "Delete &Scenery Indexes"
         btnDeleteSceneryIndexes.UseVisualStyleBackColor = False
@@ -82,24 +85,26 @@ Partial Class FrmMaintenance
         ' 
         Label1.AutoSize = True
         Label1.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold)
-        Label1.Location = New Point(43, 33)
+        Label1.Location = New Point(71, 44)
         Label1.Name = "Label1"
-        Label1.Size = New Size(141, 20)
+        Label1.Size = New Size(181, 25)
         Label1.TabIndex = 27
         Label1.Text = "Configuration Files"
         ' 
         ' lblStatus
         ' 
         lblStatus.Name = "lblStatus"
-        lblStatus.Size = New Size(39, 17)
+        lblStatus.Size = New Size(50, 20)
         lblStatus.Text = "Ready"
         ' 
         ' StatusStrip1
         ' 
+        StatusStrip1.ImageScalingSize = New Size(20, 20)
         StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus})
-        StatusStrip1.Location = New Point(0, 566)
+        StatusStrip1.Location = New Point(0, 758)
         StatusStrip1.Name = "StatusStrip1"
-        StatusStrip1.Size = New Size(580, 22)
+        StatusStrip1.Padding = New Padding(1, 0, 16, 0)
+        StatusStrip1.Size = New Size(744, 26)
         StatusStrip1.TabIndex = 37
         StatusStrip1.Text = "Ready"
         ' 
@@ -107,9 +112,9 @@ Partial Class FrmMaintenance
         ' 
         lblRollingCache.AutoSize = True
         lblRollingCache.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold)
-        lblRollingCache.Location = New Point(43, 330)
+        lblRollingCache.Location = New Point(71, 440)
         lblRollingCache.Name = "lblRollingCache"
-        lblRollingCache.Size = New Size(103, 20)
+        lblRollingCache.Size = New Size(132, 25)
         lblRollingCache.TabIndex = 38
         lblRollingCache.Text = "Rolling Cache"
         ' 
@@ -117,9 +122,9 @@ Partial Class FrmMaintenance
         ' 
         lblSceneryIndexes.AutoSize = True
         lblSceneryIndexes.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold)
-        lblSceneryIndexes.Location = New Point(43, 447)
+        lblSceneryIndexes.Location = New Point(71, 596)
         lblSceneryIndexes.Name = "lblSceneryIndexes"
-        lblSceneryIndexes.Size = New Size(122, 20)
+        lblSceneryIndexes.Size = New Size(157, 25)
         lblSceneryIndexes.TabIndex = 39
         lblSceneryIndexes.Text = "Scenery Indexes"
         ' 
@@ -127,9 +132,10 @@ Partial Class FrmMaintenance
         ' 
         btnBackupCamerasCfg.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnBackupCamerasCfg.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnBackupCamerasCfg.Location = New Point(43, 243)
+        btnBackupCamerasCfg.Location = New Point(71, 324)
+        btnBackupCamerasCfg.Margin = New Padding(3, 4, 3, 4)
         btnBackupCamerasCfg.Name = "btnBackupCamerasCfg"
-        btnBackupCamerasCfg.Size = New Size(197, 47)
+        btnBackupCamerasCfg.Size = New Size(287, 63)
         btnBackupCamerasCfg.TabIndex = 24
         btnBackupCamerasCfg.Text = "&Backup Cameras.cfg"
         btnBackupCamerasCfg.UseVisualStyleBackColor = False
@@ -138,41 +144,68 @@ Partial Class FrmMaintenance
         ' 
         btnViewCamerasCfg.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnViewCamerasCfg.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnViewCamerasCfg.Location = New Point(43, 190)
+        btnViewCamerasCfg.Location = New Point(71, 253)
+        btnViewCamerasCfg.Margin = New Padding(3, 4, 3, 4)
         btnViewCamerasCfg.Name = "btnViewCamerasCfg"
-        btnViewCamerasCfg.Size = New Size(197, 47)
+        btnViewCamerasCfg.Size = New Size(287, 63)
         btnViewCamerasCfg.TabIndex = 26
-        btnViewCamerasCfg.Text = "O&pen Cameras.cfg"
+        btnViewCamerasCfg.Text = "Vie&w Cameras.cfg"
         btnViewCamerasCfg.UseVisualStyleBackColor = False
         ' 
         ' btnViewExeXml
         ' 
         btnViewExeXml.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnViewExeXml.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnViewExeXml.Location = New Point(43, 63)
+        btnViewExeXml.Location = New Point(71, 84)
+        btnViewExeXml.Margin = New Padding(3, 4, 3, 4)
         btnViewExeXml.Name = "btnViewExeXml"
-        btnViewExeXml.Size = New Size(197, 47)
+        btnViewExeXml.Size = New Size(287, 63)
         btnViewExeXml.TabIndex = 25
-        btnViewExeXml.Text = "&Open EXE.xml"
+        btnViewExeXml.Text = "&View EXE.xml"
         btnViewExeXml.UseVisualStyleBackColor = False
         ' 
         ' btnBackupXmlExe
         ' 
         btnBackupXmlExe.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnBackupXmlExe.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnBackupXmlExe.Location = New Point(43, 116)
+        btnBackupXmlExe.Location = New Point(71, 155)
+        btnBackupXmlExe.Margin = New Padding(3, 4, 3, 4)
         btnBackupXmlExe.Name = "btnBackupXmlExe"
-        btnBackupXmlExe.Size = New Size(197, 47)
+        btnBackupXmlExe.Size = New Size(287, 63)
         btnBackupXmlExe.TabIndex = 34
         btnBackupXmlExe.Text = "Bac&kup EXE.xml"
         btnBackupXmlExe.UseVisualStyleBackColor = False
         ' 
+        ' btnViewFs2024Cfg
+        ' 
+        btnViewFs2024Cfg.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnViewFs2024Cfg.Font = New Font("Segoe UI", 10.2F, FontStyle.Bold)
+        btnViewFs2024Cfg.Location = New Point(387, 84)
+        btnViewFs2024Cfg.Name = "btnViewFs2024Cfg"
+        btnViewFs2024Cfg.Size = New Size(287, 63)
+        btnViewFs2024Cfg.TabIndex = 40
+        btnViewFs2024Cfg.Text = "View &Flightsimulator2024.cfg"
+        btnViewFs2024Cfg.UseVisualStyleBackColor = False
+        ' 
+        ' btnBackupFs2024Cfg
+        ' 
+        btnBackupFs2024Cfg.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnBackupFs2024Cfg.Font = New Font("Segoe UI", 10.2F, FontStyle.Bold)
+        btnBackupFs2024Cfg.Location = New Point(387, 156)
+        btnBackupFs2024Cfg.Name = "btnBackupFs2024Cfg"
+        btnBackupFs2024Cfg.Size = New Size(287, 63)
+        btnBackupFs2024Cfg.TabIndex = 41
+        btnBackupFs2024Cfg.Text = "Bac&kup Flightsimulator2024.cfg"
+        btnBackupFs2024Cfg.UseVisualStyleBackColor = False
+        ' 
         ' FrmMaintenance
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(8F, 20F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        ClientSize = New Size(580, 588)
+        ClientSize = New Size(744, 784)
+        Controls.Add(btnBackupFs2024Cfg)
+        Controls.Add(btnViewFs2024Cfg)
         Controls.Add(btnBackupXmlExe)
         Controls.Add(btnDeleteSceneryIndexes)
         Controls.Add(btnViewExeXml)
@@ -186,6 +219,7 @@ Partial Class FrmMaintenance
         Controls.Add(btnClose)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
         FormBorderStyle = FormBorderStyle.FixedDialog
+        Margin = New Padding(3, 4, 3, 4)
         MaximizeBox = False
         MinimizeBox = False
         Name = "FrmMaintenance"
@@ -214,4 +248,6 @@ Partial Class FrmMaintenance
     Friend WithEvents btnViewCamerasCfg As Button
     Friend WithEvents btnViewExeXml As Button
     Friend WithEvents btnBackupXmlExe As Button
+    Friend WithEvents btnViewFs2024Cfg As Button
+    Friend WithEvents btnBackupFs2024Cfg As Button
 End Class

@@ -1,7 +1,9 @@
-﻿
+﻿'Imports System.IO
 Public Class FrmMain
 
     Private Sub FrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        BackgroundManager.Apply(Me, "masterBackground.png")
 
         Dim result = SimulatorDetector.DetectSimulator()
 

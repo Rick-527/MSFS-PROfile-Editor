@@ -15,6 +15,7 @@ Public Class FrmProfileEditor
 
     Private Sub FrmProfileEditor_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        BackgroundManager.Apply(Me, "masterBackgroundForm2.png")
         ThemeManager.ApplyModernTheme(Me)
 
         lblFolderPathInstructions.Text = folderInstructions

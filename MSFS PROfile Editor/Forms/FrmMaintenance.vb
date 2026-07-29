@@ -5,6 +5,7 @@ Public Class FrmMaintenance
 
     Private Sub FrmMaintenance_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        BackgroundManager.Apply(Me, "masterBackgroundForm1.png")
         ThemeManager.ApplyModernTheme(Me)
 
     End Sub
@@ -306,4 +307,21 @@ Public Class FrmMaintenance
 
     End Sub
 
+    Private Sub btnViewFs2024Cfg_Click(sender As Object, e As EventArgs) Handles btnViewFs2024Cfg.Click
+
+        UiActionRunner.Run(Me, lblStatus,
+            Sub()
+                SimulatorFilesManager.OpenFlightSimulator2024Cfg()
+            End Sub
+            )
+
+    End Sub
+
+    Private Sub btnBackupFs2024Cfg_Click(sender As Object, e As EventArgs) Handles btnBackupFs2024Cfg.Click
+
+        RunSimulatorFileBackup("Creating FlightSimulator2024.cfg backup...",
+                AddressOf SimulatorFilesManager.BackupFlightSimulator2024Cfg
+                )
+
+    End Sub
 End Class
