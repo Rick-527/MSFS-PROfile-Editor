@@ -37,7 +37,7 @@ Partial Class FrmMain
         btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnClose.Location = New Point(228, 211)
+        btnClose.Location = New Point(287, 289)
         btnClose.Name = "btnClose"
         btnClose.Size = New Size(172, 41)
         btnClose.TabIndex = 12
@@ -48,7 +48,7 @@ Partial Class FrmMain
         ' 
         btnMaintenance.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnMaintenance.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnMaintenance.Location = New Point(228, 130)
+        btnMaintenance.Location = New Point(287, 130)
         btnMaintenance.Name = "btnMaintenance"
         btnMaintenance.Size = New Size(172, 41)
         btnMaintenance.TabIndex = 14
@@ -59,7 +59,7 @@ Partial Class FrmMain
         ' 
         btnProfileEditor.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnProfileEditor.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnProfileEditor.Location = New Point(24, 130)
+        btnProfileEditor.Location = New Point(83, 130)
         btnProfileEditor.Name = "btnProfileEditor"
         btnProfileEditor.Size = New Size(172, 41)
         btnProfileEditor.TabIndex = 34
@@ -70,9 +70,9 @@ Partial Class FrmMain
         ' 
         StatusStrip1.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus})
-        StatusStrip1.Location = New Point(0, 274)
+        StatusStrip1.Location = New Point(0, 366)
         StatusStrip1.Name = "StatusStrip1"
-        StatusStrip1.Size = New Size(425, 22)
+        StatusStrip1.Size = New Size(542, 22)
         StatusStrip1.TabIndex = 35
         StatusStrip1.Text = "MSFSVersion:"
         ' 
@@ -86,7 +86,7 @@ Partial Class FrmMain
         ' 
         lblMainHeader.AutoSize = True
         lblMainHeader.Font = New Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        lblMainHeader.Location = New Point(75, 23)
+        lblMainHeader.Location = New Point(134, 23)
         lblMainHeader.Name = "lblMainHeader"
         lblMainHeader.Size = New Size(275, 37)
         lblMainHeader.TabIndex = 36
@@ -96,7 +96,7 @@ Partial Class FrmMain
         ' 
         lblSecondaryHeader.AutoSize = True
         lblSecondaryHeader.Font = New Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        lblSecondaryHeader.Location = New Point(59, 60)
+        lblSecondaryHeader.Location = New Point(118, 60)
         lblSecondaryHeader.Name = "lblSecondaryHeader"
         lblSecondaryHeader.Size = New Size(307, 20)
         lblSecondaryHeader.TabIndex = 37
@@ -108,7 +108,7 @@ Partial Class FrmMain
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnClose
-        ClientSize = New Size(425, 296)
+        ClientSize = New Size(542, 388)
         Controls.Add(lblSecondaryHeader)
         Controls.Add(lblMainHeader)
         Controls.Add(StatusStrip1)

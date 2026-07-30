@@ -259,4 +259,9 @@ Public Class FrmProfileEditor
 
     End Sub
 
+    Private Sub btnFs2024Launcher_Click(sender As Object, e As EventArgs) Handles btnFs2024Launcher.Click
+
+        'btnFs2024Launcher.DropDownMenu = cmsFs2024Launcher
+
+    End Sub
 End Class

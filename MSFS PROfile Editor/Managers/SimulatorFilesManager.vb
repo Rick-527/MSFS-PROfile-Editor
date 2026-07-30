@@ -202,6 +202,9 @@ Public Class SimulatorFilesManager
             Case SimulatorFile.CamerasCfg
                 Return "Cameras.cfg"
 
+            Case SimulatorFile.FlightSimulator2024Cfg
+                Return "FlightSimulator2024.cfg"
+
             Case Else
                 Throw New ArgumentOutOfRangeException(NameOf(file))
         End Select
@@ -246,7 +249,7 @@ Public Class SimulatorFilesManager
         Select Case simFile
 
             Case SimulatorFile.EXExml,
-             SimulatorFile.CamerasCfg
+             SimulatorFile.CamerasCfg, SimulatorFile.FlightSimulator2024Cfg
 
                 Return $"{GetFileName(simFile)}_MSFSProfileEditor_{DateTime.Now.ToString(BackupTimestampFormat)}.bak"
 

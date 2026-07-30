@@ -9,7 +9,7 @@
     <MyType>WindowsForms</MyType>
     <Version>1.1.0</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Description>MSFS Profile Editor for Microsoft Flight Simulator 2024</Description>
+    <Description>MSFS PROfile Editor for Microsoft Flight Simulator 2024</Description>
     <Copyright>© 2026 Saugatech. All rights reserved.</Copyright>
     <Company>Saugatech</Company>
     <Title>MSFS Profile Editor</Title>
@@ -70,10 +70,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Helpers\" />
   </ItemGroup>
 
   <ItemGroup>
