@@ -10,11 +10,25 @@ Imports System.Windows.Forms
 Public Class ModernSplitButton
     Inherits Button
 
+    Private Const SplitSectionWidth As Integer = 24
+
 #Region "Fields"
 
-    Private Const ArrowSectionWidth As Integer = 24
-
     Private _dropDownMenu As ContextMenuStrip
+
+#End Region
+
+#Region "Private Properties"
+
+    Private ReadOnly Property SplitRectangle As Rectangle
+        Get
+            Return New Rectangle(
+            ClientRectangle.Right - SplitSectionWidth,
+            ClientRectangle.Top,
+            SplitSectionWidth,
+            ClientRectangle.Height)
+        End Get
+    End Property
 
 #End Region
 
@@ -47,5 +61,53 @@ Public Class ModernSplitButton
     End Sub
 
 #End Region
+
+    Protected Overrides Sub OnPaint(e As PaintEventArgs)
+
+        MyBase.OnPaint(e)
+
+        Dim splitRect = SplitRectangle
+
+        Dim center As Point = New Point(
+            splitRect.Left + splitRect.Width \ 2,
+            splitRect.Top + splitRect.Height \ 2)
+
+        Dim arrowPoints As Point() =
+        {
+            New Point(center.X - 4, center.Y - 2),
+            New Point(center.X + 4, center.Y - 2),
+            New Point(center.X, center.Y + 3)
+        }
+
+        Using Brush As New SolidBrush(ForeColor)
+            e.Graphics.FillPolygon(Brush, arrowPoints)
+        End Using
+
+        Using pen As New Pen(Color.FromArgb(100, Color.White))
+            e.Graphics.DrawLine(
+            pen,
+            splitRect.Left,
+            4,
+            splitRect.Left,
+            splitRect.Bottom - 5)
+        End Using
+
+    End Sub
+
+    Protected Overrides Sub OnMouseDown(e As MouseEventArgs)
+
+        If SplitRectangle.Contains(e.Location) Then
+
+            If DropDownMenu IsNot Nothing Then
+                DropDownMenu.Show(Me, New Point(0, Height))
+            End If
+
+            Return
+
+        End If
+
+        MyBase.OnMouseDown(e)
+
+    End Sub
 
 End Class

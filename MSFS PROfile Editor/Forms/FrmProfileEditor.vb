@@ -17,6 +17,7 @@ Public Class FrmProfileEditor
 
         BackgroundManager.Apply(Me, "masterBackgroundForm2.png")
         ThemeManager.ApplyModernTheme(Me)
+        Me.DoubleBuffered = True
 
         lblFolderPathInstructions.Text = folderInstructions
 
@@ -262,6 +263,10 @@ Public Class FrmProfileEditor
     Private Sub btnFs2024Launcher_Click(sender As Object, e As EventArgs) Handles btnFs2024Launcher.Click
 
         'btnFs2024Launcher.DropDownMenu = cmsFs2024Launcher
+
+    End Sub
+
+    Private Sub lblProfileEditor_Click(sender As Object, e As EventArgs) Handles lblProfileEditor.Click
 
     End Sub
 End Class

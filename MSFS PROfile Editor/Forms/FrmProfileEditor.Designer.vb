@@ -22,6 +22,7 @@ Partial Class FrmProfileEditor
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
         btnSelectProfilesFolder = New Button()
         lblFolderPathInstructions = New Label()
         lblFolderSelection = New Label()
@@ -45,7 +46,11 @@ Partial Class FrmProfileEditor
         lblMsfsProfileFolder = New Label()
         btnLaunchSimulator = New Button()
         btnFs2024Launcher = New ModernSplitButton()
+        cmsLaunchSimulator = New ContextMenuStrip(components)
+        ToolStripMenuItem1 = New ToolStripMenuItem()
+        LaunchViaFSUIPCToolStripMenuItem = New ToolStripMenuItem()
         StatusStrip1.SuspendLayout()
+        cmsLaunchSimulator.SuspendLayout()
         SuspendLayout()
         ' 
         ' btnSelectProfilesFolder
@@ -307,15 +312,33 @@ Partial Class FrmProfileEditor
         ' 
         ' btnFs2024Launcher
         ' 
-        btnFs2024Launcher.DropDownMenu = Nothing
+        btnFs2024Launcher.DropDownMenu = cmsLaunchSimulator
         btnFs2024Launcher.FlatStyle = FlatStyle.Flat
-        btnFs2024Launcher.Location = New Point(511, 130)
+        btnFs2024Launcher.Location = New Point(511, 140)
         btnFs2024Launcher.Name = "btnFs2024Launcher"
         btnFs2024Launcher.Size = New Size(365, 48)
         btnFs2024Launcher.TabIndex = 31
-        btnFs2024Launcher.Text = "ModernSplitButton1"
+        btnFs2024Launcher.Text = "Launch Simulator via FSUIPC"
         btnFs2024Launcher.TextAlign = ContentAlignment.MiddleLeft
         btnFs2024Launcher.UseVisualStyleBackColor = True
+        ' 
+        ' cmsLaunchSimulator
+        ' 
+        cmsLaunchSimulator.Items.AddRange(New ToolStripItem() {ToolStripMenuItem1})
+        cmsLaunchSimulator.Name = "cmsLaunchSimulator"
+        cmsLaunchSimulator.Size = New Size(236, 26)
+        ' 
+        ' ToolStripMenuItem1
+        ' 
+        ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        ToolStripMenuItem1.Size = New Size(235, 22)
+        ToolStripMenuItem1.Text = "Launch Simulator - No FSUIPC"
+        ' 
+        ' LaunchViaFSUIPCToolStripMenuItem
+        ' 
+        LaunchViaFSUIPCToolStripMenuItem.Name = "LaunchViaFSUIPCToolStripMenuItem"
+        LaunchViaFSUIPCToolStripMenuItem.Size = New Size(235, 22)
+        LaunchViaFSUIPCToolStripMenuItem.Text = "Launch Simulator via FSUIPC"
         ' 
         ' FrmProfileEditor
         ' 
@@ -355,6 +378,7 @@ Partial Class FrmProfileEditor
         Text = "MSFS PROfile Editor -Profile Editor"
         StatusStrip1.ResumeLayout(False)
         StatusStrip1.PerformLayout()
+        cmsLaunchSimulator.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -382,4 +406,7 @@ Partial Class FrmProfileEditor
     Friend WithEvents lblStatusCenter As ToolStripStatusLabel
     Friend WithEvents lblInfoRight As ToolStripStatusLabel
     Friend WithEvents btnFs2024Launcher As ModernSplitButton
+    Friend WithEvents cmsLaunchSimulator As ContextMenuStrip
+    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents LaunchViaFSUIPCToolStripMenuItem As ToolStripMenuItem
 End Class

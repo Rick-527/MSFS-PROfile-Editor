@@ -7,6 +7,7 @@ Public Class FrmMaintenance
 
         BackgroundManager.Apply(Me, "masterBackgroundForm1.png")
         ThemeManager.ApplyModernTheme(Me)
+        Me.DoubleBuffered = True
 
     End Sub
 

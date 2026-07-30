@@ -6,7 +6,10 @@
 
     Private Sub FrmSimulatorSelection_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        BackgroundManager.Apply(Me, "masterBackgroundForm1.png")
         ThemeManager.ApplyModernTheme(Me)
+        Me.DoubleBuffered = True
+
         lblPromptMessage.Text = "Both your editions of Microsoft Flight Simulator are supported." & vbCrLf & "Please select the edition you want to use with this application."
         rbSteam.Checked = True
         cbRememberChoice.Checked = RememberChoice

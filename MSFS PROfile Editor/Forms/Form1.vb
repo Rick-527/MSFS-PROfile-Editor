@@ -4,10 +4,11 @@ Public Class FrmMain
     Private Sub FrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         BackgroundManager.Apply(Me, "masterBackground.png")
+        ThemeManager.ApplyModernTheme(Me)
+
+        Me.DoubleBuffered = True
 
         Dim result = SimulatorDetector.DetectSimulator()
-
-        ThemeManager.ApplyModernTheme(Me)
 
         Select Case result.InstalledCount
 
