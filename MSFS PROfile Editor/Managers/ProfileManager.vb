@@ -21,26 +21,14 @@ Public Class ProfileManager
 
     End Function
 
-    'Private Sub LoadProfileButtons()
+    Public Function ApplyProfile(profile As ProfileInfo) As Boolean
 
-    '    pnlProfiles.Controls.Clear()
+        'Find UserCfg.opt
+        'Backup current UserCfg.opt
+        'Copy .profx file
+        Return True
 
-    '    For Each profile In _profileManager.GetProfiles()
-
-    '        Dim btn As New ModernSplitButton()
-
-    '        btn.Text = profile.Name
-    '        btn.Tag = profile
-
-    '        AddHandler btn.Click, AddressOf ProfileButton_Click
-
-    '        btn.DropDownMenu = CreateProfileMenu(profile)
-
-    '        pnlProfiles.Controls.Add(btn)
-
-    '    Next
-
-    'End Sub
+    End Function
 
     Private Function BackupName(path As String) As String
         Return $"{path}.bak"
@@ -129,7 +117,8 @@ Public Class ProfileManager
         End If
 
         Using sfd As New SaveFileDialog
-            sfd.Title = "Save Profile to New Destination"
+            ' Profile files use the custom .profx extension.
+            ' Remove the simulator file extension before creating the profile name.sfd.Title = "Save Profile to New Destination"
             sfd.Filter = "Profile Files (*.profx)|*.profx"
             sfd.DefaultExt = "profx"
             sfd.AddExtension = True
@@ -164,7 +153,23 @@ Public Class ProfileManager
 
         Dim profiles As New List(Of ProfileInfo)
 
-        ' We'll write this together next.
+        If String.IsNullOrWhiteSpace(My.Settings.ProfileFolder) Then
+            Return profiles
+        End If
+
+        If Not Directory.Exists(My.Settings.ProfileFolder) Then
+            Return profiles
+        End If
+
+        For Each profileFile In Directory.GetFiles(My.Settings.ProfileFolder, "*.profx")
+
+            Dim profile As New ProfileInfo With {
+                .ProfileFile = profileFile
+            }
+
+            profiles.Add(profile)
+
+        Next
 
         Return profiles
 

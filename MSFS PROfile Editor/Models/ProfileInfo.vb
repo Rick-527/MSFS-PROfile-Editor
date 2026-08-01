@@ -2,13 +2,13 @@
 
 Public Class ProfileInfo
 
-    Public Property ProfileFolder As String
     Public Property ProfileFile As String
-    Public Property BackupFolder As String
 
-    Public ReadOnly Property DisplayName As String
+    Public ReadOnly Property DisplayProfileName As String
+
         Get
-            Return Path.GetFileName(ProfileFolder)
+            Return Path.GetFileNameWithoutExtension(ProfileFile)
+
         End Get
     End Property
 

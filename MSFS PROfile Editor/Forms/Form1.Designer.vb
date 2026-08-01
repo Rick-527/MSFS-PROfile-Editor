@@ -29,6 +29,7 @@ Partial Class FrmMain
         lblStatus = New ToolStripStatusLabel()
         lblMainHeader = New Label()
         lblSecondaryHeader = New Label()
+        btnProfileSelector = New Button()
         StatusStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -102,6 +103,17 @@ Partial Class FrmMain
         lblSecondaryHeader.TabIndex = 37
         lblSecondaryHeader.Text = "Manage and maintain your simulator profiles"
         ' 
+        ' btnProfileSelector
+        ' 
+        btnProfileSelector.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnProfileSelector.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnProfileSelector.Location = New Point(83, 195)
+        btnProfileSelector.Name = "btnProfileSelector"
+        btnProfileSelector.Size = New Size(172, 41)
+        btnProfileSelector.TabIndex = 38
+        btnProfileSelector.Text = "Profile &Selector"
+        btnProfileSelector.UseVisualStyleBackColor = False
+        ' 
         ' FrmMain
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -109,6 +121,7 @@ Partial Class FrmMain
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnClose
         ClientSize = New Size(542, 388)
+        Controls.Add(btnProfileSelector)
         Controls.Add(lblSecondaryHeader)
         Controls.Add(lblMainHeader)
         Controls.Add(StatusStrip1)
@@ -134,5 +147,6 @@ Partial Class FrmMain
     Friend WithEvents lblStatus As ToolStripStatusLabel
     Friend WithEvents lblMainHeader As Label
     Friend WithEvents lblSecondaryHeader As Label
+    Friend WithEvents btnProfileSelector As Button
 
 End Class

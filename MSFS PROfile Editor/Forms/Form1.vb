@@ -50,19 +50,7 @@ Public Class FrmMain
         End Select
 
         'Update the application version in the title bar.
-        UpdateTitleBar()
-
-    End Sub
-
-    Private Sub UpdateTitleBar()
-
-        Dim version = Application.ProductVersion.Split("+"c)(0)
-
-        If My.Settings.MSFSVersion = "" Then
-            Me.Text = $"MSFS PROfile Editor - v{version} - Simulator: No Simulator Detected"
-        Else
-            Me.Text = $"MSFS PROfile Editor - v{version} - Simulator: {My.Settings.MSFSVersion}"
-        End If
+        TitleBarManager.Apply(Me)
 
     End Sub
 
@@ -81,6 +69,12 @@ Public Class FrmMain
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
 
         Application.Exit()
+
+    End Sub
+
+    Private Sub btnProfileSelector_Click(sender As Object, e As EventArgs) Handles btnProfileSelector.Click
+
+        MenuActionsManager.ShowModal(Me, New FrmFsProfiles())
 
     End Sub
 

@@ -173,18 +173,6 @@ Namespace My
                 Me("CurrentProfile") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property FSUIPCBatFilePath() As String
-            Get
-                Return CType(Me("FSUIPCBatFilePath"),String)
-            End Get
-            Set
-                Me("FSUIPCBatFilePath") = value
-            End Set
-        End Property
     End Class
 End Namespace
 
