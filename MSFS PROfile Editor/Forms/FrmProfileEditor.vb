@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports MSFS_PROfile_Editor.SimulatorLaunchMode
 
 Public Class FrmProfileEditor
 
@@ -57,19 +58,7 @@ Public Class FrmProfileEditor
 
         If result.InstalledCount = 0 Then
 
-            btnLaunchSimulator.Enabled = False
             btnUpdateCurrentProfile.Enabled = False
-            btnLaunchSimulator.Text = "Launch Simulator"
-
-        ElseIf SimulatorLauncher.IsRunning() Then
-
-            btnLaunchSimulator.Enabled = False
-            btnLaunchSimulator.Text = "MSFS Already Running"
-
-        Else
-
-            btnLaunchSimulator.Enabled = True
-            btnLaunchSimulator.Text = "Launch Simulator"
 
         End If
 
@@ -248,25 +237,20 @@ Public Class FrmProfileEditor
         Me.Close()
     End Sub
 
-    Private Sub btnLaunchSimulator_Click(sender As Object, e As EventArgs) Handles btnLaunchSimulator.Click
+    Private Async Sub btnFs2024Launcher_Click(sender As Object, e As EventArgs) Handles btnFs2024Launcher.Click
 
         lblStatus.Text = "Launching Microsoft Flight Simulator..."
 
-        If SimulatorLauncher.Launch() Then
+        'If Await SimulatorLauncher.LaunchAsync(LaunchMode.Normal) Then
 
+        '    Me.Close()
+
+        'End If
+
+        If Await SimulatorLauncher.LaunchAsync(LaunchMode.FSUIPC) Then
             Me.Close()
-
         End If
 
     End Sub
 
-    Private Sub btnFs2024Launcher_Click(sender As Object, e As EventArgs) Handles btnFs2024Launcher.Click
-
-        'btnFs2024Launcher.DropDownMenu = cmsFs2024Launcher
-
-    End Sub
-
-    Private Sub lblProfileEditor_Click(sender As Object, e As EventArgs) Handles lblProfileEditor.Click
-
-    End Sub
 End Class

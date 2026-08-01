@@ -44,7 +44,6 @@ Partial Class FrmProfileEditor
         lblProfilesFolderPath = New Label()
         lblProfileEditor = New Label()
         lblMsfsProfileFolder = New Label()
-        btnLaunchSimulator = New Button()
         btnFs2024Launcher = New ModernSplitButton()
         cmsLaunchSimulator = New ContextMenuStrip(components)
         ToolStripMenuItem1 = New ToolStripMenuItem()
@@ -297,29 +296,16 @@ Partial Class FrmProfileEditor
         lblMsfsProfileFolder.TabIndex = 29
         lblMsfsProfileFolder.Text = "Current Profile Folder:"
         ' 
-        ' btnLaunchSimulator
-        ' 
-        btnLaunchSimulator.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnLaunchSimulator.FlatStyle = FlatStyle.Flat
-        btnLaunchSimulator.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold)
-        btnLaunchSimulator.Location = New Point(37, 354)
-        btnLaunchSimulator.Margin = New Padding(4, 3, 4, 3)
-        btnLaunchSimulator.Name = "btnLaunchSimulator"
-        btnLaunchSimulator.Size = New Size(374, 46)
-        btnLaunchSimulator.TabIndex = 9
-        btnLaunchSimulator.Text = "&Launch Simulator"
-        btnLaunchSimulator.UseVisualStyleBackColor = False
-        ' 
         ' btnFs2024Launcher
         ' 
         btnFs2024Launcher.DropDownMenu = cmsLaunchSimulator
         btnFs2024Launcher.FlatStyle = FlatStyle.Flat
-        btnFs2024Launcher.Location = New Point(511, 140)
+        btnFs2024Launcher.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnFs2024Launcher.Location = New Point(37, 352)
         btnFs2024Launcher.Name = "btnFs2024Launcher"
-        btnFs2024Launcher.Size = New Size(365, 48)
+        btnFs2024Launcher.Size = New Size(374, 48)
         btnFs2024Launcher.TabIndex = 31
-        btnFs2024Launcher.Text = "Launch Simulator via FSUIPC"
-        btnFs2024Launcher.TextAlign = ContentAlignment.MiddleLeft
+        btnFs2024Launcher.Text = "Launc&h Simulator"
         btnFs2024Launcher.UseVisualStyleBackColor = True
         ' 
         ' cmsLaunchSimulator
@@ -348,7 +334,6 @@ Partial Class FrmProfileEditor
         CancelButton = btnClose
         ClientSize = New Size(910, 447)
         Controls.Add(btnFs2024Launcher)
-        Controls.Add(btnLaunchSimulator)
         Controls.Add(lblMsfsProfileFolder)
         Controls.Add(lblProfileEditor)
         Controls.Add(lblSourceFileCaption)
@@ -402,7 +387,6 @@ Partial Class FrmProfileEditor
     Friend WithEvents lblProfilesFolderPath As Label
     Friend WithEvents lblProfileEditor As Label
     Friend WithEvents lblMsfsProfileFolder As Label
-    Friend WithEvents btnLaunchSimulator As Button
     Friend WithEvents lblStatusCenter As ToolStripStatusLabel
     Friend WithEvents lblInfoRight As ToolStripStatusLabel
     Friend WithEvents btnFs2024Launcher As ModernSplitButton

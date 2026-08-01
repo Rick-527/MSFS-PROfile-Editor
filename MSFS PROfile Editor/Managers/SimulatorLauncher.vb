@@ -1,11 +1,12 @@
 ﻿Imports System.Diagnostics
+Imports MSFS_PROfile_Editor.SimulatorLaunchMode
 
 Public Class SimulatorLauncher
 
-    Public Shared Function Launch() As Boolean
+    Public Shared Async Function LaunchAsync(
+            mode As LaunchMode) As Task(Of Boolean)
 
         Dim result = SimulatorDetector.DetectSimulator()
-        Dim launched As Boolean = False
 
         If Not result.SteamInstalled AndAlso Not result.StoreInstalled Then
 
@@ -19,25 +20,77 @@ Public Class SimulatorLauncher
 
         End If
 
-        If result.SteamInstalled AndAlso Not result.StoreInstalled Then
+        Select Case mode
 
-            launched = LaunchSteam()
+            Case LaunchMode.Normal
 
-        ElseIf result.StoreInstalled AndAlso Not result.SteamInstalled Then
+                If Not LaunchNormally(result) Then
+                    Return False
+                End If
 
-            launched = LaunchStore()
+            Case LaunchMode.FSUIPC
 
-        Else
+                If Not LaunchViaFsuipc() Then
+                    Return False
+                End If
 
-            launched = LaunchSelectedSimulator()
+            Case Else
 
-        End If
+                Throw New NotSupportedException($"Launch mode '{mode}' is not supported.")
 
-        Return launched
+        End Select
+
+        Return Await WaitForSimulatorAsync()
 
     End Function
 
-    Public Shared Sub WaitForSimulator()
+    Private Shared Function LaunchNormally(
+    result As SimulatorDetectionResult) As Boolean
+
+        Try
+
+            If result.SteamInstalled Then
+
+                Process.Start(New ProcessStartInfo(
+                "steam://rungameid/2537590") With {
+                .UseShellExecute = True
+            })
+
+            Else
+
+                Process.Start(New ProcessStartInfo(
+                "shell:AppsFolder\Microsoft.Limitless_8wekyb3d8bbwe!App") With {
+                .UseShellExecute = True
+            })
+
+            End If
+
+            Return True
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+            "Unable to launch Microsoft Flight Simulator." &
+            Environment.NewLine &
+            Environment.NewLine &
+            ex.Message,
+            "Launch Simulator",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error)
+
+            Return False
+
+        End Try
+
+    End Function
+
+    Private Shared Function LaunchViaFsuipc() As Boolean
+
+        Return FsuipcManager.Launch()
+
+    End Function
+
+    Public Shared Async Function WaitForSimulatorAsync() As Task(Of Boolean)
 
         Const MaxSeconds As Integer = 60
 
@@ -45,112 +98,19 @@ Public Class SimulatorLauncher
 
             Dim running = IsRunning()
 
-            Debug.WriteLine($"Second {i}: Running = {running}")
-
             If running Then
 
-                Debug.WriteLine("Simulator detected!")
+                Await Task.Delay(5000)
 
-                Threading.Thread.Sleep(5000)
-
-                Exit Sub
+                Return True
 
             End If
 
-            Threading.Thread.Sleep(1000)
+            Await Task.Delay(1000)
 
         Next
 
-        Debug.WriteLine("Timed out waiting.")
-
-    End Sub
-
-    Private Shared Function LaunchSelectedSimulator() As Boolean
-
-        Dim response = MessageBox.Show(
-        "Both Microsoft Flight Simulator versions were detected." &
-        Environment.NewLine &
-        Environment.NewLine &
-        "Yes = Launch Microsoft Store" &
-        Environment.NewLine &
-        "No = Launch Steam" &
-        Environment.NewLine &
-        "Cancel = Cancel",
-        "Launch Simulator",
-        MessageBoxButtons.YesNoCancel,
-        MessageBoxIcon.Question)
-
-        Select Case response
-
-            Case DialogResult.Yes
-                Return LaunchStore()
-
-            Case DialogResult.No
-                Return LaunchSteam()
-
-            Case Else
-                Return False
-
-        End Select
-
-    End Function
-
-    Private Shared Function LaunchSteam() As Boolean
-
-        Try
-
-            Dim psi As New ProcessStartInfo()
-
-            psi.FileName = "steam://rungameid/2537590"
-            psi.UseShellExecute = True
-
-            Process.Start(psi)
-
-            Return True
-
-        Catch ex As Exception
-
-            MessageBox.Show(
-            "Unable to launch Microsoft Flight Simulator (Steam)." &
-            Environment.NewLine &
-            Environment.NewLine &
-            ex.Message,
-            "Launch Simulator",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error)
-
-            Return False
-
-        End Try
-
-    End Function
-
-    Private Shared Function LaunchStore() As Boolean
-
-        Try
-
-            Dim psi As New ProcessStartInfo()
-
-            psi.FileName = "explorer.exe"
-            psi.Arguments = "shell:AppsFolder\Microsoft.Limitless_8wekyb3d8bbwe!App"
-            psi.UseShellExecute = True
-
-            Process.Start(psi)
-
-            Return True
-
-        Catch ex As Exception
-            MessageBox.Show(
-            "Unable to launch Microsoft Flight Simulator (Microsoft Store)." &
-            Environment.NewLine &
-            Environment.NewLine &
-            ex.Message,
-            "Launch Simulator",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error)
-            Return False
-
-        End Try
+        Return False
 
     End Function
 
@@ -159,5 +119,6 @@ Public Class SimulatorLauncher
         Return Process.GetProcessesByName("FlightSimulator2024").Any()
 
     End Function
+
 
 End Class

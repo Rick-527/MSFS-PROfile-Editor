@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Diagnostics
 Imports Microsoft.Win32
 
 Public Class FsuipcManager
@@ -53,28 +54,65 @@ Public Class FsuipcManager
 
     Public Shared Function GetLauncherPath() As String
 
-        Return Directory.Exists(GetInstallFolder())
+        Dim installFolder = GetInstallFolder()
+
+        If String.IsNullOrWhiteSpace(installFolder) Then
+
+            Return String.Empty
+
+        End If
+
+        Dim launcherPath = Path.Combine(installFolder, "MSFS24.bat")
+
+        If File.Exists(launcherPath) Then
+
+            Return launcherPath
+
+        End If
+
+        Return String.Empty
 
     End Function
 
     Public Shared Function Launch() As Boolean
 
-        Return False
+        Dim launcherPath = GetLauncherPath()
+
+        If String.IsNullOrWhiteSpace(launcherPath) Then
+
+            MessageBox.Show(
+            "The FSUIPC launcher (MSFS2024.bat) could not be found.",
+            "Launch via FSUIPC",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error)
+
+            Return False
+
+        End If
+
+        Try
+
+            Process.Start(New ProcessStartInfo(launcherPath) With {
+            .UseShellExecute = True
+        })
+
+            Return True
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+            "Unable to launch FSUIPC." &
+            Environment.NewLine &
+            Environment.NewLine &
+            ex.Message,
+            "Launch via FSUIPC",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error)
+
+            Return False
+
+        End Try
 
     End Function
-
-    '*****************************************
-    ' code that goes to future button on FrmMaintenance - just a placeholder in this file for now, will be moved and implemented in future release
-
-    'If FSUIPCManager.IsInstalled() Then
-
-    'FSUIPCManager.Launch()
-
-    'Else
-
-    'LaunchSimulatorNormally()
-
-    'End If
-    '*****************************************
 
 End Class
