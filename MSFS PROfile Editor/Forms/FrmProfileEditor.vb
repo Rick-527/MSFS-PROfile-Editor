@@ -52,40 +52,18 @@ Public Class FrmProfileEditor
 
     End Sub
 
-    Private Sub UpdateLaunchButton()
+    Private Sub UpdateProfileButtons()
 
         Dim result = SimulatorDetector.DetectSimulator()
 
-        If result.InstalledCount = 0 Then
-
-            btnUpdateCurrentProfile.Enabled = False
-
-        End If
+        btnUpdateCurrentProfile.Enabled = (result.InstalledCount > 0)
 
     End Sub
 
     Private Sub FrmProfileEditor_Activated(sender As Object, e As EventArgs) Handles MyBase.Activated
 
-        UpdateLaunchButton()
+        UpdateProfileButtons()
 
-    End Sub
-
-    Private Sub LoadFileNameInTextbox(destinationFileName As String, destinationFilePath As TextBox, destinationFilePathLabel As Label)
-
-        ' reload the last file name and path in the textbox and label
-        If Not String.IsNullOrWhiteSpace(My.Settings.LastFile1Path) Then
-            ' Only load it if the file still actually exists on the hard drive
-            If File.Exists(My.Settings.LastFile1Path) Then
-                destinationFileName = My.Settings.LastFile1Name
-                destinationFilePath.Tag = My.Settings.LastFile1Path
-                destinationFilePathLabel.Text = My.Settings.LastFile1Path
-            Else
-                ' Wipe settings if the file was deleted or moved while the app was closed
-                My.Settings.LastFile1Path = ""
-                My.Settings.LastFile1Name = ""
-                My.Settings.Save()
-            End If
-        End If
     End Sub
 
     Private Sub RefreshProfileInformation()
@@ -119,7 +97,6 @@ Public Class FrmProfileEditor
 
         End Select
 
-        lblProfilesFolderPath.Text = Path.GetFileName(My.Settings.ProfileFolder)
         lblInfoRight.Text = "Latest Profile installed: " & My.Settings.CurrentProfile
 
     End Sub
@@ -241,14 +218,50 @@ Public Class FrmProfileEditor
 
         lblStatus.Text = "Launching Microsoft Flight Simulator..."
 
-        'If Await SimulatorLauncher.LaunchAsync(LaunchMode.Normal) Then
+        If Await SimulatorLauncher.LaunchAsync(LaunchMode.Normal) Then
 
-        '    Me.Close()
+            CloseApplication()
 
-        'End If
+        End If
+
+    End Sub
+
+    Private Sub CloseApplication()
+
+        Dim mainForm = Application.OpenForms.OfType(Of FrmMain).FirstOrDefault()
+
+        If mainForm IsNot Nothing Then
+
+            mainForm.Close()
+
+        Else
+
+            Me.Close()
+
+        End If
+
+    End Sub
+
+    Private Async Sub mnuLaunchFsuipc_Click(sender As Object, e As EventArgs) Handles mnuLaunchFsuipc.Click
+
+        lblStatus.Text = "Launching Microsoft Flight Simulator..."
 
         If Await SimulatorLauncher.LaunchAsync(LaunchMode.FSUIPC) Then
-            Me.Close()
+
+            CloseApplication()
+
+        End If
+
+    End Sub
+
+    Private Async Sub mnuLaunchNormal_Click(sender As Object, e As EventArgs) Handles mnuLaunchNormal.Click
+
+        lblStatus.Text = "Launching Microsoft Flight Simulator via Normal Mode..."
+
+        If Await SimulatorLauncher.LaunchAsync(LaunchMode.Normal) Then
+
+            CloseApplication()
+
         End If
 
     End Sub

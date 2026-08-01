@@ -46,8 +46,8 @@ Partial Class FrmProfileEditor
         lblMsfsProfileFolder = New Label()
         btnFs2024Launcher = New ModernSplitButton()
         cmsLaunchSimulator = New ContextMenuStrip(components)
-        ToolStripMenuItem1 = New ToolStripMenuItem()
-        LaunchViaFSUIPCToolStripMenuItem = New ToolStripMenuItem()
+        mnuLaunchNormal = New ToolStripMenuItem()
+        mnuLaunchFsuipc = New ToolStripMenuItem()
         StatusStrip1.SuspendLayout()
         cmsLaunchSimulator.SuspendLayout()
         SuspendLayout()
@@ -237,7 +237,7 @@ Partial Class FrmProfileEditor
         ' StatusStrip1
         ' 
         StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus, lblStatusCenter, lblInfoRight})
-        StatusStrip1.Location = New Point(0, 425)
+        StatusStrip1.Location = New Point(0, 430)
         StatusStrip1.Name = "StatusStrip1"
         StatusStrip1.Size = New Size(910, 22)
         StatusStrip1.TabIndex = 23
@@ -310,21 +310,24 @@ Partial Class FrmProfileEditor
         ' 
         ' cmsLaunchSimulator
         ' 
-        cmsLaunchSimulator.Items.AddRange(New ToolStripItem() {ToolStripMenuItem1})
+        cmsLaunchSimulator.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        cmsLaunchSimulator.Items.AddRange(New ToolStripItem() {mnuLaunchNormal, mnuLaunchFsuipc})
         cmsLaunchSimulator.Name = "cmsLaunchSimulator"
-        cmsLaunchSimulator.Size = New Size(236, 26)
+        cmsLaunchSimulator.Size = New Size(260, 48)
         ' 
-        ' ToolStripMenuItem1
+        ' mnuLaunchNormal
         ' 
-        ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        ToolStripMenuItem1.Size = New Size(235, 22)
-        ToolStripMenuItem1.Text = "Launch Simulator - No FSUIPC"
+        mnuLaunchNormal.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        mnuLaunchNormal.Name = "mnuLaunchNormal"
+        mnuLaunchNormal.Size = New Size(259, 22)
+        mnuLaunchNormal.Text = "Launch &Flight Simulator"
+        mnuLaunchNormal.TextAlign = ContentAlignment.MiddleLeft
         ' 
-        ' LaunchViaFSUIPCToolStripMenuItem
+        ' mnuLaunchFsuipc
         ' 
-        LaunchViaFSUIPCToolStripMenuItem.Name = "LaunchViaFSUIPCToolStripMenuItem"
-        LaunchViaFSUIPCToolStripMenuItem.Size = New Size(235, 22)
-        LaunchViaFSUIPCToolStripMenuItem.Text = "Launch Simulator via FSUIPC"
+        mnuLaunchFsuipc.Name = "mnuLaunchFsuipc"
+        mnuLaunchFsuipc.Size = New Size(259, 22)
+        mnuLaunchFsuipc.Text = "Launch Flight &Simulator via FSUIPC"
         ' 
         ' FrmProfileEditor
         ' 
@@ -332,7 +335,7 @@ Partial Class FrmProfileEditor
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnClose
-        ClientSize = New Size(910, 447)
+        ClientSize = New Size(910, 452)
         Controls.Add(btnFs2024Launcher)
         Controls.Add(lblMsfsProfileFolder)
         Controls.Add(lblProfileEditor)
@@ -360,7 +363,7 @@ Partial Class FrmProfileEditor
         Name = "FrmProfileEditor"
         ShowInTaskbar = False
         StartPosition = FormStartPosition.CenterParent
-        Text = "MSFS PROfile Editor -Profile Editor"
+        Text = "MSFS PROfile Editor - Profile Editor"
         StatusStrip1.ResumeLayout(False)
         StatusStrip1.PerformLayout()
         cmsLaunchSimulator.ResumeLayout(False)
@@ -391,6 +394,6 @@ Partial Class FrmProfileEditor
     Friend WithEvents lblInfoRight As ToolStripStatusLabel
     Friend WithEvents btnFs2024Launcher As ModernSplitButton
     Friend WithEvents cmsLaunchSimulator As ContextMenuStrip
-    Friend WithEvents ToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents LaunchViaFSUIPCToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents mnuLaunchNormal As ToolStripMenuItem
+    Friend WithEvents mnuLaunchFsuipc As ToolStripMenuItem
 End Class

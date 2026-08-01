@@ -10,7 +10,7 @@ Imports System.Windows.Forms
 Public Class ModernSplitButton
     Inherits Button
 
-    Private Const HoverMaxAlpha As Integer = 35
+    Private Const HoverMaxAlpha As Integer = 75
     Private Const HoverAnimationStep As Integer = 5
     Private Const HoverAnimationInterval As Integer = 15
 
@@ -24,7 +24,7 @@ Public Class ModernSplitButton
     Private _isArrowHovered As Boolean
     Private _isArrowPressed As Boolean
 
-    Private _splitWidth As Integer = 18
+    Private _splitWidth As Integer = 22
     Private _arrowColor As Color = Color.Black
     Private _splitHoverColor As Color = Color.Gainsboro
     Private _showSplit As Boolean = True
@@ -36,7 +36,7 @@ Public Class ModernSplitButton
     Public Sub New()
 
         FlatStyle = FlatStyle.Flat
-        TextAlign = ContentAlignment.MiddleLeft
+        TextAlign = ContentAlignment.MiddleCenter
 
         _animationTimer = New Timer()
 
@@ -51,7 +51,7 @@ Public Class ModernSplitButton
 
     <Category("Appearance")>
     <Description("Gets or sets the width of the dropdown section in pixels.")>
-    <DefaultValue(18)>
+    <DefaultValue(22)>
     Public Property SplitWidth As Integer
         Get
             Return _splitWidth
@@ -211,7 +211,7 @@ Public Class ModernSplitButton
 
         If _isArrowPressed Then
 
-            Using pressedBrush As New SolidBrush(Color.FromArgb(60, Color.Black))
+            Using pressedBrush As New SolidBrush(Color.FromArgb(100, Color.Black))
                 e.Graphics.FillRectangle(pressedBrush, splitRect)
             End Using
 
@@ -229,16 +229,16 @@ Public Class ModernSplitButton
 
         Dim arrowPoints As Point() =
         {
-            New Point(center.X - 4, center.Y - 2),
-            New Point(center.X + 4, center.Y - 2),
-            New Point(center.X, center.Y + 3)
+            New Point(center.X - 5, center.Y - 2),
+            New Point(center.X + 5, center.Y - 2),
+            New Point(center.X, center.Y + 4)
         }
 
-        Using Brush As New SolidBrush(_arrowColor)
-            e.Graphics.FillPolygon(Brush, arrowPoints)
+        Using brush As New SolidBrush(_arrowColor)
+            e.Graphics.FillPolygon(brush, arrowPoints)
         End Using
 
-        Using pen As New Pen(Color.FromArgb(100, Color.White))
+        Using pen As New Pen(Color.FromArgb(60, Color.White))
             e.Graphics.DrawLine(
             pen,
             splitRect.Left,
@@ -337,17 +337,32 @@ Public Class ModernSplitButton
 
     Protected Overrides Sub OnKeyDown(e As KeyEventArgs)
 
-        MyBase.OnKeyDown(e)
-
         If _showSplit AndAlso
            e.Alt AndAlso
            e.KeyCode = Keys.Down Then
 
             ShowDropDownMenu()
-
             e.Handled = True
+            Return
 
         End If
+
+        MyBase.OnKeyDown(e)
+
+    End Sub
+
+    Protected Overrides Sub Dispose(disposing As Boolean)
+
+        If disposing Then
+
+            If _animationTimer IsNot Nothing Then
+                _animationTimer.Stop()
+                _animationTimer.Dispose()
+            End If
+
+        End If
+
+        MyBase.Dispose(disposing)
 
     End Sub
 
