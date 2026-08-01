@@ -21,6 +21,27 @@ Public Class ProfileManager
 
     End Function
 
+    'Private Sub LoadProfileButtons()
+
+    '    pnlProfiles.Controls.Clear()
+
+    '    For Each profile In _profileManager.GetProfiles()
+
+    '        Dim btn As New ModernSplitButton()
+
+    '        btn.Text = profile.Name
+    '        btn.Tag = profile
+
+    '        AddHandler btn.Click, AddressOf ProfileButton_Click
+
+    '        btn.DropDownMenu = CreateProfileMenu(profile)
+
+    '        pnlProfiles.Controls.Add(btn)
+
+    '    Next
+
+    'End Sub
+
     Private Function BackupName(path As String) As String
         Return $"{path}.bak"
     End Function
@@ -109,8 +130,10 @@ Public Class ProfileManager
 
         Using sfd As New SaveFileDialog
             sfd.Title = "Save Profile to New Destination"
-            sfd.Filter = "opt Files (.opt)|*.opt"
-            sfd.FileName = Path.GetFileName(file1FullPath)
+            sfd.Filter = "Profile Files (*.profx)|*.profx"
+            sfd.DefaultExt = "profx"
+            sfd.AddExtension = True
+            sfd.FileName = Path.GetFileNameWithoutExtension(file1FullPath)
 
             If Not String.IsNullOrWhiteSpace(My.Settings.ProfileFolder) Then
                 sfd.InitialDirectory = My.Settings.ProfileFolder
@@ -134,6 +157,16 @@ Public Class ProfileManager
         End Using
 
         Return False
+
+    End Function
+
+    Public Function GetProfiles() As List(Of ProfileInfo)
+
+        Dim profiles As New List(Of ProfileInfo)
+
+        ' We'll write this together next.
+
+        Return profiles
 
     End Function
 

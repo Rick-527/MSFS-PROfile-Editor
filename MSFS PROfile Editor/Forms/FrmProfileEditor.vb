@@ -163,8 +163,8 @@ Public Class FrmProfileEditor
 
         Using ofd2 As New OpenFileDialog
 
-            ofd2.Title = "Select Your Stored Profile (Source of New Data)"
-            ofd2.Filter = "OPT Files (*.opt)|*.opt|Text Files (*.txt)|*.txt"
+            ofd2.Title = "Select Your Stored Profile (.profx file)"
+            ofd2.Filter = "Profile Files (*.profx)|*.profx"
 
             If Directory.Exists(My.Settings.ProfileFolder) Then
                 ofd2.InitialDirectory = My.Settings.ProfileFolder
