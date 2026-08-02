@@ -293,4 +293,50 @@ Public Class SimulatorFilesManager
 
     End Function
 
+    Public Shared Function IsSimulatorConfigFolder(
+    folderPath As String
+) As Boolean
+
+        If String.IsNullOrWhiteSpace(folderPath) Then
+            Return False
+        End If
+
+        Dim simulatorConfigFolder = GetSimulatorConfigFolder()
+
+        If String.IsNullOrWhiteSpace(simulatorConfigFolder) Then
+            Return False
+        End If
+
+        Dim normalizedSelectedFolder =
+        Path.GetFullPath(folderPath).
+        TrimEnd(
+            Path.DirectorySeparatorChar,
+            Path.AltDirectorySeparatorChar)
+
+        Dim normalizedConfigFolder =
+        Path.GetFullPath(simulatorConfigFolder).
+        TrimEnd(
+            Path.DirectorySeparatorChar,
+            Path.AltDirectorySeparatorChar)
+
+        Return String.Equals(
+        normalizedSelectedFolder,
+        normalizedConfigFolder,
+        StringComparison.OrdinalIgnoreCase)
+
+    End Function
+
+    Public Shared Function FolderContainsUserCfg(
+    folderPath As String
+) As Boolean
+
+        If String.IsNullOrWhiteSpace(folderPath) Then
+            Return False
+        End If
+
+        Return File.Exists(
+        Path.Combine(folderPath, "UserCfg.opt"))
+
+    End Function
+
 End Class

@@ -54,12 +54,6 @@ Public Class FrmMain
 
     End Sub
 
-    Private Sub btnProfileEditor_Click(sender As Object, e As EventArgs) Handles btnProfileEditor.Click
-
-        MenuActionsManager.ShowModal(Me, New FrmProfileEditor())
-
-    End Sub
-
     Private Sub btnMaintenance_Click(sender As Object, e As EventArgs) Handles btnMaintenance.Click
 
         MenuActionsManager.ShowModal(Me, New FrmMaintenance())

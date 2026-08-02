@@ -24,7 +24,6 @@ Partial Class FrmMain
     Private Sub InitializeComponent()
         btnClose = New Button()
         btnMaintenance = New Button()
-        btnProfileEditor = New Button()
         StatusStrip1 = New StatusStrip()
         lblStatus = New ToolStripStatusLabel()
         lblMainHeader = New Label()
@@ -55,17 +54,6 @@ Partial Class FrmMain
         btnMaintenance.TabIndex = 14
         btnMaintenance.Text = "MSFS File Maintenance"
         btnMaintenance.UseVisualStyleBackColor = False
-        ' 
-        ' btnProfileEditor
-        ' 
-        btnProfileEditor.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnProfileEditor.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnProfileEditor.Location = New Point(83, 130)
-        btnProfileEditor.Name = "btnProfileEditor"
-        btnProfileEditor.Size = New Size(172, 41)
-        btnProfileEditor.TabIndex = 34
-        btnProfileEditor.Text = "Profile Editor"
-        btnProfileEditor.UseVisualStyleBackColor = False
         ' 
         ' StatusStrip1
         ' 
@@ -107,7 +95,7 @@ Partial Class FrmMain
         ' 
         btnProfileSelector.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnProfileSelector.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnProfileSelector.Location = New Point(83, 195)
+        btnProfileSelector.Location = New Point(86, 130)
         btnProfileSelector.Name = "btnProfileSelector"
         btnProfileSelector.Size = New Size(172, 41)
         btnProfileSelector.TabIndex = 38
@@ -125,7 +113,6 @@ Partial Class FrmMain
         Controls.Add(lblSecondaryHeader)
         Controls.Add(lblMainHeader)
         Controls.Add(StatusStrip1)
-        Controls.Add(btnProfileEditor)
         Controls.Add(btnMaintenance)
         Controls.Add(btnClose)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
@@ -142,7 +129,6 @@ Partial Class FrmMain
     End Sub
     Friend WithEvents btnClose As Button
     Friend WithEvents btnMaintenance As Button
-    Friend WithEvents btnProfileEditor As Button
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents lblStatus As ToolStripStatusLabel
     Friend WithEvents lblMainHeader As Label

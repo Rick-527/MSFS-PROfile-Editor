@@ -69,30 +69,6 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property LastFile1Path() As String
-            Get
-                Return CType(Me("LastFile1Path"),String)
-            End Get
-            Set
-                Me("LastFile1Path") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property LastFile1Name() As String
-            Get
-                Return CType(Me("LastFile1Name"),String)
-            End Get
-            Set
-                Me("LastFile1Name") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
         Public Property ProfileFolder() As String
             Get
                 Return CType(Me("ProfileFolder"),String)
