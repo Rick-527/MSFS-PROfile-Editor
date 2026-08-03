@@ -3,9 +3,7 @@ Imports MSFS_PROfile_Editor.SimulatorLaunchMode
 
 Public Class FrmFsProfiles
 
-    Private Const MaximumProfileCount As Integer = 20
     Private Const ProfilesPerGroup As Integer = 5
-    'Private Const ProfileButtonWidth As Integer = 240
     Private Const ProfileButtonHeight As Integer = 38
 
     Private ReadOnly _profileManager As New ProfileManager()
@@ -27,21 +25,12 @@ Public Class FrmFsProfiles
         pnlHeader.BackColor = Color.Transparent
         pnlFooter.BackColor = Color.Transparent
 
-        lblPageTitle.AutoSize = False
-        lblPageTitle.Dock = DockStyle.Top
-        lblPageTitle.Height = 40
-        lblPageTitle.TextAlign = ContentAlignment.MiddleCenter
-        lblPageTitle.ForeColor = Color.White
-        lblPageTitle.Font = New Font("Segoe UI", 18, FontStyle.Bold)
-        lblPageTitle.Text = "MSFS PROfile Selector"
-
-        lblPageDescription.AutoSize = False
-        lblPageDescription.Dock = DockStyle.Top
-        lblPageDescription.Height = 25
-        lblPageDescription.TextAlign = ContentAlignment.MiddleCenter
-        lblPageDescription.ForeColor = Color.LightGray
-        lblPageDescription.Font = New Font("Segoe UI", 10)
-        lblPageDescription.Text = "Select a saved profile to apply, or use the menu to edit it"
+        PageTitleManager.Apply(
+            lblPageTitle,
+            lblPageDescription,
+            "MSFS PROfile Selector",
+            "Select a saved profile to apply, or use the menu to edit it"
+            )
 
         btnSimLauncher2024.Width = 350
         btnSimLauncher2024.Height = 38
@@ -85,16 +74,12 @@ Public Class FrmFsProfiles
 
         Try
 
-            flpProfiles.Controls.Clear()
+            ClearProfileControls()
 
             _activeProfileButton = Nothing
             lblStatus.Text = "No Profile Selected"
 
-            Dim profiles =
-                _profileManager.
-                GetProfiles().
-                Take(MaximumProfileCount).
-                ToList()
+            Dim profiles = _profileManager.GetProfiles()
 
             UpdateProfileCount(profiles.Count)
 
@@ -112,23 +97,31 @@ Public Class FrmFsProfiles
 
             Const columnSpacing As Integer = 16
 
+            Dim maximumGroupCount =
+                CInt(
+                    Math.Ceiling(
+                        ApplicationConstants.MaximumProfileCount /
+                        CDbl(ProfilesPerGroup)
+                    )
+                )
+
             Dim profileButtonWidth =
             Math.Max(
                 150,
-                (availableWidth \ 4) - columnSpacing)
+                (availableWidth \ maximumGroupCount) - columnSpacing)
 
             Dim profileLayout As New TableLayoutPanel With {
                 .Name = "tblProfileGroups",
                 .AutoSize = True,
                 .AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                .ColumnCount = 4,
+                .ColumnCount = maximumGroupCount,
                 .RowCount = 1,
                 .Margin = New Padding(0),
                 .Padding = New Padding(0),
                 .BackColor = Color.Transparent
             }
 
-            For columnNumber = 0 To 3
+            For columnNumber = 0 To maximumGroupCount - 1
 
                 profileLayout.ColumnStyles.Add(
                     New ColumnStyle(SizeType.AutoSize))
@@ -197,10 +190,9 @@ Public Class FrmFsProfiles
 
     End Sub
 
-    Private Function CreateProfileButton(profileInfo As ProfileInfo, buttonWidth As Integer)
+    Private Function CreateProfileButton(profileInfo As ProfileInfo, buttonWidth As Integer) As ModernSplitButton
 
         Dim btn As New ModernSplitButton()
-        'Dim profileButton = CreateProfileButton(profileInfo, profileButtonWidth)
 
         btn.Text = profileInfo.DisplayProfileName
         btn.Width = buttonWidth
@@ -224,6 +216,8 @@ Public Class FrmFsProfiles
         btn.Margin =
         New Padding(0, 0, 0, 8)
 
+        btn.TabStop = False
+
         btn.Tag = profileInfo
 
         If _currentProfileManager.
@@ -231,8 +225,7 @@ Public Class FrmFsProfiles
 
             HighlightProfileButton(btn)
 
-            lblStatus.Text =
-            $"Active profile: {profileInfo.DisplayProfileName}"
+            lblStatus.Text = $"Active profile: {profileInfo.DisplayProfileName}"
 
         End If
 
@@ -286,12 +279,28 @@ Public Class FrmFsProfiles
 
     Private Sub UpdateProfileCount(profileCount As Integer)
 
-        lblProfileCount.Text =
-        $"{profileCount} of {MaximumProfileCount} profiles stored"
+        If _profileManager.StoredProfileCount > ApplicationConstants.MaximumProfileCount Then
+
+            lblStatusCenter.Text =
+                $"Showing the {ApplicationConstants.MaximumProfileCount} most recently added profiles " &
+                $"of {_profileManager.StoredProfileCount} stored. Select Manage Profiles to view all profiles."
+
+        Else
+
+            Dim storedCount = _profileManager.StoredProfileCount
+
+            Dim profileText =
+                If(storedCount = 1, "profile", "profiles")
+
+            lblStatusCenter.Text =
+                $"{storedCount} {profileText} stored"
+
+        End If
 
         Dim profileFolder = My.Settings.ProfileFolder
 
-        Dim legacyProfileCount As Integer = 0
+        Dim legacyProfileCount =
+            _profileManager.GetLegacyProfileCount()
 
         If Not String.IsNullOrWhiteSpace(profileFolder) AndAlso
        Directory.Exists(profileFolder) Then
@@ -314,40 +323,7 @@ Public Class FrmFsProfiles
 
         End If
 
-        btnMigrateProfiles.Enabled =
-            profileCount < MaximumProfileCount AndAlso
-            legacyProfileCount > 0
-
-    End Sub
-
-    Private Sub ResizeProfileForm(profileCount As Integer)
-
-        Dim visibleButtonCount =
-        Math.Min(profileCount, ProfilesPerGroup)
-
-        If visibleButtonCount = 0 Then
-            visibleButtonCount = 1
-        End If
-
-        Dim buttonSlotHeight =
-        ProfileButtonHeight + 8
-
-        Dim profileContentHeight =
-        visibleButtonCount * buttonSlotHeight + 30
-
-        Dim chromeHeight =
-        pnlHeader.Height +
-        pnlFooter.Height
-
-        flpProfiles.Dock = DockStyle.Fill
-        flpProfiles.AutoScroll = True
-        flpProfiles.Padding = New Padding(8)
-
-        Me.ClientSize =
-            New Size(
-            1240,
-            chromeHeight + profileContentHeight
-        )
+        btnMigrateProfiles.Enabled = legacyProfileCount > 0
 
     End Sub
 
@@ -415,11 +391,26 @@ Public Class FrmFsProfiles
 
     Private Async Function LaunchSimulator(mode As LaunchMode) As Task
 
-        lblStatus.Text = "Launching Microsoft Flight Simulator..."
+        btnSimLauncher2024.Enabled = False
 
-        If Await SimulatorLauncher.LaunchAsync(mode) Then
-            CloseApplication()
-        End If
+        Try
+
+            lblStatus.Text = "Launching Microsoft Flight Simulator..."
+
+            If Await SimulatorLauncher.LaunchAsync(mode) Then
+
+                CloseApplication()
+                Return
+
+            End If
+
+            lblStatus.Text = "Microsoft Flight Simulator could not be launched."
+
+        Finally
+
+            btnSimLauncher2024.Enabled = True
+
+        End Try
 
     End Function
 
@@ -428,14 +419,29 @@ Public Class FrmFsProfiles
         Await LaunchSimulator(LaunchMode.Normal)
 
     End Sub
+
     Private Async Sub mnuLaunchNormal_Click(sender As Object, e As EventArgs) Handles mnuLaunchNormal.Click
 
         Await LaunchSimulator(LaunchMode.Normal)
 
     End Sub
+
     Private Async Sub mnuLaunchFsuipc_Click(sender As Object, e As EventArgs) Handles mnuLaunchFsuipc.Click
 
         Await LaunchSimulator(LaunchMode.FSUIPC)
+
+    End Sub
+
+    Private Sub ClearProfileControls()
+
+        While flpProfiles.Controls.Count > 0
+
+            Dim control = flpProfiles.Controls(0)
+
+            flpProfiles.Controls.RemoveAt(0)
+            control.Dispose()
+
+        End While
 
     End Sub
 
@@ -466,17 +472,8 @@ Public Class FrmFsProfiles
             Exit Sub
 
         End If
-
         Dim legacyProfileCount =
-            Directory.GetFiles(profileFolder, "*.opt", SearchOption.TopDirectoryOnly).
-                Count(
-                    Function(filePath)
-                        Return Not String.Equals(
-                            Path.GetFileName(filePath),
-                            "UserCfg.opt",
-                            StringComparison.OrdinalIgnoreCase)
-                    End Function
-                    )
+            _profileManager.GetLegacyProfileCount()
 
         If legacyProfileCount = 0 Then
 
@@ -554,7 +551,7 @@ Public Class FrmFsProfiles
             Dim selectedFolder = dlg.SelectedPath
 
             If SimulatorFilesManager.IsSimulatorConfigFolder(selectedFolder) OrElse
-                            SimulatorFilesManager.FolderContainsUserCfg(selectedFolder) Then
+                SimulatorFilesManager.FolderContainsUserCfg(selectedFolder) Then
 
                 MessageBox.Show(
                     "This folder contains the active Microsoft Flight Simulator configuration file, UserCfg.opt." &
@@ -586,6 +583,124 @@ Public Class FrmFsProfiles
 
     End Sub
 
+    Private Sub btnCreateNewProfile_Click(sender As Object, e As EventArgs) Handles btnCreateNewProfile.Click
+
+        Using dlg As New FrmNewSimulatorProfile
+
+            If dlg.ShowDialog(Me) <> DialogResult.OK Then
+                Return
+            End If
+
+            Try
+
+                Dim createdProfile = _profileManager.CreateProfile(dlg.ProfileName)
+
+                LoadUserProfiles()
+
+                MessageBox.Show(
+                    $"The profile ""{Path.GetFileNameWithoutExtension(createdProfile)}"" was created successfully.",
+                    "Profile Created",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                )
+
+            Catch ex As ArgumentException
+
+                MessageBox.Show(
+                    ex.Message,
+                    "Invalid Profile Name",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                )
+
+            Catch ex As IOException
+
+                MessageBox.Show(
+                    ex.Message,
+                    "Profile Not Created",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                )
+
+            Catch ex As UnauthorizedAccessException
+
+                MessageBox.Show(
+                    "The profile could not be created because access to the selected folder was denied.",
+                    "Profile Not Created",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                )
+
+            Catch ex As Exception
+
+                MessageBox.Show(
+                    $"The profile could not be created.{Environment.NewLine}{Environment.NewLine}{ex.Message}",
+                    "Profile Not Created",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                )
+
+            End Try
+
+        End Using
+
+    End Sub
+
+    Private Sub btnManageProfiles_Click(sender As Object, e As EventArgs) Handles btnManageProfiles.Click
+
+        Dim profileFolder = My.Settings.ProfileFolder
+
+        If String.IsNullOrWhiteSpace(profileFolder) OrElse
+            Not Directory.Exists(profileFolder) Then
+
+            MessageBox.Show(
+                "The profile folder has not been configured or no longer exists.",
+                "Manage Profiles",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            )
+
+            Return
+        End If
+
+        Try
+
+            Process.Start(
+                New ProcessStartInfo With {
+                    .FileName = profileFolder,
+                    .UseShellExecute = True
+                }
+            )
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+                $"The profile folder could not be opened.{Environment.NewLine}{Environment.NewLine}{ex.Message}",
+                "Manage Profiles",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            )
+
+            Return
+
+        End Try
+
+        MessageBox.Show(
+            Me,
+            "File Explorer has been opened to your profile folder." &
+            Environment.NewLine & Environment.NewLine &
+            "Delete, rename, or organize your profile files as needed." &
+            Environment.NewLine & Environment.NewLine &
+            "When you're finished, return here and click OK to refresh the profile list.",
+            "Manage Profiles",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information
+        )
+
+        LoadUserProfiles()
+
+    End Sub
+
     Private Sub CloseApplication()
 
         Dim mainForm =
@@ -606,5 +721,4 @@ Public Class FrmFsProfiles
         Me.Close()
 
     End Sub
-
 End Class

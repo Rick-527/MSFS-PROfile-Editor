@@ -5,6 +5,14 @@ Public Class FrmMain
 
         BackgroundManager.Apply(Me, "masterBackground.png")
         ThemeManager.ApplyModernTheme(Me)
+        pnlHeader.BackColor = Color.Transparent
+
+        PageTitleManager.Apply(lblPageTitle, lblPageDescription,
+                "MSFS PROfile Editor",
+                "Manage and maintain your simulator profiles"
+                )
+
+        lblPageDescription.Text = "Manage and maintain your simulator profiles"
 
         Me.DoubleBuffered = True
 

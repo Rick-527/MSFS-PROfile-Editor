@@ -25,15 +25,17 @@ Partial Class FrmFsProfiles
         components = New ComponentModel.Container()
         flpProfiles = New FlowLayoutPanel()
         pnlHeader = New Panel()
-        lblProfileCount = New Label()
         lblPageDescription = New Label()
         lblPageTitle = New Label()
         btnClose = New Button()
         StatusStrip1 = New StatusStrip()
         lblStatus = New ToolStripStatusLabel()
+        lblStatusCenter = New ToolStripStatusLabel()
         pnlFooter = New Panel()
-        btnSetProfileFolder = New Button()
+        btnManageProfiles = New Button()
         btnMigrateProfiles = New Button()
+        btnCreateNewProfile = New Button()
+        btnSetProfileFolder = New Button()
         btnSimLauncher2024 = New ModernSplitButton()
         cmsSimLauncher2024 = New ContextMenuStrip(components)
         mnuLaunchNormal = New ToolStripMenuItem()
@@ -52,43 +54,36 @@ Partial Class FrmFsProfiles
         flpProfiles.Location = New Point(0, 90)
         flpProfiles.Name = "flpProfiles"
         flpProfiles.Padding = New Padding(10)
-        flpProfiles.Size = New Size(1224, 491)
+        flpProfiles.Size = New Size(1357, 491)
         flpProfiles.TabIndex = 0
         flpProfiles.WrapContents = False
         ' 
         ' pnlHeader
         ' 
-        pnlHeader.Controls.Add(lblProfileCount)
         pnlHeader.Controls.Add(lblPageDescription)
         pnlHeader.Controls.Add(lblPageTitle)
         pnlHeader.Dock = DockStyle.Top
         pnlHeader.Location = New Point(0, 0)
         pnlHeader.Name = "pnlHeader"
-        pnlHeader.Size = New Size(1224, 90)
+        pnlHeader.Size = New Size(1357, 90)
         pnlHeader.TabIndex = 16
-        ' 
-        ' lblProfileCount
-        ' 
-        lblProfileCount.AutoSize = True
-        lblProfileCount.Location = New Point(335, 72)
-        lblProfileCount.Name = "lblProfileCount"
-        lblProfileCount.Size = New Size(120, 15)
-        lblProfileCount.TabIndex = 16
-        lblProfileCount.Text = "0 of 20 profiles stored"
         ' 
         ' lblPageDescription
         ' 
+        lblPageDescription.Anchor = AnchorStyles.Top
         lblPageDescription.AutoSize = True
-        lblPageDescription.Location = New Point(353, 47)
+        lblPageDescription.Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
+        lblPageDescription.Location = New Point(632, 47)
         lblPageDescription.Name = "lblPageDescription"
-        lblPageDescription.Size = New Size(93, 15)
+        lblPageDescription.Size = New Size(103, 17)
         lblPageDescription.TabIndex = 15
         lblPageDescription.Text = "PageDescription"
         ' 
         ' lblPageTitle
         ' 
+        lblPageTitle.Anchor = AnchorStyles.Top
         lblPageTitle.AutoSize = True
-        lblPageTitle.Location = New Point(372, 21)
+        lblPageTitle.Location = New Point(650, 21)
         lblPageTitle.Name = "lblPageTitle"
         lblPageTitle.Size = New Size(56, 15)
         lblPageTitle.TabIndex = 14
@@ -100,19 +95,19 @@ Partial Class FrmFsProfiles
         btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnClose.Location = New Point(1031, 8)
+        btnClose.Location = New Point(1173, 8)
         btnClose.Name = "btnClose"
         btnClose.Size = New Size(172, 41)
-        btnClose.TabIndex = 13
+        btnClose.TabIndex = 20
         btnClose.Text = "&Close"
         btnClose.UseVisualStyleBackColor = False
         ' 
         ' StatusStrip1
         ' 
-        StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus})
+        StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus, lblStatusCenter})
         StatusStrip1.Location = New Point(0, 559)
         StatusStrip1.Name = "StatusStrip1"
-        StatusStrip1.Size = New Size(1224, 22)
+        StatusStrip1.Size = New Size(1357, 22)
         StatusStrip1.TabIndex = 17
         StatusStrip1.Text = "StatusStrip1"
         ' 
@@ -121,40 +116,72 @@ Partial Class FrmFsProfiles
         lblStatus.Name = "lblStatus"
         lblStatus.Size = New Size(107, 17)
         lblStatus.Text = "No Profile Selected"
+        lblStatus.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' lblStatusCenter
+        ' 
+        lblStatusCenter.Name = "lblStatusCenter"
+        lblStatusCenter.Size = New Size(1235, 17)
+        lblStatusCenter.Spring = True
+        lblStatusCenter.Text = "ToolStripStatusLabel1"
         ' 
         ' pnlFooter
         ' 
-        pnlFooter.Controls.Add(btnSetProfileFolder)
+        pnlFooter.Controls.Add(btnManageProfiles)
         pnlFooter.Controls.Add(btnMigrateProfiles)
+        pnlFooter.Controls.Add(btnCreateNewProfile)
+        pnlFooter.Controls.Add(btnSetProfileFolder)
         pnlFooter.Controls.Add(btnSimLauncher2024)
         pnlFooter.Controls.Add(btnClose)
         pnlFooter.Dock = DockStyle.Bottom
         pnlFooter.Location = New Point(0, 499)
         pnlFooter.Name = "pnlFooter"
-        pnlFooter.Size = New Size(1224, 60)
+        pnlFooter.Size = New Size(1357, 60)
         pnlFooter.TabIndex = 18
         ' 
-        ' btnSetProfileFolder
+        ' btnManageProfiles
         ' 
-        btnSetProfileFolder.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnSetProfileFolder.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnSetProfileFolder.Location = New Point(643, 8)
-        btnSetProfileFolder.Name = "btnSetProfileFolder"
-        btnSetProfileFolder.Size = New Size(172, 41)
-        btnSetProfileFolder.TabIndex = 16
-        btnSetProfileFolder.Text = "Set Profile Folder"
-        btnSetProfileFolder.UseVisualStyleBackColor = False
+        btnManageProfiles.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnManageProfiles.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnManageProfiles.Location = New Point(779, 8)
+        btnManageProfiles.Name = "btnManageProfiles"
+        btnManageProfiles.Size = New Size(172, 41)
+        btnManageProfiles.TabIndex = 3
+        btnManageProfiles.Text = "Manage P&rofiles"
+        btnManageProfiles.UseVisualStyleBackColor = False
         ' 
         ' btnMigrateProfiles
         ' 
         btnMigrateProfiles.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnMigrateProfiles.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnMigrateProfiles.Location = New Point(465, 8)
+        btnMigrateProfiles.Location = New Point(423, 8)
         btnMigrateProfiles.Name = "btnMigrateProfiles"
         btnMigrateProfiles.Size = New Size(172, 41)
-        btnMigrateProfiles.TabIndex = 15
+        btnMigrateProfiles.TabIndex = 1
         btnMigrateProfiles.Text = "&Migrate Old Profiles"
         btnMigrateProfiles.UseVisualStyleBackColor = False
+        ' 
+        ' btnCreateNewProfile
+        ' 
+        btnCreateNewProfile.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnCreateNewProfile.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnCreateNewProfile.Location = New Point(957, 8)
+        btnCreateNewProfile.Name = "btnCreateNewProfile"
+        btnCreateNewProfile.Size = New Size(172, 41)
+        btnCreateNewProfile.TabIndex = 4
+        btnCreateNewProfile.Text = "Ne&w Profile"
+        btnCreateNewProfile.UseVisualStyleBackColor = False
+        ' 
+        ' btnSetProfileFolder
+        ' 
+        btnSetProfileFolder.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnSetProfileFolder.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnSetProfileFolder.Location = New Point(601, 8)
+        btnSetProfileFolder.Name = "btnSetProfileFolder"
+        btnSetProfileFolder.Size = New Size(172, 41)
+        btnSetProfileFolder.TabIndex = 2
+        btnSetProfileFolder.Text = "&Set Profile Folder"
+        btnSetProfileFolder.UseVisualStyleBackColor = False
         ' 
         ' btnSimLauncher2024
         ' 
@@ -164,8 +191,8 @@ Partial Class FrmFsProfiles
         btnSimLauncher2024.Location = New Point(12, 8)
         btnSimLauncher2024.Name = "btnSimLauncher2024"
         btnSimLauncher2024.Size = New Size(268, 41)
-        btnSimLauncher2024.TabIndex = 14
-        btnSimLauncher2024.Text = "Launch Simulator"
+        btnSimLauncher2024.TabIndex = 0
+        btnSimLauncher2024.Text = "&Launch Simulator"
         btnSimLauncher2024.UseVisualStyleBackColor = True
         ' 
         ' cmsSimLauncher2024
@@ -190,7 +217,8 @@ Partial Class FrmFsProfiles
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(1224, 581)
+        CancelButton = btnClose
+        ClientSize = New Size(1357, 581)
         Controls.Add(pnlFooter)
         Controls.Add(StatusStrip1)
         Controls.Add(flpProfiles)
@@ -224,7 +252,9 @@ Partial Class FrmFsProfiles
     Friend WithEvents mnuLaunchNormal As ToolStripMenuItem
     Friend WithEvents mnuLaunchFsuipc As ToolStripMenuItem
     Friend WithEvents btnMigrateProfiles As Button
-    Friend WithEvents lblProfileCount As Label
     Friend WithEvents btnSetProfileFolder As Button
+    Friend WithEvents btnCreateNewProfile As Button
+    Friend WithEvents btnManageProfiles As Button
+    Friend WithEvents lblStatusCenter As ToolStripStatusLabel
 
 End Class

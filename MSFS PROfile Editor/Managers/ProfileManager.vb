@@ -1,32 +1,246 @@
 ﻿Imports System.IO
 
 Public Class ProfileManager
+#Region "Constants"
 
-    Private Const ProfileBackupMarker As String = ".PROfileBackup_"
     Private _lastErrorMessage As String
+    Private _storedProfileCount As Integer
+
+#End Region
+
+#Region "Properties"
 
     Public ReadOnly Property CurrentProfileFolder As String
+
         Get
+
             Return My.Settings.ProfileFolder
+
         End Get
+
     End Property
 
     Public ReadOnly Property LastErrorMessage As String
+
         Get
+
             Return _lastErrorMessage
+
         End Get
+
     End Property
+
+    Public ReadOnly Property StoredProfileCount As Integer
+
+        Get
+
+            Return _storedProfileCount
+
+        End Get
+
+    End Property
+
+#End Region
 
     Public Function SetCurrentProfileFolder(folder As String) As Boolean
 
-        If Not Directory.Exists(folder) Then
+        If String.IsNullOrWhiteSpace(folder) OrElse
+            Not Directory.Exists(folder) Then
+
             Return False
+
         End If
 
-        My.Settings.ProfileFolder = folder
+        My.Settings.ProfileFolder = Path.GetFullPath(folder)
         My.Settings.Save()
 
         Return True
+
+    End Function
+
+    Public Function GetProfiles() As List(Of ProfileInfo)
+
+        _lastErrorMessage = String.Empty
+
+        Dim profileFolder = My.Settings.ProfileFolder
+
+        If String.IsNullOrWhiteSpace(profileFolder) OrElse
+            Not Directory.Exists(profileFolder) Then
+
+            _storedProfileCount = 0
+            Return New List(Of ProfileInfo)
+
+        End If
+
+        Try
+
+            Dim profileFiles =
+                Directory.GetFiles(
+                profileFolder,
+                "*" & ApplicationConstants.ProfileExtension,
+                SearchOption.TopDirectoryOnly
+            )
+
+            _storedProfileCount = profileFiles.Length
+
+            Return profileFiles.
+                OrderByDescending(
+                Function(profileFile)
+                    Return File.GetCreationTimeUtc(profileFile)
+                End Function
+                ).
+                Take(ApplicationConstants.MaximumProfileCount).
+                OrderBy(
+                    Function(profileFile)
+                        Return Path.GetFileNameWithoutExtension(profileFile)
+                    End Function,
+                    StringComparer.CurrentCultureIgnoreCase
+                ).
+                Select(
+                    Function(profileFile)
+                        Return New ProfileInfo With {
+                            .ProfileFile = profileFile
+                        }
+                    End Function
+                ).
+                ToList()
+
+        Catch ex As Exception
+
+            _storedProfileCount = 0
+            _lastErrorMessage =
+                $"The profile folder could not be read.{Environment.NewLine}" &
+                $"{Environment.NewLine}{ex.Message}"
+
+            Return New List(Of ProfileInfo)
+
+        End Try
+
+    End Function
+
+    Public Function CreateProfile(profileName As String) As String
+
+        If String.IsNullOrWhiteSpace(profileName) Then
+            Throw New ArgumentException("Please enter a profile name.")
+        End If
+
+        Dim profileFolder = My.Settings.ProfileFolder
+
+        If String.IsNullOrWhiteSpace(profileFolder) OrElse
+           Not Directory.Exists(profileFolder) Then
+
+            Throw New DirectoryNotFoundException(
+                "The profile folder has not been configured."
+            )
+
+        End If
+
+        Dim normalizedName = NormalizeProfileName(profileName)
+
+        If String.IsNullOrWhiteSpace(normalizedName) Then
+            Throw New ArgumentException("Please enter a valid profile name.")
+        End If
+
+        Dim destinationFile =
+            Path.Combine(profileFolder, normalizedName)
+
+        If File.Exists(destinationFile) Then
+            Throw New IOException(
+                $"A profile named '{Path.GetFileNameWithoutExtension(normalizedName)}' already exists."
+            )
+        End If
+
+        Dim userCfgFile =
+            SimulatorFilesManager.GetFilePath(SimulatorFile.UserCfg)
+
+        If String.IsNullOrWhiteSpace(userCfgFile) OrElse
+           Not File.Exists(userCfgFile) Then
+
+            Throw New FileNotFoundException(
+                "The simulator UserCfg.opt file could not be found."
+            )
+        End If
+
+        File.Copy(
+            userCfgFile,
+            destinationFile,
+            overwrite:=False
+        )
+
+        Return destinationFile
+
+    End Function
+
+    Private Function NormalizeProfileName(profileName As String) As String
+
+        Dim normalizedName = profileName.Trim()
+
+        While normalizedName.EndsWith(
+        ApplicationConstants.ProfileExtension,
+        StringComparison.OrdinalIgnoreCase
+    )
+
+            While normalizedName.EndsWith(
+                ApplicationConstants.ProfileExtension,
+                StringComparison.OrdinalIgnoreCase
+            )
+
+                normalizedName =
+        normalizedName.Substring(
+            0,
+            normalizedName.Length -
+            ApplicationConstants.ProfileExtension.Length
+        ).Trim()
+
+            End While
+
+        End While
+
+        If String.IsNullOrWhiteSpace(normalizedName) Then
+            Throw New ArgumentException(
+            "Please enter a profile name.",
+            NameOf(profileName)
+        )
+
+        End If
+
+        If normalizedName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 Then
+            Throw New ArgumentException(
+            "The profile name contains invalid characters.",
+            NameOf(profileName)
+        )
+        End If
+
+        Return normalizedName & ApplicationConstants.ProfileExtension
+
+    End Function
+
+    Public Function GetLegacyProfileCount() As Integer
+
+        Dim profileFolder = My.Settings.ProfileFolder
+
+        If String.IsNullOrWhiteSpace(profileFolder) OrElse
+       Not Directory.Exists(profileFolder) Then
+
+            Return 0
+
+        End If
+
+        Return Directory.
+        GetFiles(
+            profileFolder,
+            "*.opt",
+            SearchOption.TopDirectoryOnly
+        ).
+        Count(
+            Function(filePath)
+                Return Not String.Equals(
+                    Path.GetFileName(filePath),
+                    "UserCfg.opt",
+                    StringComparison.OrdinalIgnoreCase
+                )
+            End Function
+        )
 
     End Function
 
@@ -66,7 +280,10 @@ Public Class ProfileManager
 
             Try
                 Dim newProfilePath =
-                    Path.ChangeExtension(legacyProfile, ".profx")
+                    Path.ChangeExtension(
+                    legacyProfile,
+                    ApplicationConstants.ProfileExtension
+                )
 
                 If File.Exists(newProfilePath) Then
                     result.SkippedCount += 1
@@ -95,31 +312,6 @@ Public Class ProfileManager
 
     End Function
 
-    Public Function GetProfiles() As List(Of ProfileInfo)
-
-        Dim profiles As New List(Of ProfileInfo)
-
-        If String.IsNullOrWhiteSpace(CurrentProfileFolder) Then
-            Return profiles
-        End If
-
-        If Not Directory.Exists(CurrentProfileFolder) Then
-            Return profiles
-        End If
-
-        For Each profileFile In
-            Directory.GetFiles(CurrentProfileFolder, "*.profx")
-
-            profiles.Add(
-                New ProfileInfo With {
-                    .ProfileFile = profileFile
-                })
-
-        Next
-
-        Return profiles
-
-    End Function
 
     Public Function ApplyProfile(profile As ProfileInfo) As Boolean
 
@@ -172,13 +364,18 @@ Public Class ProfileManager
 
         Try
 
-            DeletePreviousProfileBackups(userCfgPath)
-            CreateUserCfgBackup(userCfgPath)
+            Dim newBackupPath = CreateUserCfgBackup(userCfgPath)
+
+            DeletePreviousProfileBackups(
+                userCfgPath,
+                newBackupPath
+            )
 
             File.Copy(
                 profile.ProfileFile,
                 userCfgPath,
-                overwrite:=True)
+                overwrite:=True
+            )
 
             Return True
 
@@ -194,8 +391,7 @@ Public Class ProfileManager
 
     End Function
 
-    Private Function AreSameFile(firstPath As String,
-                                 secondPath As String) As Boolean
+    Private Function AreSameFile(firstPath As String, secondPath As String) As Boolean
 
         Dim firstFullPath = Path.GetFullPath(firstPath)
         Dim secondFullPath = Path.GetFullPath(secondPath)
@@ -207,56 +403,12 @@ Public Class ProfileManager
 
     End Function
 
-    Private Function IsSimulatorConfigFolder(selectedFolder As String) As Boolean
-
-        Dim simulatorConfigFolder =
-        SimulatorFilesManager.GetSimulatorConfigFolder()
-
-        If String.IsNullOrWhiteSpace(simulatorConfigFolder) Then
-            Return False
-        End If
-
-        Dim normalizedSelectedFolder =
-        Path.GetFullPath(selectedFolder).
-        TrimEnd(Path.DirectorySeparatorChar)
-
-        Dim normalizedConfigFolder =
-        Path.GetFullPath(simulatorConfigFolder).
-        TrimEnd(Path.DirectorySeparatorChar)
-
-        Return String.Equals(
-        normalizedSelectedFolder,
-        normalizedConfigFolder,
-        StringComparison.OrdinalIgnoreCase)
-
-    End Function
-
-    Private Sub DeletePreviousProfileBackups(userCfgPath As String)
-
-        Dim configFolder = Path.GetDirectoryName(userCfgPath)
-
-        If String.IsNullOrWhiteSpace(configFolder) Then
-            Throw New DirectoryNotFoundException(
-                "The UserCfg.opt folder could not be determined.")
-        End If
-
-        Dim userCfgFileName = Path.GetFileName(userCfgPath)
-
-        Dim searchPattern =
-            $"{userCfgFileName}{ProfileBackupMarker}*.bak"
-
-        For Each backupFile In Directory.GetFiles(configFolder, searchPattern)
-            File.Delete(backupFile)
-        Next
-
-    End Sub
-
     Private Function CreateUserCfgBackup(userCfgPath As String) As String
 
         Dim timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss")
 
         Dim backupPath =
-            $"{userCfgPath}{ProfileBackupMarker}{timestamp}.bak"
+            $"{userCfgPath}{ApplicationConstants.ProfileBackupMarker}{timestamp}.bak"
 
         File.Copy(
             userCfgPath,
@@ -267,88 +419,35 @@ Public Class ProfileManager
 
     End Function
 
-    Public Function NewProfile(destinationFile As TextBox) As Boolean
+    Private Sub DeletePreviousProfileBackups(userCfgPath As String, backupToKeep As String)
 
-        Dim sourceFile =
-            If(destinationFile.Tag IsNot Nothing,
-               destinationFile.Tag.ToString(),
-               String.Empty)
+        Dim configFolder = Path.GetDirectoryName(userCfgPath)
 
-        If String.IsNullOrWhiteSpace(sourceFile) Then
-
-            MessageBox.Show(
-                "Please select UserCfg.opt first before attempting to save the file to a new destination.",
-                "No Source File Selected",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Warning)
-
-            Return False
-
+        If String.IsNullOrWhiteSpace(configFolder) Then
+            Throw New DirectoryNotFoundException(
+            "The UserCfg.opt folder could not be determined."
+        )
         End If
 
-        If Not File.Exists(sourceFile) Then
+        Dim userCfgFileName = Path.GetFileName(userCfgPath)
 
-            MessageBox.Show(
-                "The UserCfg.opt could not be found. It may have been moved or deleted.",
-                "File Not Found",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error)
+        Dim searchPattern =
+        $"{userCfgFileName}{ApplicationConstants.ProfileBackupMarker}*.bak"
 
-            Return False
+        For Each backupFile In Directory.GetFiles(configFolder, searchPattern)
 
-        End If
+            If Not String.Equals(
+            Path.GetFullPath(backupFile),
+            Path.GetFullPath(backupToKeep),
+            StringComparison.OrdinalIgnoreCase
+        ) Then
 
-        Using sfd As New SaveFileDialog
+                File.Delete(backupFile)
 
-            sfd.Title = "Save Profile to New Destination"
-            sfd.Filter = "Profile Files (*.profx)|*.profx"
-            sfd.DefaultExt = "profx"
-            sfd.AddExtension = True
-            sfd.FileName = Path.GetFileNameWithoutExtension(sourceFile)
-
-            If Not String.IsNullOrWhiteSpace(My.Settings.ProfileFolder) Then
-                sfd.InitialDirectory = My.Settings.ProfileFolder
             End If
 
-            If sfd.ShowDialog() <> DialogResult.OK Then
-                Return False
-            End If
+        Next
 
-            Try
-
-                File.Copy(
-                    sourceFile,
-                    sfd.FileName,
-                    overwrite:=True)
-
-                My.Settings.ProfileFolder =
-                    Path.GetDirectoryName(sfd.FileName)
-
-                My.Settings.Save()
-
-                MessageBox.Show(
-                    "Profile saved successfully to its new destination!",
-                    "Success",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information)
-
-                Return True
-
-            Catch ex As Exception
-
-                MessageBox.Show(
-                    $"An error occurred while saving the profile: {ex.Message}",
-                    "Operation Failed",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error)
-
-                Return False
-
-            End Try
-
-        End Using
-
-    End Function
-
+    End Sub
 
 End Class
