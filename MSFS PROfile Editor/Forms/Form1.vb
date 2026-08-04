@@ -1,18 +1,18 @@
-﻿'Imports System.IO
-Public Class FrmMain
+﻿Public Class FrmMain
 
     Private Sub FrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         BackgroundManager.Apply(Me, "masterBackground.png")
         ThemeManager.ApplyModernTheme(Me)
+
         pnlHeader.BackColor = Color.Transparent
 
-        PageTitleManager.Apply(lblPageTitle, lblPageDescription,
-                "MSFS PROfile Editor",
-                "Manage and maintain your simulator profiles"
-                )
-
-        lblPageDescription.Text = "Manage and maintain your simulator profiles"
+        PageTitleManager.Apply(
+            lblPageTitle,
+            lblPageDescription,
+            "MSFS PROfile Editor",
+            "Manage and maintain your simulator profiles"
+        )
 
         Me.DoubleBuffered = True
 
@@ -27,29 +27,52 @@ Public Class FrmMain
                     "MSFS PROfile Editor",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
-                    )
+                )
 
             Case 1
 
                 If result.SteamInstalled Then
+
                     My.Settings.MSFSVersion = "Steam"
-                Else
+
+                ElseIf result.StoreInstalled Then
+
                     My.Settings.MSFSVersion = "Microsoft Store"
+
                 End If
 
                 My.Settings.Save()
+
+                ' Clear any previously cached simulator path.
+                SimulatorFilesManager.ResetSimulatorPaths()
 
             Case 2
 
                 Using frm As New FrmSimulatorSelection()
 
-                    frm.RememberChoice = My.Settings.RememberSimulatorChoice
+                    frm.RememberChoice =
+                        My.Settings.RememberSimulatorChoice
 
                     If frm.ShowDialog(Me) = DialogResult.OK Then
 
-                        My.Settings.RememberSimulatorChoice = frm.RememberChoice
-                        My.Settings.MSFSVersion = frm.SelectedVersion.ToString()
+                        My.Settings.RememberSimulatorChoice =
+                            frm.RememberChoice
+
+                        If frm.SelectedVersion = SimulatorVersion.Steam Then
+
+                            My.Settings.MSFSVersion = "Steam"
+
+                        Else
+
+                            My.Settings.MSFSVersion = "Microsoft Store"
+
+                        End If
+
                         My.Settings.Save()
+
+                        ' Clear the cached path so the newly
+                        ' selected simulator version is used.
+                        SimulatorFilesManager.ResetSimulatorPaths()
 
                     End If
 
@@ -57,26 +80,42 @@ Public Class FrmMain
 
         End Select
 
-        'Update the application version in the title bar.
+        ' Update the application version and simulator
+        ' selection in the title bar.
         TitleBarManager.Apply(Me)
 
     End Sub
 
-    Private Sub btnMaintenance_Click(sender As Object, e As EventArgs) Handles btnMaintenance.Click
+    Private Sub btnMaintenance_Click(
+        sender As Object,
+        e As EventArgs
+    ) Handles btnMaintenance.Click
 
-        MenuActionsManager.ShowModal(Me, New FrmMaintenance())
+        MenuActionsManager.ShowModal(
+            Me,
+            New FrmMaintenance()
+        )
 
     End Sub
 
-    Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+    Private Sub btnClose_Click(
+        sender As Object,
+        e As EventArgs
+    ) Handles btnClose.Click
 
         Application.Exit()
 
     End Sub
 
-    Private Sub btnProfileSelector_Click(sender As Object, e As EventArgs) Handles btnProfileSelector.Click
+    Private Sub btnProfileSelector_Click(
+        sender As Object,
+        e As EventArgs
+    ) Handles btnProfileSelector.Click
 
-        MenuActionsManager.ShowModal(Me, New FrmFsProfiles())
+        MenuActionsManager.ShowModal(
+            Me,
+            New FrmFsProfiles()
+        )
 
     End Sub
 

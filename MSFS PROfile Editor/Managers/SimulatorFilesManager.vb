@@ -131,6 +131,12 @@ Public Class SimulatorFilesManager
 
     End Function
 
+    Public Shared Sub ResetSimulatorPaths()
+
+        _simulatorPaths = Nothing
+
+    End Sub
+
     Private Shared Function GetSimulatorPaths() As SimulatorPaths
 
         If _simulatorPaths IsNot Nothing Then
@@ -138,26 +144,33 @@ Public Class SimulatorFilesManager
         End If
 
         Dim result = SimulatorDetector.DetectSimulator()
+        Dim selectedVersion = My.Settings.MSFSVersion
 
-        If result.SteamInstalled Then
+        Select Case selectedVersion
 
-            _simulatorPaths = New SimulatorPaths With {
-            .ConfigFolder = result.SteamConfigFolder,
-            .IsSteam = True
-        }
+            Case "Microsoft Store"
 
-        ElseIf result.StoreInstalled Then
+                If result.StoreInstalled Then
 
-            _simulatorPaths = New SimulatorPaths With {
-            .ConfigFolder = result.StoreConfigFolder,
-            .IsStore = True
-        }
+                    _simulatorPaths = New SimulatorPaths With {
+                    .ConfigFolder = result.StoreConfigFolder,
+                    .IsStore = True
+                }
 
-        Else
+                End If
 
-            Return Nothing
+            Case "Steam"
 
-        End If
+                If result.SteamInstalled Then
+
+                    _simulatorPaths = New SimulatorPaths With {
+                    .ConfigFolder = result.SteamConfigFolder,
+                    .IsSteam = True
+                }
+
+                End If
+
+        End Select
 
         Return _simulatorPaths
 
