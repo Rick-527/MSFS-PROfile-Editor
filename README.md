@@ -160,13 +160,17 @@ This information makes reproducing and correcting problems much easier.
 
 ---
 
-## Contributing
+## Feedback and Suggestions
 
-The source code is being made available so other users and developers can inspect the project, provide feedback, report problems, and help improve MSFS PROfile Editor.
+The source code for MSFS PROfile Editor is publicly available for
+transparency and review.
 
-If you are interested in contributing code, please open an Issue first to discuss the proposed change.
+Feedback, bug reports, and suggestions for improvements are welcome.
+Please use GitHub Issues to report problems or suggest new features.
 
-Contribution and redistribution terms are governed by the project's license.
+The public availability of the source code does not grant permission
+to redistribute, sell, or commercially exploit the application or
+its source code. Please refer to the `LICENSE` file for complete terms.
 
 ---
 
@@ -193,12 +197,22 @@ Use this software at your own risk.
 
 ## License
 
-The source code and application are subject to the terms contained in the project's `LICENSE` file.
+MSFS PROfile Editor is **source-available freeware**.
+
+The application may be used free of charge for personal,
+non-commercial purposes. Its source code is publicly available for
+transparency, review, and personal experimentation.
+
+Redistribution and commercial use are not permitted without prior
+written permission from the copyright owner.
+
+See the `LICENSE` file for the complete license terms.
 
 ---
 
 ## Author
 
-Developed by **Saugatek**.
+Developed by **Rick Neill / Saugatek**.
 
-MSFS PROfile Editor is an independent utility and is not affiliated with or endorsed by Microsoft.
+MSFS PROfile Editor is an independent utility and is not affiliated
+with or endorsed by Microsoft.
