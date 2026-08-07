@@ -161,6 +161,7 @@ Partial Class FrmNewSimulatorProfile
         MaximizeBox = False
         MinimizeBox = False
         Name = "FrmNewSimulatorProfile"
+        ShowInTaskbar = False
         StartPosition = FormStartPosition.CenterParent
         Text = "FrmNewSimulatorProfile"
         pnlHeader.ResumeLayout(False)

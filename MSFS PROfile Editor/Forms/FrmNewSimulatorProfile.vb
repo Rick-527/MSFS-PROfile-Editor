@@ -31,6 +31,8 @@ Public Class FrmNewSimulatorProfile
 
         txtProfileName.Select()
 
+        TitleBarManager.ApplyFormInfo(Me, "Create New Profile")
+
     End Sub
 
     Private Shared Function IsReservedFileName(fileName As String) As Boolean

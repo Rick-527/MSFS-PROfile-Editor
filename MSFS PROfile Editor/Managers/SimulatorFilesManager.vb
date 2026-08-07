@@ -251,12 +251,6 @@ Public Class SimulatorFilesManager
 
     End Sub
 
-    Public Shared Sub OpenExeXml()
-
-        OpenSimulatorFile(SimulatorFile.EXExml)
-
-    End Sub
-
     Private Shared Function GetBackupFileName(simFile As SimulatorFile) As String
 
         Select Case simFile
@@ -275,6 +269,18 @@ Public Class SimulatorFilesManager
         End Select
 
     End Function
+
+    Public Shared Sub OpenExeXml()
+
+        OpenSimulatorFile(SimulatorFile.EXExml)
+
+    End Sub
+
+    Public Shared Sub OpenUserCfg()
+
+        OpenSimulatorFile(SimulatorFile.UserCfg)
+
+    End Sub
 
     Public Shared Sub OpenCamerasCfg()
 

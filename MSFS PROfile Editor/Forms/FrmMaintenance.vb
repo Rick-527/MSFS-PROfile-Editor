@@ -17,7 +17,7 @@ Public Class FrmMaintenance
 
         Me.DoubleBuffered = True
 
-        TitleBarManager.Apply(Me)
+        TitleBarManager.ApplyFormInfo(Me, "File Maintenance")
 
     End Sub
 

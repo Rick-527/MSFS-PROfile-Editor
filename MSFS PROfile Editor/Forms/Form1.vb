@@ -2,6 +2,15 @@
 
     Private Sub FrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        If My.Settings.UpgradeRequired Then
+
+            My.Settings.Upgrade()
+
+            My.Settings.UpgradeRequired = False
+            My.Settings.Save()
+
+        End If
+
         BackgroundManager.Apply(Me, "masterBackground.png")
         ThemeManager.ApplyModernTheme(Me)
 
@@ -82,7 +91,7 @@
 
         ' Update the application version and simulator
         ' selection in the title bar.
-        TitleBarManager.Apply(Me)
+        TitleBarManager.ApplyVersionInfo(Me)
 
     End Sub
 

@@ -25,6 +25,7 @@ Partial Class FrmFsProfiles
         components = New ComponentModel.Container()
         flpProfiles = New FlowLayoutPanel()
         pnlHeader = New Panel()
+        btnViewUserCfg = New Button()
         lblPageDescription = New Label()
         lblPageTitle = New Label()
         btnClose = New Button()
@@ -54,12 +55,13 @@ Partial Class FrmFsProfiles
         flpProfiles.Location = New Point(0, 90)
         flpProfiles.Name = "flpProfiles"
         flpProfiles.Padding = New Padding(10)
-        flpProfiles.Size = New Size(1357, 491)
+        flpProfiles.Size = New Size(1357, 489)
         flpProfiles.TabIndex = 0
         flpProfiles.WrapContents = False
         ' 
         ' pnlHeader
         ' 
+        pnlHeader.Controls.Add(btnViewUserCfg)
         pnlHeader.Controls.Add(lblPageDescription)
         pnlHeader.Controls.Add(lblPageTitle)
         pnlHeader.Dock = DockStyle.Top
@@ -67,6 +69,17 @@ Partial Class FrmFsProfiles
         pnlHeader.Name = "pnlHeader"
         pnlHeader.Size = New Size(1357, 90)
         pnlHeader.TabIndex = 16
+        ' 
+        ' btnViewUserCfg
+        ' 
+        btnViewUserCfg.Anchor = AnchorStyles.Bottom Or AnchorStyles.Left
+        btnViewUserCfg.Location = New Point(18, 43)
+        btnViewUserCfg.Name = "btnViewUserCfg"
+        btnViewUserCfg.Size = New Size(172, 41)
+        btnViewUserCfg.TabIndex = 16
+        btnViewUserCfg.TabStop = False
+        btnViewUserCfg.Text = "View &UserCfg.opt File"
+        btnViewUserCfg.UseVisualStyleBackColor = True
         ' 
         ' lblPageDescription
         ' 
@@ -105,7 +118,7 @@ Partial Class FrmFsProfiles
         ' StatusStrip1
         ' 
         StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus, lblStatusCenter})
-        StatusStrip1.Location = New Point(0, 559)
+        StatusStrip1.Location = New Point(0, 557)
         StatusStrip1.Name = "StatusStrip1"
         StatusStrip1.Size = New Size(1357, 22)
         StatusStrip1.TabIndex = 17
@@ -134,7 +147,7 @@ Partial Class FrmFsProfiles
         pnlFooter.Controls.Add(btnSimLauncher2024)
         pnlFooter.Controls.Add(btnClose)
         pnlFooter.Dock = DockStyle.Bottom
-        pnlFooter.Location = New Point(0, 499)
+        pnlFooter.Location = New Point(0, 497)
         pnlFooter.Name = "pnlFooter"
         pnlFooter.Size = New Size(1357, 60)
         pnlFooter.TabIndex = 18
@@ -188,7 +201,7 @@ Partial Class FrmFsProfiles
         btnSimLauncher2024.DropDownMenu = cmsSimLauncher2024
         btnSimLauncher2024.FlatStyle = FlatStyle.Flat
         btnSimLauncher2024.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnSimLauncher2024.Location = New Point(12, 8)
+        btnSimLauncher2024.Location = New Point(18, 8)
         btnSimLauncher2024.Name = "btnSimLauncher2024"
         btnSimLauncher2024.Size = New Size(268, 41)
         btnSimLauncher2024.TabIndex = 0
@@ -218,7 +231,7 @@ Partial Class FrmFsProfiles
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         CancelButton = btnClose
-        ClientSize = New Size(1357, 581)
+        ClientSize = New Size(1357, 579)
         Controls.Add(pnlFooter)
         Controls.Add(StatusStrip1)
         Controls.Add(flpProfiles)
@@ -256,5 +269,6 @@ Partial Class FrmFsProfiles
     Friend WithEvents btnCreateNewProfile As Button
     Friend WithEvents btnManageProfiles As Button
     Friend WithEvents lblStatusCenter As ToolStripStatusLabel
+    Friend WithEvents btnViewUserCfg As Button
 
 End Class

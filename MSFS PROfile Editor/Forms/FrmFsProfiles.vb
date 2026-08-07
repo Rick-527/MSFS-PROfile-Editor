@@ -39,7 +39,7 @@ Public Class FrmFsProfiles
 
         LoadUserProfiles()
 
-        TitleBarManager.Apply(Me)
+        TitleBarManager.ApplyFormInfo(Me, "Profile Manager")
 
     End Sub
 
@@ -719,6 +719,16 @@ Public Class FrmFsProfiles
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
 
         Me.Close()
+
+    End Sub
+
+    Private Sub btnViewUserCfg_Click(sender As Object, e As EventArgs) Handles btnViewUserCfg.Click
+
+        UiActionRunner.Run(Me, lblStatus,
+            Sub()
+                SimulatorFilesManager.OpenUserCfg()
+            End Sub
+            )
 
     End Sub
 End Class
