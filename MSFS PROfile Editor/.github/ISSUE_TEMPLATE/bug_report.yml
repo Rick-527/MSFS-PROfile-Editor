@@ -1,0 +1,88 @@
+﻿name: Bug Report
+description: Report a problem with MSFS PROfile Editor
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a problem with MSFS PROfile Editor.
+
+        Please provide as much information as possible. This will make it much easier to reproduce and correct the problem.
+
+  - type: input
+    id: profile-editor-version
+    attributes:
+      label: MSFS PROfile Editor Version
+      description: Which version of MSFS PROfile Editor are you using?
+      placeholder: "Example: 1.1.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: simulator-installation
+    attributes:
+      label: MSFS 2024 Installation
+      description: Which version of Microsoft Flight Simulator 2024 are you using?
+      options:
+        - Microsoft Store / Xbox App
+        - Steam
+        - Both Microsoft Store and Steam
+        - Other / Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Describe the Problem
+      description: What went wrong?
+      placeholder: Tell us what happened.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect MSFS PROfile Editor to do?
+      placeholder: Tell us what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Please list the steps that cause the problem.
+      placeholder: |
+        1. Open MSFS PROfile Editor
+        2. Go to...
+        3. Click...
+        4. The problem occurs
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-message
+    attributes:
+      label: Error Message
+      description: If an error message appeared, paste the complete message here.
+      placeholder: Paste the error message here, or enter "None".
+
+  - type: textarea
+    id: additional-information
+    attributes:
+      label: Additional Information
+      description: Add anything else that may help diagnose the problem, including screenshots if useful.
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I am using the latest available release of MSFS PROfile Editor.
+          required: true
+        - label: I have checked existing Issues to see if this problem has already been reported.
+          required: true
