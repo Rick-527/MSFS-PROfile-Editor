@@ -24,14 +24,19 @@ Partial Class FrmMain
     Private Sub InitializeComponent()
         btnClose = New Button()
         btnMaintenance = New Button()
-        StatusStrip1 = New StatusStrip()
         lblStatus = New ToolStripStatusLabel()
         lblPageTitle = New Label()
+        lblPageDescription = New Label()
         btnProfileSelector = New Button()
         pnlHeader = New Panel()
-        lblPageDescription = New Label()
-        StatusStrip1.SuspendLayout()
+        pnlBody = New Panel()
+        pnlContent = New Panel()
+        pnlSideMenu = New Panel()
+        StatusStrip1 = New StatusStrip()
         pnlHeader.SuspendLayout()
+        pnlBody.SuspendLayout()
+        pnlSideMenu.SuspendLayout()
+        StatusStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' btnClose
@@ -39,7 +44,7 @@ Partial Class FrmMain
         btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnClose.Location = New Point(287, 289)
+        btnClose.Location = New Point(11, 254)
         btnClose.Name = "btnClose"
         btnClose.Size = New Size(172, 41)
         btnClose.TabIndex = 12
@@ -50,22 +55,12 @@ Partial Class FrmMain
         ' 
         btnMaintenance.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnMaintenance.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnMaintenance.Location = New Point(287, 130)
+        btnMaintenance.Location = New Point(11, 79)
         btnMaintenance.Name = "btnMaintenance"
         btnMaintenance.Size = New Size(172, 41)
         btnMaintenance.TabIndex = 14
         btnMaintenance.Text = "MSFS File Maintenance"
         btnMaintenance.UseVisualStyleBackColor = False
-        ' 
-        ' StatusStrip1
-        ' 
-        StatusStrip1.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus})
-        StatusStrip1.Location = New Point(0, 366)
-        StatusStrip1.Name = "StatusStrip1"
-        StatusStrip1.Size = New Size(542, 22)
-        StatusStrip1.TabIndex = 35
-        StatusStrip1.Text = "MSFSVersion:"
         ' 
         ' lblStatus
         ' 
@@ -83,11 +78,20 @@ Partial Class FrmMain
         lblPageTitle.TabIndex = 36
         lblPageTitle.Text = "MSFS PROfile Editor"
         ' 
+        ' lblPageDescription
+        ' 
+        lblPageDescription.AutoSize = True
+        lblPageDescription.Location = New Point(236, 55)
+        lblPageDescription.Name = "lblPageDescription"
+        lblPageDescription.Size = New Size(41, 15)
+        lblPageDescription.TabIndex = 37
+        lblPageDescription.Text = "Label1"
+        ' 
         ' btnProfileSelector
         ' 
         btnProfileSelector.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnProfileSelector.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnProfileSelector.Location = New Point(86, 130)
+        btnProfileSelector.Location = New Point(11, 23)
         btnProfileSelector.Name = "btnProfileSelector"
         btnProfileSelector.Size = New Size(172, 41)
         btnProfileSelector.TabIndex = 38
@@ -101,51 +105,86 @@ Partial Class FrmMain
         pnlHeader.Dock = DockStyle.Top
         pnlHeader.Location = New Point(0, 0)
         pnlHeader.Name = "pnlHeader"
-        pnlHeader.Size = New Size(542, 90)
+        pnlHeader.Size = New Size(900, 97)
         pnlHeader.TabIndex = 39
         ' 
-        ' lblPageDescription
+        ' pnlBody
         ' 
-        lblPageDescription.AutoSize = True
-        lblPageDescription.Location = New Point(236, 55)
-        lblPageDescription.Name = "lblPageDescription"
-        lblPageDescription.Size = New Size(41, 15)
-        lblPageDescription.TabIndex = 37
-        lblPageDescription.Text = "Label1"
+        pnlBody.Controls.Add(pnlContent)
+        pnlBody.Controls.Add(pnlSideMenu)
+        pnlBody.Dock = DockStyle.Fill
+        pnlBody.Location = New Point(0, 97)
+        pnlBody.Name = "pnlBody"
+        pnlBody.Size = New Size(900, 481)
+        pnlBody.TabIndex = 40
+        ' 
+        ' pnlContent
+        ' 
+        pnlContent.BackColor = Color.Transparent
+        pnlContent.Dock = DockStyle.Fill
+        pnlContent.Location = New Point(190, 0)
+        pnlContent.Name = "pnlContent"
+        pnlContent.Size = New Size(710, 481)
+        pnlContent.TabIndex = 42
+        ' 
+        ' pnlSideMenu
+        ' 
+        pnlSideMenu.Controls.Add(btnProfileSelector)
+        pnlSideMenu.Controls.Add(btnMaintenance)
+        pnlSideMenu.Controls.Add(btnClose)
+        pnlSideMenu.Dock = DockStyle.Left
+        pnlSideMenu.Location = New Point(0, 0)
+        pnlSideMenu.Name = "pnlSideMenu"
+        pnlSideMenu.Size = New Size(190, 481)
+        pnlSideMenu.TabIndex = 41
+        ' 
+        ' StatusStrip1
+        ' 
+        StatusStrip1.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
+        StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus})
+        StatusStrip1.Location = New Point(0, 578)
+        StatusStrip1.Name = "StatusStrip1"
+        StatusStrip1.Size = New Size(900, 22)
+        StatusStrip1.TabIndex = 60
+        StatusStrip1.Text = "MSFSVersion:"
         ' 
         ' FrmMain
         ' 
-        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
         CancelButton = btnClose
-        ClientSize = New Size(542, 388)
+        ClientSize = New Size(900, 600)
+        Controls.Add(pnlBody)
         Controls.Add(pnlHeader)
-        Controls.Add(btnProfileSelector)
         Controls.Add(StatusStrip1)
-        Controls.Add(btnMaintenance)
-        Controls.Add(btnClose)
         ForeColor = Color.FromArgb(CByte(236), CByte(239), CByte(244))
-        FormBorderStyle = FormBorderStyle.FixedDialog
         MaximizeBox = False
         MinimizeBox = False
         Name = "FrmMain"
         StartPosition = FormStartPosition.CenterScreen
         Text = "MSFS PROfile Editor"
-        StatusStrip1.ResumeLayout(False)
-        StatusStrip1.PerformLayout()
         pnlHeader.ResumeLayout(False)
         pnlHeader.PerformLayout()
+        pnlBody.ResumeLayout(False)
+        pnlSideMenu.ResumeLayout(False)
+        StatusStrip1.ResumeLayout(False)
+        StatusStrip1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
+
     End Sub
+
     Friend WithEvents btnClose As Button
     Friend WithEvents btnMaintenance As Button
-    Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents lblStatus As ToolStripStatusLabel
     Friend WithEvents lblPageTitle As Label
     Friend WithEvents btnProfileSelector As Button
     Friend WithEvents pnlHeader As Panel
+    Friend WithEvents pnlBody As Panel
+    Friend WithEvents pnlSideMenu As Panel
+    Friend WithEvents pnlContent As Panel
+    Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents lblPageDescription As Label
 
 End Class

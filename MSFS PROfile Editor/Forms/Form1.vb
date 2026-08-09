@@ -11,7 +11,7 @@
 
         End If
 
-        BackgroundManager.Apply(Me, "masterBackground.png")
+        'BackgroundManager.Apply(Me, "masterBackground.png")
         ThemeManager.ApplyModernTheme(Me)
 
         pnlHeader.BackColor = Color.Transparent
