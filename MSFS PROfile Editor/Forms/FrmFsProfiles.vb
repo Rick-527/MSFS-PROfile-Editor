@@ -268,6 +268,21 @@ Public Class FrmFsProfiles
 
         menu.Items.Add(openItem)
 
+        menu.Items.Add(New ToolStripSeparator())
+
+        Dim removeItem As New ToolStripMenuItem("Remove Profile")
+
+        AddHandler removeItem.Click,
+        Sub()
+
+            Dim profile = DirectCast(btn.Tag, ProfileInfo)
+
+            RemoveProfile(profile, btn)
+
+        End Sub
+
+        menu.Items.Add(removeItem)
+
         btn.DropDownMenu = menu
 
         AddHandler btn.Click,
@@ -276,6 +291,76 @@ Public Class FrmFsProfiles
         Return btn
 
     End Function
+
+    Private Sub RemoveProfile(
+        profileInfo As ProfileInfo,
+        profileButton As ModernSplitButton)
+
+        Dim isCurrentProfile = _currentProfileManager.IsCurrentProfile(profileInfo.ProfileFile)
+
+        Dim message =
+            $"Remove the profile '{profileInfo.DisplayProfileName}'?" &
+            $"{Environment.NewLine}{Environment.NewLine}" &
+            "This will permanently delete the profile file."
+
+        If isCurrentProfile Then
+
+            message &= $"{Environment.NewLine}{Environment.NewLine}" &
+                "This is currently the active profile."
+
+        End If
+
+        Dim result =
+        MessageBox.Show(
+            message,
+            "Remove Profile",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Warning,
+            MessageBoxDefaultButton.Button2)
+
+        If result <> DialogResult.Yes Then
+            Return
+        End If
+
+        Try
+
+            If File.Exists(profileInfo.ProfileFile) Then
+                File.Delete(profileInfo.ProfileFile)
+            End If
+
+            If isCurrentProfile Then
+
+                _currentProfileManager.ClearCurrentProfile()
+
+            End If
+
+            profileButton.Parent?.Controls.Remove(profileButton)
+
+            profileButton.Dispose()
+
+            If isCurrentProfile Then
+
+                lblStatus.Text = "Active profile removed."
+
+            Else
+
+                lblStatus.Text = $"Profile removed: {profileInfo.DisplayProfileName}"
+
+            End If
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+                $"The profile could not be removed." &
+                $"{Environment.NewLine}{Environment.NewLine}" &
+                ex.Message,
+                "Remove Profile Failed",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error)
+
+        End Try
+
+    End Sub
 
     Private Sub UpdateProfileCount(profileCount As Integer)
 
