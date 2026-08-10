@@ -9,6 +9,8 @@ Public Class UcProfiles
     Private ReadOnly _profileManager As New ProfileManager()
     Private ReadOnly _currentProfileManager As New CurrentProfileManager()
 
+    Private ReadOnly _profileToolTip As New ToolTip()
+
     Private ReadOnly _normalProfileColor As Color =
         Color.FromArgb(45, 55, 65)
 
@@ -25,6 +27,13 @@ Public Class UcProfiles
         pnlFooter.BackColor = Color.Transparent
 
         Me.DoubleBuffered = True
+
+        _profileToolTip.BackColor = Color.FromArgb(255, 235, 140)
+        _profileToolTip.ForeColor = Color.Black
+        _profileToolTip.InitialDelay = 400
+        _profileToolTip.ReshowDelay = 100
+        _profileToolTip.AutoPopDelay = 5000
+        _profileToolTip.ShowAlways = True
 
         LoadUserProfiles()
 
@@ -205,6 +214,8 @@ Public Class UcProfiles
 
         btn.Tag = profileInfo
 
+        _profileToolTip.SetToolTip(btn, profileInfo.DisplayProfileName)
+
         If _currentProfileManager.
         IsCurrentProfile(profileInfo.ProfileFile) Then
 
@@ -316,9 +327,7 @@ Public Class UcProfiles
 
             End If
 
-            profileButton.Parent?.Controls.Remove(profileButton)
-
-            profileButton.Dispose()
+            LoadUserProfiles()
 
             If isCurrentProfile Then
 

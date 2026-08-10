@@ -33,6 +33,10 @@ Partial Class FrmMain
         pnlContent = New Panel()
         pnlSideMenu = New Panel()
         StatusStrip1 = New StatusStrip()
+        btnMigrateProfiles = New Button()
+        btnManageProfiles = New Button()
+        btnCreateNewProfile = New Button()
+        btnSetProfileFolder = New Button()
         pnlHeader.SuspendLayout()
         pnlBody.SuspendLayout()
         pnlSideMenu.SuspendLayout()
@@ -44,7 +48,7 @@ Partial Class FrmMain
         btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnClose.Location = New Point(11, 254)
+        btnClose.Location = New Point(11, 420)
         btnClose.Name = "btnClose"
         btnClose.Size = New Size(172, 41)
         btnClose.TabIndex = 12
@@ -55,7 +59,7 @@ Partial Class FrmMain
         ' 
         btnMaintenance.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnMaintenance.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnMaintenance.Location = New Point(11, 79)
+        btnMaintenance.Location = New Point(12, 317)
         btnMaintenance.Name = "btnMaintenance"
         btnMaintenance.Size = New Size(172, 41)
         btnMaintenance.TabIndex = 14
@@ -91,7 +95,7 @@ Partial Class FrmMain
         ' 
         btnProfileSelector.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
         btnProfileSelector.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnProfileSelector.Location = New Point(11, 23)
+        btnProfileSelector.Location = New Point(11, 6)
         btnProfileSelector.Name = "btnProfileSelector"
         btnProfileSelector.Size = New Size(172, 41)
         btnProfileSelector.TabIndex = 38
@@ -129,6 +133,10 @@ Partial Class FrmMain
         ' 
         ' pnlSideMenu
         ' 
+        pnlSideMenu.Controls.Add(btnManageProfiles)
+        pnlSideMenu.Controls.Add(btnCreateNewProfile)
+        pnlSideMenu.Controls.Add(btnSetProfileFolder)
+        pnlSideMenu.Controls.Add(btnMigrateProfiles)
         pnlSideMenu.Controls.Add(btnProfileSelector)
         pnlSideMenu.Controls.Add(btnMaintenance)
         pnlSideMenu.Controls.Add(btnClose)
@@ -147,6 +155,50 @@ Partial Class FrmMain
         StatusStrip1.Size = New Size(900, 22)
         StatusStrip1.TabIndex = 60
         StatusStrip1.Text = "MSFSVersion:"
+        ' 
+        ' btnMigrateProfiles
+        ' 
+        btnMigrateProfiles.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnMigrateProfiles.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnMigrateProfiles.Location = New Point(11, 194)
+        btnMigrateProfiles.Name = "btnMigrateProfiles"
+        btnMigrateProfiles.Size = New Size(172, 41)
+        btnMigrateProfiles.TabIndex = 39
+        btnMigrateProfiles.Text = "&Migrate Old Profiles"
+        btnMigrateProfiles.UseVisualStyleBackColor = False
+        ' 
+        ' btnManageProfiles
+        ' 
+        btnManageProfiles.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnManageProfiles.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnManageProfiles.Location = New Point(11, 100)
+        btnManageProfiles.Name = "btnManageProfiles"
+        btnManageProfiles.Size = New Size(172, 41)
+        btnManageProfiles.TabIndex = 41
+        btnManageProfiles.Text = "Manage P&rofiles"
+        btnManageProfiles.UseVisualStyleBackColor = False
+        ' 
+        ' btnCreateNewProfile
+        ' 
+        btnCreateNewProfile.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnCreateNewProfile.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnCreateNewProfile.Location = New Point(11, 53)
+        btnCreateNewProfile.Name = "btnCreateNewProfile"
+        btnCreateNewProfile.Size = New Size(172, 41)
+        btnCreateNewProfile.TabIndex = 42
+        btnCreateNewProfile.Text = "Ne&w Profile"
+        btnCreateNewProfile.UseVisualStyleBackColor = False
+        ' 
+        ' btnSetProfileFolder
+        ' 
+        btnSetProfileFolder.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnSetProfileFolder.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnSetProfileFolder.Location = New Point(11, 147)
+        btnSetProfileFolder.Name = "btnSetProfileFolder"
+        btnSetProfileFolder.Size = New Size(172, 41)
+        btnSetProfileFolder.TabIndex = 40
+        btnSetProfileFolder.Text = "&Set Profile Folder"
+        btnSetProfileFolder.UseVisualStyleBackColor = False
         ' 
         ' FrmMain
         ' 
@@ -186,5 +238,9 @@ Partial Class FrmMain
     Friend WithEvents pnlContent As Panel
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents lblPageDescription As Label
+    Friend WithEvents btnMigrateProfiles As Button
+    Friend WithEvents btnManageProfiles As Button
+    Friend WithEvents btnCreateNewProfile As Button
+    Friend WithEvents btnSetProfileFolder As Button
 
 End Class

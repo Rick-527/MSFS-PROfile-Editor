@@ -89,42 +89,112 @@
 
         End Select
 
-        ' Update the application version and simulator
-        ' selection in the title bar.
+        ShowMainNavigation()
+
+        ' Update the application title bar.
         TitleBarManager.ApplyVersionInfo(Me)
 
     End Sub
 
-    Private Sub btnMaintenance_Click(
-        sender As Object,
-        e As EventArgs
-    ) Handles btnMaintenance.Click
+    Private Sub ShowMainNavigation()
 
-        MenuActionsManager.ShowModal(
-            Me,
-            New FrmMaintenance()
-        )
+        btnProfileSelector.Visible = True
+
+        btnCreateNewProfile.Visible = False
+        btnManageProfiles.Visible = False
+        btnSetProfileFolder.Visible = False
+        btnMigrateProfiles.Visible = False
+
+        btnMaintenance.Visible = True
+        btnClose.Visible = True
+
+        btnProfileSelector.Top = 20
+        btnMaintenance.Top = 75
+        btnClose.Top = 280
 
     End Sub
 
-    Private Sub btnClose_Click(
-        sender As Object,
-        e As EventArgs
-    ) Handles btnClose.Click
+    Private Sub ShowProfileNavigation()
+
+        btnProfileSelector.Visible = False
+
+        btnCreateNewProfile.Visible = True
+        btnManageProfiles.Visible = True
+        btnSetProfileFolder.Visible = True
+        btnMigrateProfiles.Visible = True
+
+        btnMaintenance.Visible = True
+        btnClose.Visible = True
+
+        btnCreateNewProfile.Top = 20
+        btnManageProfiles.Top = 65
+        btnSetProfileFolder.Top = 110
+        btnMigrateProfiles.Top = 155
+
+        btnMaintenance.Top = 220
+        btnClose.Top = 280
+
+    End Sub
+
+    Private Sub ShowMaintenanceNavigation()
+
+        btnProfileSelector.Visible = True
+
+        btnCreateNewProfile.Visible = False
+        btnManageProfiles.Visible = False
+        btnSetProfileFolder.Visible = False
+        btnMigrateProfiles.Visible = False
+
+        btnMaintenance.Visible = False
+        btnClose.Visible = True
+
+        btnProfileSelector.Top = 20
+        btnClose.Top = 280
+
+    End Sub
+    Private Sub btnMaintenance_Click(sender As Object, e As EventArgs) Handles btnMaintenance.Click
+
+        pnlContent.Controls.Clear()
+
+        Dim maintenanceControl As New UcMaintenance With {.Dock = DockStyle.Fill}
+
+        AddHandler maintenanceControl.StatusChanged,
+            Sub(message As String)
+                lblStatus.Text = message
+            End Sub
+
+        pnlContent.Controls.Add(maintenanceControl)
+
+        PageTitleManager.Apply(lblPageTitle, lblPageDescription, "MSFS File Maintenance", "Manage Microsoft Flight Simulator program files")
+
+        ShowMaintenanceNavigation()
+
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
 
         Application.Exit()
 
     End Sub
 
-    Private Sub btnProfileSelector_Click(
-        sender As Object,
-        e As EventArgs
-    ) Handles btnProfileSelector.Click
+    Private Sub btnProfileSelector_Click(sender As Object, e As EventArgs) Handles btnProfileSelector.Click
 
-        MenuActionsManager.ShowModal(
-            Me,
-            New FrmFsProfiles()
-        )
+        pnlContent.Controls.Clear()
+
+        Dim profilesControl As New UcProfiles With {
+            .Dock = DockStyle.Fill
+        }
+
+        AddHandler profilesControl.StatusChanged,
+        Sub(message As String)
+            lblStatus.Text = message
+        End Sub
+
+        pnlContent.Controls.Add(profilesControl)
+
+        PageTitleManager.Apply(lblPageTitle, lblPageDescription, "Profiles", "Manage your Microsoft Flight Simulator profiles")
+
+        ShowProfileNavigation()
 
     End Sub
 

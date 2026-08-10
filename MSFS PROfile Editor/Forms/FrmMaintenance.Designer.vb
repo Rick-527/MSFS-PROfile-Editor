@@ -26,7 +26,7 @@ Partial Class FrmMaintenance
         btnClose = New Button()
         btnDeleteRollingCache = New Button()
         btnDeleteSceneryIndexes = New Button()
-        Label1 = New Label()
+        lblConfigurationFiles = New Label()
         lblStatus = New ToolStripStatusLabel()
         StatusStrip1 = New StatusStrip()
         lblRollingCache = New Label()
@@ -88,15 +88,15 @@ Partial Class FrmMaintenance
         btnDeleteSceneryIndexes.Text = "Delete &Scenery Indexes"
         btnDeleteSceneryIndexes.UseVisualStyleBackColor = False
         ' 
-        ' Label1
+        ' lblConfigurationFiles
         ' 
-        Label1.AutoSize = True
-        Label1.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold)
-        Label1.Location = New Point(75, 15)
-        Label1.Name = "Label1"
-        Label1.Size = New Size(141, 20)
-        Label1.TabIndex = 27
-        Label1.Text = "Configuration Files"
+        lblConfigurationFiles.AutoSize = True
+        lblConfigurationFiles.Font = New Font("Segoe UI", 11.25F, FontStyle.Bold)
+        lblConfigurationFiles.Location = New Point(75, 15)
+        lblConfigurationFiles.Name = "lblConfigurationFiles"
+        lblConfigurationFiles.Size = New Size(141, 20)
+        lblConfigurationFiles.TabIndex = 27
+        lblConfigurationFiles.Text = "Configuration Files"
         ' 
         ' lblStatus
         ' 
@@ -235,7 +235,7 @@ Partial Class FrmMaintenance
         ' pnlContent
         ' 
         pnlContent.Controls.Add(btnBackupFs2024Cfg)
-        pnlContent.Controls.Add(Label1)
+        pnlContent.Controls.Add(lblConfigurationFiles)
         pnlContent.Controls.Add(lblRollingCache)
         pnlContent.Controls.Add(lblSceneryIndexes)
         pnlContent.Controls.Add(btnViewFs2024Cfg)
@@ -293,7 +293,7 @@ Partial Class FrmMaintenance
     Friend WithEvents btnClose As Button
     Friend WithEvents btnDeleteRollingCache As Button
     Friend WithEvents btnDeleteSceneryIndexes As Button
-    Friend WithEvents Label1 As Label
+    Friend WithEvents lblConfigurationFiles As Label
     Friend WithEvents Label4 As Label
     Friend WithEvents Label5 As Label
     Friend WithEvents Label6 As Label

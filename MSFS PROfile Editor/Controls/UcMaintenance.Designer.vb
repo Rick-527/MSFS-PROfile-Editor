@@ -1,0 +1,95 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class UcMaintenance
+    Inherits System.Windows.Forms.UserControl
+
+    'UserControl overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        lblConfigurationFiles = New Label()
+        btnExeXml = New ModernSplitButton()
+        btnCamerasCfg = New ModernSplitButton()
+        btnFlightsimulator2024Cfg = New ModernSplitButton()
+        SuspendLayout()
+        ' 
+        ' lblConfigurationFiles
+        ' 
+        lblConfigurationFiles.AutoSize = True
+        lblConfigurationFiles.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblConfigurationFiles.ForeColor = Color.White
+        lblConfigurationFiles.Location = New Point(0, 0)
+        lblConfigurationFiles.Name = "lblConfigurationFiles"
+        lblConfigurationFiles.Size = New Size(126, 17)
+        lblConfigurationFiles.TabIndex = 0
+        lblConfigurationFiles.Text = "Configuration Files"
+        ' 
+        ' btnExeXml
+        ' 
+        btnExeXml.DropDownMenu = Nothing
+        btnExeXml.FlatStyle = FlatStyle.Flat
+        btnExeXml.Location = New Point(0, 29)
+        btnExeXml.Name = "btnExeXml"
+        btnExeXml.Size = New Size(300, 42)
+        btnExeXml.TabIndex = 1
+        btnExeXml.Text = "EXE.xml"
+        btnExeXml.UseVisualStyleBackColor = True
+        ' 
+        ' btnCamerasCfg
+        ' 
+        btnCamerasCfg.DropDownMenu = Nothing
+        btnCamerasCfg.FlatStyle = FlatStyle.Flat
+        btnCamerasCfg.Location = New Point(0, 83)
+        btnCamerasCfg.Name = "btnCamerasCfg"
+        btnCamerasCfg.Size = New Size(300, 42)
+        btnCamerasCfg.TabIndex = 2
+        btnCamerasCfg.Text = "Cameras.cfg"
+        btnCamerasCfg.UseVisualStyleBackColor = True
+        ' 
+        ' btnFlightsimulator2024Cfg
+        ' 
+        btnFlightsimulator2024Cfg.DropDownMenu = Nothing
+        btnFlightsimulator2024Cfg.FlatStyle = FlatStyle.Flat
+        btnFlightsimulator2024Cfg.Location = New Point(0, 137)
+        btnFlightsimulator2024Cfg.Name = "btnFlightsimulator2024Cfg"
+        btnFlightsimulator2024Cfg.Size = New Size(300, 42)
+        btnFlightsimulator2024Cfg.TabIndex = 3
+        btnFlightsimulator2024Cfg.Text = "Flightsimulator2024.cfg"
+        btnFlightsimulator2024Cfg.UseVisualStyleBackColor = True
+        ' 
+        ' UcMaintenance
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = Color.Transparent
+        Controls.Add(btnFlightsimulator2024Cfg)
+        Controls.Add(btnCamerasCfg)
+        Controls.Add(btnExeXml)
+        Controls.Add(lblConfigurationFiles)
+        Name = "UcMaintenance"
+        Size = New Size(344, 447)
+        ResumeLayout(False)
+        PerformLayout()
+    End Sub
+
+    Friend WithEvents lblConfigurationFiles As Label
+    Friend WithEvents btnExeXml As ModernSplitButton
+    Friend WithEvents btnCamerasCfg As ModernSplitButton
+    Friend WithEvents btnFlightsimulator2024Cfg As ModernSplitButton
+
+End Class
