@@ -32,11 +32,11 @@ Partial Class FrmMain
         pnlBody = New Panel()
         pnlContent = New Panel()
         pnlSideMenu = New Panel()
-        StatusStrip1 = New StatusStrip()
-        btnMigrateProfiles = New Button()
         btnManageProfiles = New Button()
         btnCreateNewProfile = New Button()
         btnSetProfileFolder = New Button()
+        btnMigrateProfiles = New Button()
+        StatusStrip1 = New StatusStrip()
         pnlHeader.SuspendLayout()
         pnlBody.SuspendLayout()
         pnlSideMenu.SuspendLayout()
@@ -146,27 +146,6 @@ Partial Class FrmMain
         pnlSideMenu.Size = New Size(190, 481)
         pnlSideMenu.TabIndex = 41
         ' 
-        ' StatusStrip1
-        ' 
-        StatusStrip1.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
-        StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus})
-        StatusStrip1.Location = New Point(0, 578)
-        StatusStrip1.Name = "StatusStrip1"
-        StatusStrip1.Size = New Size(900, 22)
-        StatusStrip1.TabIndex = 60
-        StatusStrip1.Text = "MSFSVersion:"
-        ' 
-        ' btnMigrateProfiles
-        ' 
-        btnMigrateProfiles.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
-        btnMigrateProfiles.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        btnMigrateProfiles.Location = New Point(11, 194)
-        btnMigrateProfiles.Name = "btnMigrateProfiles"
-        btnMigrateProfiles.Size = New Size(172, 41)
-        btnMigrateProfiles.TabIndex = 39
-        btnMigrateProfiles.Text = "&Migrate Old Profiles"
-        btnMigrateProfiles.UseVisualStyleBackColor = False
-        ' 
         ' btnManageProfiles
         ' 
         btnManageProfiles.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
@@ -199,6 +178,27 @@ Partial Class FrmMain
         btnSetProfileFolder.TabIndex = 40
         btnSetProfileFolder.Text = "&Set Profile Folder"
         btnSetProfileFolder.UseVisualStyleBackColor = False
+        ' 
+        ' btnMigrateProfiles
+        ' 
+        btnMigrateProfiles.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnMigrateProfiles.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        btnMigrateProfiles.Location = New Point(11, 194)
+        btnMigrateProfiles.Name = "btnMigrateProfiles"
+        btnMigrateProfiles.Size = New Size(172, 41)
+        btnMigrateProfiles.TabIndex = 39
+        btnMigrateProfiles.Text = "&Migrate Old Profiles"
+        btnMigrateProfiles.UseVisualStyleBackColor = False
+        ' 
+        ' StatusStrip1
+        ' 
+        StatusStrip1.BackColor = Color.FromArgb(CByte(43), CByte(50), CByte(64))
+        StatusStrip1.Items.AddRange(New ToolStripItem() {lblStatus})
+        StatusStrip1.Location = New Point(0, 578)
+        StatusStrip1.Name = "StatusStrip1"
+        StatusStrip1.Size = New Size(900, 22)
+        StatusStrip1.TabIndex = 60
+        StatusStrip1.Text = "MSFSVersion:"
         ' 
         ' FrmMain
         ' 

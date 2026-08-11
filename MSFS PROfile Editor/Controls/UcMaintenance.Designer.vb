@@ -26,12 +26,14 @@ Partial Class UcMaintenance
         btnExeXml = New ModernSplitButton()
         btnCamerasCfg = New ModernSplitButton()
         btnFlightsimulator2024Cfg = New ModernSplitButton()
+        btnRollingCache = New ModernSplitButton()
+        btnSceneryIndexes = New ModernSplitButton()
         SuspendLayout()
         ' 
         ' lblConfigurationFiles
         ' 
         lblConfigurationFiles.AutoSize = True
-        lblConfigurationFiles.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
+        lblConfigurationFiles.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
         lblConfigurationFiles.ForeColor = Color.White
         lblConfigurationFiles.Location = New Point(0, 0)
         lblConfigurationFiles.Name = "lblConfigurationFiles"
@@ -43,7 +45,7 @@ Partial Class UcMaintenance
         ' 
         btnExeXml.DropDownMenu = Nothing
         btnExeXml.FlatStyle = FlatStyle.Flat
-        btnExeXml.Location = New Point(0, 29)
+        btnExeXml.Location = New Point(8, 29)
         btnExeXml.Name = "btnExeXml"
         btnExeXml.Size = New Size(300, 42)
         btnExeXml.TabIndex = 1
@@ -54,7 +56,7 @@ Partial Class UcMaintenance
         ' 
         btnCamerasCfg.DropDownMenu = Nothing
         btnCamerasCfg.FlatStyle = FlatStyle.Flat
-        btnCamerasCfg.Location = New Point(0, 83)
+        btnCamerasCfg.Location = New Point(8, 84)
         btnCamerasCfg.Name = "btnCamerasCfg"
         btnCamerasCfg.Size = New Size(300, 42)
         btnCamerasCfg.TabIndex = 2
@@ -65,24 +67,48 @@ Partial Class UcMaintenance
         ' 
         btnFlightsimulator2024Cfg.DropDownMenu = Nothing
         btnFlightsimulator2024Cfg.FlatStyle = FlatStyle.Flat
-        btnFlightsimulator2024Cfg.Location = New Point(0, 137)
+        btnFlightsimulator2024Cfg.Location = New Point(8, 139)
         btnFlightsimulator2024Cfg.Name = "btnFlightsimulator2024Cfg"
         btnFlightsimulator2024Cfg.Size = New Size(300, 42)
         btnFlightsimulator2024Cfg.TabIndex = 3
         btnFlightsimulator2024Cfg.Text = "Flightsimulator2024.cfg"
         btnFlightsimulator2024Cfg.UseVisualStyleBackColor = True
         ' 
+        ' btnRollingCache
+        ' 
+        btnRollingCache.DropDownMenu = Nothing
+        btnRollingCache.FlatStyle = FlatStyle.Flat
+        btnRollingCache.Location = New Point(8, 215)
+        btnRollingCache.Name = "btnRollingCache"
+        btnRollingCache.Size = New Size(300, 42)
+        btnRollingCache.TabIndex = 4
+        btnRollingCache.Text = "Rolling Cache"
+        btnRollingCache.UseVisualStyleBackColor = True
+        ' 
+        ' btnSceneryIndexes
+        ' 
+        btnSceneryIndexes.DropDownMenu = Nothing
+        btnSceneryIndexes.FlatStyle = FlatStyle.Flat
+        btnSceneryIndexes.Location = New Point(8, 269)
+        btnSceneryIndexes.Name = "btnSceneryIndexes"
+        btnSceneryIndexes.Size = New Size(300, 42)
+        btnSceneryIndexes.TabIndex = 5
+        btnSceneryIndexes.Text = "SceneryIndexes"
+        btnSceneryIndexes.UseVisualStyleBackColor = True
+        ' 
         ' UcMaintenance
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Transparent
+        Controls.Add(btnSceneryIndexes)
+        Controls.Add(btnRollingCache)
         Controls.Add(btnFlightsimulator2024Cfg)
         Controls.Add(btnCamerasCfg)
         Controls.Add(btnExeXml)
         Controls.Add(lblConfigurationFiles)
         Name = "UcMaintenance"
-        Size = New Size(344, 447)
+        Size = New Size(318, 449)
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -91,5 +117,7 @@ Partial Class UcMaintenance
     Friend WithEvents btnExeXml As ModernSplitButton
     Friend WithEvents btnCamerasCfg As ModernSplitButton
     Friend WithEvents btnFlightsimulator2024Cfg As ModernSplitButton
+    Friend WithEvents btnRollingCache As ModernSplitButton
+    Friend WithEvents btnSceneryIndexes As ModernSplitButton
 
 End Class

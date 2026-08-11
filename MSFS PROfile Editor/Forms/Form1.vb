@@ -1,5 +1,7 @@
 ﻿Public Class FrmMain
 
+    Private _profilesControl As UcProfiles
+
     Private Sub FrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         If My.Settings.UpgradeRequired Then
@@ -96,6 +98,16 @@
 
     End Sub
 
+    Private Sub UpdateProfileNavigationState()
+
+        If _profilesControl Is Nothing Then
+            btnMigrateProfiles.Enabled = False
+            Return
+        End If
+
+        btnMigrateProfiles.Enabled = _profilesControl.HasLegacyProfiles
+
+    End Sub
     Private Sub ShowMainNavigation()
 
         btnProfileSelector.Visible = True
@@ -152,22 +164,104 @@
         btnClose.Top = 280
 
     End Sub
-    Private Sub btnMaintenance_Click(sender As Object, e As EventArgs) Handles btnMaintenance.Click
+
+    Private Sub ShowContent(control As Control)
 
         pnlContent.Controls.Clear()
 
-        Dim maintenanceControl As New UcMaintenance With {.Dock = DockStyle.Fill}
+        control.Dock = DockStyle.Fill
+
+        pnlContent.Controls.Add(control)
+
+        control.BringToFront()
+
+    End Sub
+
+    Private Sub ShowNewProfilePage()
+
+        Dim newProfileControl As New UcNewProfile()
+
+        AddHandler newProfileControl.StatusChanged,
+            Sub(message As String)
+                lblStatus.Text = message
+            End Sub
+
+        AddHandler newProfileControl.CancelRequested,
+            Sub()
+                ShowProfilesPage()
+            End Sub
+
+        AddHandler newProfileControl.ProfileCreated,
+            Sub()
+                ShowProfilesPage()
+            End Sub
+
+        ShowContent(newProfileControl)
+
+        PageTitleManager.Apply(
+            lblPageTitle,
+            lblPageDescription,
+            "Create New Profile",
+            "Save the current MSFS graphics settings as a new profile"
+        )
+
+        ShowProfileNavigation()
+
+    End Sub
+
+    Private Sub ShowProfilesPage()
+
+        _profilesControl = New UcProfiles
+
+        AddHandler _profilesControl.StatusChanged,
+            Sub(message As String)
+                lblStatus.Text = message
+            End Sub
+
+        ShowContent(_profilesControl)
+
+        '_profilesControl.BringToFront()
+
+        PageTitleManager.Apply(
+            lblPageTitle,
+            lblPageDescription,
+            "Profiles",
+            "Manage your Microsoft Flight Simulator profiles"
+    )
+
+        ShowProfileNavigation()
+
+        UpdateProfileNavigationState()
+
+    End Sub
+
+    Private Sub ShowMaintenancePage()
+
+        Dim maintenanceControl As New UcMaintenance
 
         AddHandler maintenanceControl.StatusChanged,
             Sub(message As String)
                 lblStatus.Text = message
             End Sub
 
-        pnlContent.Controls.Add(maintenanceControl)
+        ShowContent(maintenanceControl)
 
-        PageTitleManager.Apply(lblPageTitle, lblPageDescription, "MSFS File Maintenance", "Manage Microsoft Flight Simulator program files")
+        'maintenanceControl.BringToFront()
+
+        PageTitleManager.Apply(
+            lblPageTitle,
+            lblPageDescription,
+            "MSFS File Maintenance",
+            "Manage Microsoft Flight Simulator program files"
+    )
 
         ShowMaintenanceNavigation()
+
+    End Sub
+
+    Private Sub btnMaintenance_Click(sender As Object, e As EventArgs) Handles btnMaintenance.Click
+
+        ShowMaintenancePage()
 
     End Sub
 
@@ -179,23 +273,32 @@
 
     Private Sub btnProfileSelector_Click(sender As Object, e As EventArgs) Handles btnProfileSelector.Click
 
-        pnlContent.Controls.Clear()
-
-        Dim profilesControl As New UcProfiles With {
-            .Dock = DockStyle.Fill
-        }
-
-        AddHandler profilesControl.StatusChanged,
-        Sub(message As String)
-            lblStatus.Text = message
-        End Sub
-
-        pnlContent.Controls.Add(profilesControl)
-
-        PageTitleManager.Apply(lblPageTitle, lblPageDescription, "Profiles", "Manage your Microsoft Flight Simulator profiles")
-
-        ShowProfileNavigation()
+        ShowProfilesPage()
 
     End Sub
 
+    Private Sub btnCreateNewProfile_Click(sender As Object, e As EventArgs) Handles btnCreateNewProfile.Click
+
+        ShowNewProfilePage()
+
+    End Sub
+
+    Private Sub btnManageProfiles_Click(sender As Object, e As EventArgs) Handles btnManageProfiles.Click
+
+        _profilesControl?.ManageProfiles()
+
+    End Sub
+
+    Private Sub btnSetProfileFolder_Click(sender As Object, e As EventArgs) Handles btnSetProfileFolder.Click
+
+        _profilesControl?.SetProfileFolder()
+        UpdateProfileNavigationState()
+
+    End Sub
+
+    Private Sub btnMigrateProfiles_Click(sender As Object, e As EventArgs) Handles btnMigrateProfiles.Click
+
+        _profilesControl?.MigrateProfiles()
+
+    End Sub
 End Class

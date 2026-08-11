@@ -295,6 +295,8 @@ Public Class ProfileManager
                     destFileName:=newProfilePath,
                     overwrite:=False)
 
+                File.Delete(legacyProfile)
+
                 result.ConvertedCount += 1
 
             Catch ex As Exception

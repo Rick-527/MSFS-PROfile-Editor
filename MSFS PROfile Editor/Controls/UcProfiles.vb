@@ -6,6 +6,12 @@ Public Class UcProfiles
     Private Const ProfilesPerGroup As Integer = 5
     Private Const ProfileButtonHeight As Integer = 38
 
+    Public ReadOnly Property HasLegacyProfiles As Boolean
+        Get
+            Return _profileManager.GetLegacyProfileCount() > 0
+        End Get
+    End Property
+
     Private ReadOnly _profileManager As New ProfileManager()
     Private ReadOnly _currentProfileManager As New CurrentProfileManager()
 
@@ -477,4 +483,239 @@ Public Class UcProfiles
 
     End Sub
 
+    Public Sub ManageProfiles()
+
+        Dim profileFolder = My.Settings.ProfileFolder
+
+        If String.IsNullOrWhiteSpace(profileFolder) OrElse
+            Not Directory.Exists(profileFolder) Then
+
+            MessageBox.Show(
+                "The profile folder has not been configured or no longer exists.",
+                "Manage Profiles",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            )
+
+            Return
+
+        End If
+
+        Try
+
+            Process.Start(
+                New ProcessStartInfo With {
+                    .FileName = profileFolder,
+                    .UseShellExecute = True
+                }
+            )
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+                $"The profile folder could not be opened.{Environment.NewLine}{Environment.NewLine}{ex.Message}",
+                "Manage Profiles",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            )
+
+            Return
+
+        End Try
+
+        MessageBox.Show(
+            Me,
+            "File Explorer has been opened to your profile folder." &
+            Environment.NewLine & Environment.NewLine &
+            "Delete, rename, or organize your profile files as needed." &
+            Environment.NewLine & Environment.NewLine &
+            "When you're finished, return here and click OK to refresh the profile list.",
+            "Manage Profiles",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information
+        )
+
+        LoadUserProfiles()
+
+    End Sub
+
+
+    Public Sub SetProfileFolder()
+
+        Using dlg As New FolderBrowserDialog()
+
+            dlg.Description =
+                "Select the folder that stores your MSFS profile files."
+
+            If Directory.Exists(My.Settings.ProfileFolder) Then
+                dlg.SelectedPath = My.Settings.ProfileFolder
+            End If
+
+            If dlg.ShowDialog() <> DialogResult.OK Then
+                Return
+            End If
+
+            Dim selectedFolder = dlg.SelectedPath
+
+            If SimulatorFilesManager.IsSimulatorConfigFolder(selectedFolder) OrElse
+                SimulatorFilesManager.FolderContainsUserCfg(selectedFolder) Then
+
+                MessageBox.Show(
+                    "This folder contains the active Microsoft Flight Simulator configuration file, UserCfg.opt." &
+                    $"{Environment.NewLine}{Environment.NewLine}" &
+                    "Please select a separate folder for storing your profiles.",
+                    "Invalid Profile Folder",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                )
+
+                Return
+
+            End If
+
+            If Not _profileManager.SetCurrentProfileFolder(selectedFolder) Then
+
+                MessageBox.Show(
+                    "The selected profile folder could not be saved.",
+                    "Invalid Profile Folder",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                )
+
+                Return
+
+            End If
+
+            LoadUserProfiles()
+
+        End Using
+
+    End Sub
+
+
+    Public Sub MigrateProfiles()
+
+        Dim profileFolder = My.Settings.ProfileFolder
+
+        If String.IsNullOrWhiteSpace(profileFolder) Then
+
+            MessageBox.Show(
+                "Please select your profile folder before migrating profiles.",
+                "Profile Folder Required",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            )
+
+            Return
+
+        End If
+
+        If Not Directory.Exists(profileFolder) Then
+
+            MessageBox.Show(
+                "The configured profile folder could not be found.",
+                "Profile Folder Not Found",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning
+            )
+
+            Return
+
+        End If
+
+        Dim legacyProfileCount = _profileManager.GetLegacyProfileCount()
+
+        If legacyProfileCount = 0 Then
+
+            MessageBox.Show(
+                "No old .opt profile files were found.",
+                "No Profiles to Migrate",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            )
+
+            Return
+
+        End If
+
+        Dim confirmation =
+            MessageBox.Show(
+                $"{legacyProfileCount} old .opt profile file(s) were found." &
+                $"{Environment.NewLine}{Environment.NewLine}" &
+                "Matching .profx profile files will be created." &
+                $"{Environment.NewLine}" &
+                "Successfully migrated .opt files will then be deleted." &
+                $"{Environment.NewLine}{Environment.NewLine}" &
+                "Would you like to continue?",
+                "Migrate Old Profiles",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            )
+
+        If confirmation <> DialogResult.Yes Then
+            Return
+        End If
+
+        Dim result =
+            _profileManager.MigrateLegacyProfiles()
+
+        Dim message =
+            $"Migration complete.{Environment.NewLine}{Environment.NewLine}" &
+            $"Converted: {result.ConvertedCount}{Environment.NewLine}" &
+            $"Skipped: {result.SkippedCount}{Environment.NewLine}" &
+            $"Failed: {result.FailedCount}"
+
+        If result.ErrorMessages.Count > 0 Then
+
+            message &=
+                $"{Environment.NewLine}{Environment.NewLine}" &
+                String.Join(
+                    Environment.NewLine,
+                    result.ErrorMessages
+                )
+
+        End If
+
+        Dim icon =
+            If(
+                result.FailedCount > 0,
+                MessageBoxIcon.Warning,
+                MessageBoxIcon.Information
+            )
+
+        MessageBox.Show(
+            message,
+            "Profile Migration",
+            MessageBoxButtons.OK,
+            icon
+        )
+
+        LoadUserProfiles()
+
+    End Sub
+
+    Private Sub btnViewUserCfg_Click(sender As Object, e As EventArgs) Handles btnViewUserCfg.Click
+
+        Try
+
+            RaiseEvent StatusChanged("Opening UserCfg.opt...")
+
+            SimulatorFilesManager.OpenUserCfg()
+
+            RaiseEvent StatusChanged("Ready")
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+                ex.Message,
+                "Open UserCfg.opt Failed",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error)
+
+            RaiseEvent StatusChanged(
+            "UserCfg.opt could not be opened.")
+
+        End Try
+
+    End Sub
 End Class
