@@ -5,6 +5,7 @@ Public Class UcProfiles
 
     Private Const ProfilesPerGroup As Integer = 5
     Private Const ProfileButtonHeight As Integer = 38
+    Private Const ProfileButtonWidth As Integer = 172
 
     Public ReadOnly Property HasLegacyProfiles As Boolean
         Get
@@ -41,21 +42,87 @@ Public Class UcProfiles
         _profileToolTip.AutoPopDelay = 5000
         _profileToolTip.ShowAlways = True
 
+        ConfigureSimulatorLauncher()
+
         LoadUserProfiles()
 
     End Sub
 
+    Private Sub ConfigureSimulatorLauncher()
+
+        Dim menu As New ContextMenuStrip()
+
+        Dim normalItem As New ToolStripMenuItem("Normal Launch")
+
+        AddHandler normalItem.Click,
+            Async Sub()
+                Await LaunchSimulatorAsync(LaunchMode.Normal)
+            End Sub
+
+        menu.Items.Add(normalItem)
+
+        Dim fsuipcItem As New ToolStripMenuItem("Launch with FSUIPC")
+
+        AddHandler fsuipcItem.Click,
+            Async Sub()
+                Await LaunchSimulatorAsync(LaunchMode.FSUIPC)
+            End Sub
+
+        menu.Items.Add(fsuipcItem)
+
+        btnSimLauncher2024.DropDownMenu = menu
+
+    End Sub
+
+    Private Async Function LaunchSimulatorAsync(
+    mode As LaunchMode) As Task
+
+        Try
+
+            RaiseEvent StatusChanged("Launching Microsoft Flight Simulator...")
+
+            Dim launched =
+                Await SimulatorLauncher.LaunchAsync(mode)
+
+            If launched Then
+
+                RaiseEvent StatusChanged(
+                    "Microsoft Flight Simulator is running.")
+
+            Else
+
+                RaiseEvent StatusChanged(
+                    "Microsoft Flight Simulator could not be started.")
+
+            End If
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+                ex.Message,
+                "Launch Simulator Failed",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error)
+
+            RaiseEvent StatusChanged(
+                "Microsoft Flight Simulator could not be started.")
+
+        End Try
+
+    End Function
+
     Private Function CreateProfileGroupPanel() As FlowLayoutPanel
 
-        Return New FlowLayoutPanel With {
+        Return New FlowLayoutPanel With
+            {
             .AutoSize = True,
             .AutoSizeMode = AutoSizeMode.GrowAndShrink,
             .FlowDirection = FlowDirection.TopDown,
             .WrapContents = False,
-            .Margin = New Padding(8, 8, 8, 8),
+            .Margin = New Padding(0, 4, 16, 0),
             .Padding = New Padding(0),
             .BackColor = Color.Transparent
-        }
+            }
 
     End Function
 
@@ -93,12 +160,6 @@ Public Class UcProfiles
 
             End If
 
-            Dim availableWidth =
-            flpProfiles.ClientSize.Width -
-            flpProfiles.Padding.Horizontal
-
-            Const columnSpacing As Integer = 16
-
             Dim maximumGroupCount =
                 CInt(
                     Math.Ceiling(
@@ -106,9 +167,6 @@ Public Class UcProfiles
                         CDbl(ProfilesPerGroup)
                     )
                 )
-
-            Dim profileButtonWidth =
-            Math.Max(150, (availableWidth \ maximumGroupCount) - columnSpacing)
 
             Dim profileLayout As New TableLayoutPanel With {
                 .Name = "tblProfileGroups",
@@ -132,8 +190,8 @@ Public Class UcProfiles
                 New RowStyle(SizeType.AutoSize))
 
             Dim groupCount =
-            CInt(
-                Math.Ceiling(
+                CInt(
+                    Math.Ceiling(
                     profiles.Count / CDbl(ProfilesPerGroup)))
 
             For groupIndex = 0 To groupCount - 1
@@ -157,7 +215,7 @@ Public Class UcProfiles
                     Dim profileButton =
                         CreateProfileButton(
                         profileInfo,
-                        profileButtonWidth)
+                        ProfileButtonWidth)
 
                     groupPanel.Controls.Add(profileButton)
 
@@ -716,6 +774,12 @@ Public Class UcProfiles
             "UserCfg.opt could not be opened.")
 
         End Try
+
+    End Sub
+
+    Private Async Sub btnSimLauncher2024_Click(sender As Object, e As EventArgs) Handles btnSimLauncher2024.Click
+
+        Await LaunchSimulatorAsync(LaunchMode.Normal)
 
     End Sub
 End Class

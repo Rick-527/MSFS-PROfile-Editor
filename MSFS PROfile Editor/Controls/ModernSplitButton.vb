@@ -11,13 +11,16 @@ Public Class ModernSplitButton
     Inherits Button
 
     Private Const HoverMaxAlpha As Integer = 75
-    Private Const HoverAnimationStep As Integer = 5
+    Private Const HoverAnimationStep As Integer = 10
     Private Const HoverAnimationInterval As Integer = 15
 
 #Region "Fields"
 
     Private _dropDownMenu As ContextMenuStrip
+
     Private _hoverAlpha As Integer = 0
+    Private _mainHoverAlpha As Integer = 0
+
     Private ReadOnly _animationTimer As Timer
 
     Private _isMainHovered As Boolean
@@ -36,12 +39,15 @@ Public Class ModernSplitButton
     Public Sub New()
 
         FlatStyle = FlatStyle.Flat
+        UseVisualStyleBackColor = False
         TextAlign = ContentAlignment.MiddleCenter
 
-        _animationTimer = New Timer()
+        _animationTimer = New Timer() With {
+            .Interval = HoverAnimationInterval
+        }
 
-        _animationTimer.Interval = HoverAnimationInterval
-        AddHandler _animationTimer.Tick, AddressOf AnimationTimer_Tick
+        AddHandler _animationTimer.Tick,
+            AddressOf AnimationTimer_Tick
 
     End Sub
 
@@ -57,12 +63,16 @@ Public Class ModernSplitButton
             Return _splitWidth
         End Get
         Set(value As Integer)
-            If value < 12 Then value = 12
+
+            If value < 12 Then
+                value = 12
+            End If
 
             If _splitWidth <> value Then
                 _splitWidth = value
                 Invalidate()
             End If
+
         End Set
     End Property
 
@@ -74,25 +84,29 @@ Public Class ModernSplitButton
             Return _arrowColor
         End Get
         Set(value As Color)
+
             If _arrowColor <> value Then
                 _arrowColor = value
                 Invalidate()
             End If
+
         End Set
     End Property
 
     <Category("Appearance")>
-    <Description("Gets or sets the background color displayed when the split section is hovered.")>
+    <Description("Gets or sets the background color displayed when a section is hovered.")>
     <DefaultValue(GetType(Color), "Gainsboro")>
     Public Property SplitHoverColor As Color
         Get
             Return _splitHoverColor
         End Get
         Set(value As Color)
+
             If _splitHoverColor <> value Then
                 _splitHoverColor = value
                 Invalidate()
             End If
+
         End Set
     End Property
 
@@ -104,14 +118,21 @@ Public Class ModernSplitButton
             Return _showSplit
         End Get
         Set(value As Boolean)
+
             If _showSplit <> value Then
+
                 _showSplit = value
+
+                _isArrowHovered = False
+                _isArrowPressed = False
+                _hoverAlpha = 0
+
                 Invalidate()
+
             End If
+
         End Set
     End Property
-
-
 
     ''' <summary>
     ''' Gets or sets the menu displayed when the drop-down arrow is clicked.
@@ -126,13 +147,15 @@ Public Class ModernSplitButton
         Set(value As ContextMenuStrip)
 
             If _dropDownMenu IsNot Nothing Then
-                RemoveHandler _dropDownMenu.Closed, AddressOf DropDownMenu_Closed
+                RemoveHandler _dropDownMenu.Closed,
+                    AddressOf DropDownMenu_Closed
             End If
 
             _dropDownMenu = value
 
             If _dropDownMenu IsNot Nothing Then
-                AddHandler _dropDownMenu.Closed, AddressOf DropDownMenu_Closed
+                AddHandler _dropDownMenu.Closed,
+                    AddressOf DropDownMenu_Closed
             End If
 
         End Set
@@ -144,7 +167,11 @@ Public Class ModernSplitButton
 
     Private ReadOnly Property ArrowRectangle As Rectangle
         Get
-            Return New Rectangle(Width - _splitWidth, 0, _splitWidth, Height)
+            Return New Rectangle(
+                Width - _splitWidth,
+                0,
+                _splitWidth,
+                Height)
         End Get
     End Property
 
@@ -152,45 +179,87 @@ Public Class ModernSplitButton
 
 #Region "Private Methods"
 
+    Private Sub StartAnimation()
+
+        If Not _animationTimer.Enabled Then
+            _animationTimer.Start()
+        End If
+
+    End Sub
+
     Private Sub ShowDropDownMenu()
 
-        If DropDownMenu Is Nothing Then Return
+        If DropDownMenu Is Nothing Then
+            Return
+        End If
 
         _isArrowPressed = True
         Invalidate()
 
-        DropDownMenu.Show(Me, New Point(0, Height))
+        DropDownMenu.Show(
+            Me,
+            New Point(0, Height))
 
     End Sub
 
-    Private Sub DropDownMenu_Closed(sender As Object, e As ToolStripDropDownClosedEventArgs)
+    Private Sub DropDownMenu_Closed(
+        sender As Object,
+        e As ToolStripDropDownClosedEventArgs)
 
         _isArrowPressed = False
         Invalidate()
 
     End Sub
 
-    Private Sub AnimationTimer_Tick(sender As Object, e As EventArgs)
+    Private Sub AnimationTimer_Tick(
+        sender As Object,
+        e As EventArgs)
 
-        If _isArrowHovered Then
+        If _isArrowHovered AndAlso _showSplit Then
 
-            _hoverAlpha = Math.Min(HoverMaxAlpha,
-                       _hoverAlpha + HoverAnimationStep)
+            _hoverAlpha =
+                Math.Min(
+                    HoverMaxAlpha,
+                    _hoverAlpha + HoverAnimationStep)
 
         Else
 
-            _hoverAlpha = Math.Max(0,
-                       _hoverAlpha - HoverAnimationStep)
+            _hoverAlpha =
+                Math.Max(
+                    0,
+                    _hoverAlpha - HoverAnimationStep)
+
+        End If
+
+        If _isMainHovered Then
+
+            _mainHoverAlpha =
+                Math.Min(
+                    HoverMaxAlpha,
+                    _mainHoverAlpha + HoverAnimationStep)
+
+        Else
+
+            _mainHoverAlpha =
+                Math.Max(
+                    0,
+                    _mainHoverAlpha - HoverAnimationStep)
 
         End If
 
         Invalidate()
 
-        If (_isArrowHovered AndAlso _hoverAlpha = HoverMaxAlpha) OrElse
-       (Not _isArrowHovered AndAlso _hoverAlpha = 0) Then
+        Dim arrowFinished =
+            (Not _showSplit) OrElse
+            (_isArrowHovered AndAlso _hoverAlpha = HoverMaxAlpha) OrElse
+            (Not _isArrowHovered AndAlso _hoverAlpha = 0)
 
+        Dim mainFinished =
+            (_isMainHovered AndAlso _mainHoverAlpha = HoverMaxAlpha) OrElse
+            (Not _isMainHovered AndAlso _mainHoverAlpha = 0)
+
+        If arrowFinished AndAlso mainFinished Then
             _animationTimer.Stop()
-
         End If
 
     End Sub
@@ -199,31 +268,84 @@ Public Class ModernSplitButton
 
 #Region "Protected Overrides"
 
+    Protected Overrides Sub OnBackColorChanged(e As EventArgs)
+
+        MyBase.OnBackColorChanged(e)
+
+        FlatAppearance.MouseOverBackColor = BackColor
+        FlatAppearance.MouseDownBackColor = BackColor
+
+    End Sub
+
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
 
         MyBase.OnPaint(e)
 
-        If Not _showSplit Then Return
+        e.Graphics.SmoothingMode =
+            Drawing2D.SmoothingMode.AntiAlias
 
-        e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
+        Dim mainWidth =
+            If(
+                _showSplit,
+                Math.Max(0, Width - _splitWidth),
+                Width)
+
+        Dim mainRect As New Rectangle(
+            0,
+            0,
+            mainWidth,
+            Height)
+
+        If _mainHoverAlpha > 0 Then
+
+            Using hoverBrush As New SolidBrush(
+                Color.FromArgb(
+                    _mainHoverAlpha,
+                    _splitHoverColor))
+
+                e.Graphics.FillRectangle(
+                    hoverBrush,
+                    mainRect)
+
+            End Using
+
+        End If
+
+        If Not _showSplit Then
+            Return
+        End If
 
         Dim splitRect = ArrowRectangle
 
         If _isArrowPressed Then
 
-            Using pressedBrush As New SolidBrush(Color.FromArgb(100, Color.Black))
-                e.Graphics.FillRectangle(pressedBrush, splitRect)
+            Using pressedBrush As New SolidBrush(
+                Color.FromArgb(
+                    100,
+                    Color.Black))
+
+                e.Graphics.FillRectangle(
+                    pressedBrush,
+                    splitRect)
+
             End Using
 
-        ElseIf _isArrowHovered Then
+        ElseIf _hoverAlpha > 0 Then
 
-            Using hoverBrush As New SolidBrush(Color.FromArgb(_hoverAlpha, _splitHoverColor))
-                e.Graphics.FillRectangle(hoverBrush, splitRect)
+            Using hoverBrush As New SolidBrush(
+                Color.FromArgb(
+                    _hoverAlpha,
+                    _splitHoverColor))
+
+                e.Graphics.FillRectangle(
+                    hoverBrush,
+                    splitRect)
+
             End Using
 
         End If
 
-        Dim center As Point = New Point(
+        Dim center As New Point(
             splitRect.Left + splitRect.Width \ 2,
             splitRect.Top + splitRect.Height \ 2)
 
@@ -235,16 +357,25 @@ Public Class ModernSplitButton
         }
 
         Using brush As New SolidBrush(_arrowColor)
-            e.Graphics.FillPolygon(brush, arrowPoints)
+
+            e.Graphics.FillPolygon(
+                brush,
+                arrowPoints)
+
         End Using
 
-        Using pen As New Pen(Color.FromArgb(60, Color.White))
+        Using pen As New Pen(
+            Color.FromArgb(
+                60,
+                Color.White))
+
             e.Graphics.DrawLine(
-            pen,
-            splitRect.Left,
-            4,
-            splitRect.Left,
-            splitRect.Bottom - 5)
+                pen,
+                splitRect.Left,
+                4,
+                splitRect.Left,
+                splitRect.Bottom - 5)
+
         End Using
 
     End Sub
@@ -255,12 +386,12 @@ Public Class ModernSplitButton
 
         If Not _showSplit Then
 
-            If _isArrowHovered OrElse _isMainHovered Then
+            If Not _isMainHovered OrElse _isArrowHovered Then
 
+                _isMainHovered = True
                 _isArrowHovered = False
-                _isMainHovered = False
 
-                Invalidate()
+                StartAnimation()
 
             End If
 
@@ -268,19 +399,19 @@ Public Class ModernSplitButton
 
         End If
 
-        Dim overArrow = ArrowRectangle.Contains(e.Location)
-        Dim overMain = Not overArrow
+        Dim overArrow =
+            ArrowRectangle.Contains(e.Location)
 
-        If overArrow <> _isArrowHovered OrElse overMain <> _isMainHovered Then
+        Dim overMain =
+            Not overArrow
+
+        If overArrow <> _isArrowHovered OrElse
+            overMain <> _isMainHovered Then
 
             _isArrowHovered = overArrow
             _isMainHovered = overMain
 
-            If Not _animationTimer.Enabled Then
-
-                _animationTimer.Start()
-
-            End If
+            StartAnimation()
 
         End If
 
@@ -289,13 +420,17 @@ Public Class ModernSplitButton
     Protected Overrides Sub OnMouseDown(e As MouseEventArgs)
 
         If Not _showSplit Then
+
             MyBase.OnMouseDown(e)
             Return
+
         End If
 
         If ArrowRectangle.Contains(e.Location) Then
+
             ShowDropDownMenu()
             Return
+
         End If
 
         MyBase.OnMouseDown(e)
@@ -315,7 +450,6 @@ Public Class ModernSplitButton
 
     End Sub
 
-
     Protected Overrides Sub OnMouseLeave(e As EventArgs)
 
         MyBase.OnMouseLeave(e)
@@ -325,11 +459,7 @@ Public Class ModernSplitButton
             _isArrowHovered = False
             _isMainHovered = False
 
-            If Not _animationTimer.Enabled Then
-
-                _animationTimer.Start()
-
-            End If
+            StartAnimation()
 
         End If
 
@@ -338,10 +468,11 @@ Public Class ModernSplitButton
     Protected Overrides Sub OnKeyDown(e As KeyEventArgs)
 
         If _showSplit AndAlso
-           e.Alt AndAlso
-           e.KeyCode = Keys.Down Then
+            e.Alt AndAlso
+            e.KeyCode = Keys.Down Then
 
             ShowDropDownMenu()
+
             e.Handled = True
             Return
 
@@ -355,10 +486,13 @@ Public Class ModernSplitButton
 
         If disposing Then
 
-            If _animationTimer IsNot Nothing Then
-                _animationTimer.Stop()
-                _animationTimer.Dispose()
+            If _dropDownMenu IsNot Nothing Then
+                RemoveHandler _dropDownMenu.Closed,
+                    AddressOf DropDownMenu_Closed
             End If
+
+            _animationTimer.Stop()
+            _animationTimer.Dispose()
 
         End If
 

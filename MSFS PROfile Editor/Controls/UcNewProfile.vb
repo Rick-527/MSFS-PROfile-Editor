@@ -13,6 +13,55 @@ Public Class UcNewProfile
         Me.BackColor = Color.Transparent
         Me.DoubleBuffered = True
 
+        ' Profile name field
+        txtProfileName.BackColor =
+        Color.FromArgb(59, 69, 89)
+
+        txtProfileName.ForeColor =
+        Color.FromArgb(236, 239, 244)
+
+        txtProfileName.BorderStyle =
+        BorderStyle.FixedSingle
+
+        ' Create - primary action
+        btnCreate.FlatStyle =
+        FlatStyle.Flat
+
+        btnCreate.FlatAppearance.BorderSize = 0
+
+        btnCreate.BackColor =
+        Color.FromArgb(0, 120, 190)
+
+        btnCreate.ForeColor =
+        Color.White
+
+        btnCreate.Font =
+            New Font(
+            "Segoe UI",
+            9.75F,
+            FontStyle.Bold)
+
+        ' Cancel - secondary action
+        btnCancel.FlatStyle =
+        FlatStyle.Flat
+
+        btnCancel.FlatAppearance.BorderSize = 1
+
+        btnCancel.FlatAppearance.BorderColor =
+        Color.FromArgb(90, 100, 115)
+
+        btnCancel.BackColor =
+        Color.FromArgb(48, 58, 68)
+
+        btnCancel.ForeColor =
+        Color.FromArgb(236, 239, 244)
+
+        btnCancel.Font =
+        New Font(
+            "Segoe UI",
+            9.75F,
+            FontStyle.Bold)
+
         txtProfileName.Select()
 
     End Sub

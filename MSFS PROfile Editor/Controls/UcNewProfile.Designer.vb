@@ -31,7 +31,7 @@ Partial Class UcNewProfile
         ' lblProfileNameText
         ' 
         lblProfileNameText.AutoSize = True
-        lblProfileNameText.Location = New Point(7, 54)
+        lblProfileNameText.Location = New Point(11, 20)
         lblProfileNameText.Name = "lblProfileNameText"
         lblProfileNameText.Size = New Size(79, 15)
         lblProfileNameText.TabIndex = 0
@@ -39,28 +39,28 @@ Partial Class UcNewProfile
         ' 
         ' txtProfileName
         ' 
-        txtProfileName.Location = New Point(7, 72)
+        txtProfileName.Location = New Point(11, 43)
         txtProfileName.Name = "txtProfileName"
-        txtProfileName.Size = New Size(400, 23)
+        txtProfileName.Size = New Size(400, 27)
         txtProfileName.TabIndex = 3
         ' 
         ' btnCreate
         ' 
-        btnCreate.Location = New Point(11, 110)
+        btnCreate.Location = New Point(11, 87)
         btnCreate.Name = "btnCreate"
-        btnCreate.Size = New Size(75, 23)
+        btnCreate.Size = New Size(100, 34)
         btnCreate.TabIndex = 4
         btnCreate.Text = "C&reate"
-        btnCreate.UseVisualStyleBackColor = True
+        btnCreate.UseVisualStyleBackColor = False
         ' 
         ' btnCancel
         ' 
-        btnCancel.Location = New Point(121, 110)
+        btnCancel.Location = New Point(121, 87)
         btnCancel.Name = "btnCancel"
-        btnCancel.Size = New Size(75, 23)
+        btnCancel.Size = New Size(100, 34)
         btnCancel.TabIndex = 5
         btnCancel.Text = "&Cancel"
-        btnCancel.UseVisualStyleBackColor = True
+        btnCancel.UseVisualStyleBackColor = False
         ' 
         ' UcNewProfile
         ' 

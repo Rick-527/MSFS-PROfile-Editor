@@ -2,6 +2,11 @@
 
     Private _profilesControl As UcProfiles
 
+    Private Const NavTop As Integer = 20
+    Private Const NavButtonSpacing As Integer = 45
+    Private Const NavSectionSpacing As Integer = 20
+    Private Const CloseButtonTop As Integer = 280
+
     Private Sub FrmMain_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         If My.Settings.UpgradeRequired Then
@@ -101,13 +106,30 @@
     Private Sub UpdateProfileNavigationState()
 
         If _profilesControl Is Nothing Then
-            btnMigrateProfiles.Enabled = False
+            btnMigrateProfiles.Visible = False
             Return
         End If
 
-        btnMigrateProfiles.Enabled = _profilesControl.HasLegacyProfiles
+        btnMigrateProfiles.Visible = _profilesControl.HasLegacyProfiles
+
+        If btnMigrateProfiles.Visible Then
+
+            btnMaintenance.Top =
+                btnMigrateProfiles.Top +
+                btnMigrateProfiles.Height +
+                NavSectionSpacing
+
+        Else
+
+            btnMaintenance.Top =
+                btnSetProfileFolder.Top +
+                btnSetProfileFolder.Height +
+                NavSectionSpacing
+
+        End If
 
     End Sub
+
     Private Sub ShowMainNavigation()
 
         btnProfileSelector.Visible = True
@@ -120,9 +142,14 @@
         btnMaintenance.Visible = True
         btnClose.Visible = True
 
-        btnProfileSelector.Top = 20
-        btnMaintenance.Top = 75
-        btnClose.Top = 280
+        btnProfileSelector.Top = NavTop
+
+        btnMaintenance.Top =
+        btnProfileSelector.Top +
+        btnProfileSelector.Height +
+        NavSectionSpacing
+
+        btnClose.Top = CloseButtonTop
 
     End Sub
 
@@ -138,13 +165,23 @@
         btnMaintenance.Visible = True
         btnClose.Visible = True
 
-        btnCreateNewProfile.Top = 20
-        btnManageProfiles.Top = 65
-        btnSetProfileFolder.Top = 110
-        btnMigrateProfiles.Top = 155
+        btnCreateNewProfile.Top = NavTop
 
-        btnMaintenance.Top = 220
-        btnClose.Top = 280
+        btnManageProfiles.Top =
+        btnCreateNewProfile.Top + NavButtonSpacing
+
+        btnSetProfileFolder.Top =
+        btnManageProfiles.Top + NavButtonSpacing
+
+        btnMigrateProfiles.Top =
+        btnSetProfileFolder.Top + NavButtonSpacing
+
+        btnMaintenance.Top =
+        btnMigrateProfiles.Top +
+        btnMigrateProfiles.Height +
+        NavSectionSpacing
+
+        btnClose.Top = CloseButtonTop
 
     End Sub
 
@@ -160,8 +197,8 @@
         btnMaintenance.Visible = False
         btnClose.Visible = True
 
-        btnProfileSelector.Top = 20
-        btnClose.Top = 280
+        btnProfileSelector.Top = NavTop
+        btnClose.Top = CloseButtonTop
 
     End Sub
 

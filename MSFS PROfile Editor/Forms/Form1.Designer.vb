@@ -46,7 +46,7 @@ Partial Class FrmMain
         ' btnClose
         ' 
         btnClose.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        btnClose.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnClose.BackColor = Color.FromArgb(48, 58, 68)
         btnClose.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnClose.Location = New Point(11, 420)
         btnClose.Name = "btnClose"
@@ -57,7 +57,7 @@ Partial Class FrmMain
         ' 
         ' btnMaintenance
         ' 
-        btnMaintenance.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnMaintenance.BackColor = Color.FromArgb(48, 58, 68)
         btnMaintenance.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnMaintenance.Location = New Point(12, 317)
         btnMaintenance.Name = "btnMaintenance"
@@ -93,7 +93,7 @@ Partial Class FrmMain
         ' 
         ' btnProfileSelector
         ' 
-        btnProfileSelector.BackColor = Color.FromArgb(CByte(76), CByte(86), CByte(106))
+        btnProfileSelector.BackColor = Color.FromArgb(48, 58, 68)
         btnProfileSelector.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         btnProfileSelector.Location = New Point(11, 6)
         btnProfileSelector.Name = "btnProfileSelector"
@@ -129,6 +129,7 @@ Partial Class FrmMain
         pnlContent.Location = New Point(190, 0)
         pnlContent.Name = "pnlContent"
         pnlContent.Size = New Size(710, 481)
+        pnlContent.BackColor = Color.FromArgb(43, 52, 65)
         pnlContent.TabIndex = 42
         ' 
         ' pnlSideMenu
@@ -144,6 +145,7 @@ Partial Class FrmMain
         pnlSideMenu.Location = New Point(0, 0)
         pnlSideMenu.Name = "pnlSideMenu"
         pnlSideMenu.Size = New Size(190, 481)
+        pnlSideMenu.BackColor = Color.FromArgb(43, 52, 65)
         pnlSideMenu.TabIndex = 41
         ' 
         ' btnManageProfiles

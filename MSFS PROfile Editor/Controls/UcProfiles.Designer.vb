@@ -24,8 +24,9 @@ Partial Class UcProfiles
     Private Sub InitializeComponent()
         flpProfiles = New FlowLayoutPanel()
         pnlFooter = New Panel()
-        btnSimLauncher2024 = New Button()
-        btnViewUserCfg = New Button()
+        btnSimLauncher2024 = New ModernSplitButton()
+        btnViewUserCfg = New ModernSplitButton()
+        btnViewUserCfg.ShowSplit = False
         lblStatusCenter = New Label()
         pnlFooter.SuspendLayout()
         SuspendLayout()
@@ -47,39 +48,41 @@ Partial Class UcProfiles
         pnlFooter.Controls.Add(btnViewUserCfg)
         pnlFooter.Controls.Add(lblStatusCenter)
         pnlFooter.Dock = DockStyle.Bottom
-        pnlFooter.Location = New Point(0, 433)
+        pnlFooter.Location = New Point(0, 427)
         pnlFooter.Name = "pnlFooter"
-        pnlFooter.Size = New Size(620, 80)
+        pnlFooter.Size = New Size(620, 86)
         pnlFooter.TabIndex = 0
         ' 
         ' btnSimLauncher2024
         ' 
         btnSimLauncher2024.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
-        btnSimLauncher2024.Location = New Point(224, 31)
+        btnSimLauncher2024.DropDownMenu = Nothing
+        btnSimLauncher2024.FlatStyle = FlatStyle.Flat
+        btnSimLauncher2024.Location = New Point(372, 34)
         btnSimLauncher2024.Name = "btnSimLauncher2024"
-        btnSimLauncher2024.Size = New Size(393, 38)
+        btnSimLauncher2024.Size = New Size(240, 38)
         btnSimLauncher2024.TabIndex = 1
         btnSimLauncher2024.Text = "Launch MSFS 2024"
         btnSimLauncher2024.UseVisualStyleBackColor = True
         ' 
-        ' btnViewUserCfg
-        ' 
-        btnViewUserCfg.Location = New Point(3, 31)
-        btnViewUserCfg.Name = "btnViewUserCfg"
-        btnViewUserCfg.Size = New Size(215, 38)
-        btnViewUserCfg.TabIndex = 2
-        btnViewUserCfg.Text = "UserCfg.opt"
-        ' 
         ' lblStatusCenter
         ' 
-        lblStatusCenter.Dock = DockStyle.Top
+        lblStatusCenter.Dock = DockStyle.None
+        lblStatusCenter.Location = New Point(0, 3)
+        lblStatusCenter.Size = New Size(250, 26)
+        lblStatusCenter.TextAlign = ContentAlignment.MiddleLeft
         lblStatusCenter.ForeColor = Color.White
-        lblStatusCenter.Location = New Point(0, 0)
         lblStatusCenter.Name = "lblStatusCenter"
-        lblStatusCenter.Size = New Size(620, 28)
         lblStatusCenter.TabIndex = 0
         lblStatusCenter.Text = "No saved profiles were found"
-        lblStatusCenter.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' btnViewUserCfg
+        ' 
+        btnViewUserCfg.Location = New Point(0, 34)
+        btnViewUserCfg.Size = New Size(172, 38)
+        btnViewUserCfg.Name = "btnViewUserCfg"
+        btnViewUserCfg.TabIndex = 2
+        btnViewUserCfg.Text = "UserCfg.opt"
         ' 
         ' UcProfiles
         ' 
@@ -97,8 +100,8 @@ Partial Class UcProfiles
 
     Friend WithEvents flpProfiles As FlowLayoutPanel
     Friend WithEvents pnlFooter As Panel
-    Friend WithEvents btnSimLauncher2024 As Button
-    Friend WithEvents btnViewUserCfg As Button
+    Friend WithEvents btnSimLauncher2024 As ModernSplitButton
+    Friend WithEvents btnViewUserCfg As ModernSplitButton
     Friend WithEvents lblStatusCenter As Label
 
 End Class
