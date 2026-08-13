@@ -22,7 +22,6 @@ Partial Class UcMaintenance
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        lblConfigurationFiles = New Label()
         btnExeXml = New ModernSplitButton()
         btnCamerasCfg = New ModernSplitButton()
         btnFlightsimulator2024Cfg = New ModernSplitButton()
@@ -30,22 +29,11 @@ Partial Class UcMaintenance
         btnSceneryIndexes = New ModernSplitButton()
         SuspendLayout()
         ' 
-        ' lblConfigurationFiles
-        ' 
-        lblConfigurationFiles.AutoSize = True
-        lblConfigurationFiles.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0)
-        lblConfigurationFiles.ForeColor = Color.White
-        lblConfigurationFiles.Location = New Point(0, 0)
-        lblConfigurationFiles.Name = "lblConfigurationFiles"
-        lblConfigurationFiles.Size = New Size(126, 17)
-        lblConfigurationFiles.TabIndex = 0
-        lblConfigurationFiles.Text = "Configuration Files"
-        ' 
         ' btnExeXml
         ' 
         btnExeXml.DropDownMenu = Nothing
         btnExeXml.FlatStyle = FlatStyle.Flat
-        btnExeXml.Location = New Point(8, 29)
+        btnExeXml.Location = New Point(8, 20)
         btnExeXml.Name = "btnExeXml"
         btnExeXml.Size = New Size(300, 42)
         btnExeXml.TabIndex = 1
@@ -106,14 +94,12 @@ Partial Class UcMaintenance
         Controls.Add(btnFlightsimulator2024Cfg)
         Controls.Add(btnCamerasCfg)
         Controls.Add(btnExeXml)
-        Controls.Add(lblConfigurationFiles)
         Name = "UcMaintenance"
         Size = New Size(318, 449)
         ResumeLayout(False)
         PerformLayout()
     End Sub
 
-    Friend WithEvents lblConfigurationFiles As Label
     Friend WithEvents btnExeXml As ModernSplitButton
     Friend WithEvents btnCamerasCfg As ModernSplitButton
     Friend WithEvents btnFlightsimulator2024Cfg As ModernSplitButton

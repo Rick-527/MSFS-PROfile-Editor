@@ -98,8 +98,29 @@
 
         ShowMainNavigation()
 
+        ShowHomePage()
+
         ' Update the application title bar.
         TitleBarManager.ApplyVersionInfo(Me)
+
+    End Sub
+
+    Private Sub ShowHomePage()
+
+        pnlContent.Controls.Clear()
+
+        BackgroundManager.Apply(
+            pnlContent,
+            "profileEditorMainScreenBg.png")
+
+        PageTitleManager.Apply(
+            lblPageTitle,
+            lblPageDescription,
+            "MSFS PROfile Editor",
+            "Manage and maintain your simulator profiles"
+        )
+
+        ShowMainNavigation()
 
     End Sub
 
@@ -132,14 +153,15 @@
 
     Private Sub ShowMainNavigation()
 
-        btnProfileSelector.Visible = True
+        'btnProfileSelector.Visible = True
+        btnProfileSelector.Enabled = True
 
         btnCreateNewProfile.Visible = False
         btnManageProfiles.Visible = False
         btnSetProfileFolder.Visible = False
         btnMigrateProfiles.Visible = False
 
-        btnMaintenance.Visible = True
+        btnMaintenance.Enabled = True
         btnClose.Visible = True
 
         btnProfileSelector.Top = NavTop
@@ -155,17 +177,21 @@
 
     Private Sub ShowProfileNavigation()
 
-        btnProfileSelector.Visible = False
+        'btnProfileSelector.Visible = True
+        btnProfileSelector.Enabled = False
 
         btnCreateNewProfile.Visible = True
         btnManageProfiles.Visible = True
         btnSetProfileFolder.Visible = True
-        btnMigrateProfiles.Visible = True
+        btnMigrateProfiles.Visible = False
 
-        btnMaintenance.Visible = True
+        btnMaintenance.Enabled = True
         btnClose.Visible = True
 
-        btnCreateNewProfile.Top = NavTop
+        btnProfileSelector.Top = NavTop
+
+        btnCreateNewProfile.Top =
+        btnProfileSelector.Top + NavButtonSpacing
 
         btnManageProfiles.Top =
         btnCreateNewProfile.Top + NavButtonSpacing
@@ -176,10 +202,21 @@
         btnMigrateProfiles.Top =
         btnSetProfileFolder.Top + NavButtonSpacing
 
-        btnMaintenance.Top =
-        btnMigrateProfiles.Top +
-        btnMigrateProfiles.Height +
-        NavSectionSpacing
+        If btnMigrateProfiles.Visible Then
+
+            btnMaintenance.Top =
+            btnMigrateProfiles.Top +
+            btnMigrateProfiles.Height +
+            NavSectionSpacing
+
+        Else
+
+            btnMaintenance.Top =
+            btnSetProfileFolder.Top +
+            btnSetProfileFolder.Height +
+            NavSectionSpacing
+
+        End If
 
         btnClose.Top = CloseButtonTop
 
@@ -187,14 +224,15 @@
 
     Private Sub ShowMaintenanceNavigation()
 
-        btnProfileSelector.Visible = True
+        'btnProfileSelector.Visible = True
+        btnProfileSelector.Enabled = True
 
         btnCreateNewProfile.Visible = False
         btnManageProfiles.Visible = False
         btnSetProfileFolder.Visible = False
         btnMigrateProfiles.Visible = False
 
-        btnMaintenance.Visible = False
+        btnMaintenance.Enabled = False
         btnClose.Visible = True
 
         btnProfileSelector.Top = NavTop
@@ -203,6 +241,8 @@
     End Sub
 
     Private Sub ShowContent(control As Control)
+
+        pnlContent.BackgroundImage = Nothing
 
         pnlContent.Controls.Clear()
 
@@ -243,6 +283,8 @@
         )
 
         ShowProfileNavigation()
+        'ShowProfileNavigation(btnCreateNewProfile)
+        btnCreateNewProfile.Enabled = False
 
     End Sub
 
@@ -267,8 +309,11 @@
     )
 
         ShowProfileNavigation()
-
+        btnProfileSelector.Enabled = False
+        btnCreateNewProfile.Enabled = True
         UpdateProfileNavigationState()
+
+
 
     End Sub
 

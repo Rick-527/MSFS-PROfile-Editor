@@ -23,11 +23,10 @@ Partial Class UcProfiles
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         flpProfiles = New FlowLayoutPanel()
+        lblStatusCenter = New Label()
         pnlFooter = New Panel()
         btnSimLauncher2024 = New ModernSplitButton()
         btnViewUserCfg = New ModernSplitButton()
-        btnViewUserCfg.ShowSplit = False
-        lblStatusCenter = New Label()
         pnlFooter.SuspendLayout()
         SuspendLayout()
         ' 
@@ -42,11 +41,21 @@ Partial Class UcProfiles
         flpProfiles.Size = New Size(620, 513)
         flpProfiles.TabIndex = 0
         ' 
+        ' lblStatusCenter
+        ' 
+        lblStatusCenter.ForeColor = Color.White
+        lblStatusCenter.Location = New Point(3, 5)
+        lblStatusCenter.Name = "lblStatusCenter"
+        lblStatusCenter.Size = New Size(250, 26)
+        lblStatusCenter.TabIndex = 0
+        lblStatusCenter.Text = "No saved profiles were found"
+        lblStatusCenter.TextAlign = ContentAlignment.MiddleLeft
+        ' 
         ' pnlFooter
         ' 
+        pnlFooter.Controls.Add(lblStatusCenter)
         pnlFooter.Controls.Add(btnSimLauncher2024)
         pnlFooter.Controls.Add(btnViewUserCfg)
-        pnlFooter.Controls.Add(lblStatusCenter)
         pnlFooter.Dock = DockStyle.Bottom
         pnlFooter.Location = New Point(0, 427)
         pnlFooter.Name = "pnlFooter"
@@ -57,6 +66,8 @@ Partial Class UcProfiles
         ' 
         btnSimLauncher2024.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
         btnSimLauncher2024.DropDownMenu = Nothing
+        btnSimLauncher2024.FlatAppearance.MouseDownBackColor = Color.Transparent
+        btnSimLauncher2024.FlatAppearance.MouseOverBackColor = Color.Transparent
         btnSimLauncher2024.FlatStyle = FlatStyle.Flat
         btnSimLauncher2024.Location = New Point(372, 34)
         btnSimLauncher2024.Name = "btnSimLauncher2024"
@@ -65,28 +76,23 @@ Partial Class UcProfiles
         btnSimLauncher2024.Text = "Launch MSFS 2024"
         btnSimLauncher2024.UseVisualStyleBackColor = True
         ' 
-        ' lblStatusCenter
-        ' 
-        lblStatusCenter.Dock = DockStyle.None
-        lblStatusCenter.Location = New Point(0, 3)
-        lblStatusCenter.Size = New Size(250, 26)
-        lblStatusCenter.TextAlign = ContentAlignment.MiddleLeft
-        lblStatusCenter.ForeColor = Color.White
-        lblStatusCenter.Name = "lblStatusCenter"
-        lblStatusCenter.TabIndex = 0
-        lblStatusCenter.Text = "No saved profiles were found"
-        ' 
         ' btnViewUserCfg
         ' 
+        btnViewUserCfg.DropDownMenu = Nothing
+        btnViewUserCfg.FlatAppearance.MouseDownBackColor = Color.Transparent
+        btnViewUserCfg.FlatAppearance.MouseOverBackColor = Color.Transparent
+        btnViewUserCfg.FlatStyle = FlatStyle.Flat
         btnViewUserCfg.Location = New Point(0, 34)
-        btnViewUserCfg.Size = New Size(172, 38)
         btnViewUserCfg.Name = "btnViewUserCfg"
+        btnViewUserCfg.ShowSplit = False
+        btnViewUserCfg.Size = New Size(172, 38)
         btnViewUserCfg.TabIndex = 2
         btnViewUserCfg.Text = "UserCfg.opt"
+        btnViewUserCfg.UseVisualStyleBackColor = False
         ' 
         ' UcProfiles
         ' 
-        AutoScaleDimensions = New SizeF(7.0F, 15.0F)
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         BackColor = Color.Transparent
         Controls.Add(pnlFooter)

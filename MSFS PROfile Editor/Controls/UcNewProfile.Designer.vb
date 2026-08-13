@@ -31,9 +31,10 @@ Partial Class UcNewProfile
         ' lblProfileNameText
         ' 
         lblProfileNameText.AutoSize = True
-        lblProfileNameText.Location = New Point(11, 20)
+        lblProfileNameText.Location = New Point(8, 20)
         lblProfileNameText.Name = "lblProfileNameText"
         lblProfileNameText.Size = New Size(79, 15)
+        lblProfileNameText.Font = New Font("Segoe UI", 10.5F, FontStyle.Regular, GraphicsUnit.Point)
         lblProfileNameText.TabIndex = 0
         lblProfileNameText.Text = "Profile Name:"
         ' 
@@ -42,6 +43,7 @@ Partial Class UcNewProfile
         txtProfileName.Location = New Point(11, 43)
         txtProfileName.Name = "txtProfileName"
         txtProfileName.Size = New Size(400, 27)
+        txtProfileName.Font = New Font("Segoe UI", 10.5F, FontStyle.Regular, GraphicsUnit.Point)
         txtProfileName.TabIndex = 3
         ' 
         ' btnCreate

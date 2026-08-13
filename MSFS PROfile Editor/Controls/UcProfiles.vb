@@ -464,14 +464,25 @@ Public Class UcProfiles
 
         End If
 
-        'btnMigrateProfiles.Enabled = legacyProfileCount > 0
-
     End Sub
 
     Private Sub ProfileButton_Click(sender As Object, e As EventArgs)
 
         Dim btn = DirectCast(sender, ModernSplitButton)
         Dim profileInfo = DirectCast(btn.Tag, ProfileInfo)
+
+        If _currentProfileManager.IsCurrentProfile(profileInfo.ProfileFile) Then
+
+            MessageBox.Show(
+                $"The profile ""{profileInfo.DisplayProfileName}"" is already loaded in Microsoft Flight Simulator.",
+                "Profile Already Loaded",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            )
+
+            Return
+
+        End If
 
         Dim confirmResult = MessageBox.Show(
                 $"Apply the profile ""{profileInfo.DisplayProfileName}"" to Microsoft Flight Simulator?",
@@ -493,7 +504,7 @@ Public Class UcProfiles
                 MessageBoxIcon.Error
                 )
 
-            RaiseEvent StatusChanged("The profile could not be applied.")
+            RaiseEvent StatusChanged("The profile could Not be applied.")
 
             Return
 
@@ -504,12 +515,12 @@ Public Class UcProfiles
             HighlightProfileButton(btn)
 
             MessageBox.Show(
-                "The profile was applied, but the application could not save it as the current profile.",
+                "The profile was applied, but the application could Not save it as the current profile.",
                 "Profile Tracking Failed",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning)
 
-            RaiseEvent StatusChanged($"{profileInfo.DisplayProfileName} was applied, but could not be saved as the active profile.")
+            RaiseEvent StatusChanged($"{profileInfo.DisplayProfileName} was applied, but could Not be saved as the active profile.")
 
             Return
 
@@ -549,7 +560,7 @@ Public Class UcProfiles
             Not Directory.Exists(profileFolder) Then
 
             MessageBox.Show(
-                "The profile folder has not been configured or no longer exists.",
+                "The profile folder has Not been configured Or no longer exists.",
                 "Manage Profiles",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning
@@ -571,7 +582,7 @@ Public Class UcProfiles
         Catch ex As Exception
 
             MessageBox.Show(
-                $"The profile folder could not be opened.{Environment.NewLine}{Environment.NewLine}{ex.Message}",
+                $"The profile folder could Not be opened.{Environment.NewLine}{Environment.NewLine}{ex.Message}",
                 "Manage Profiles",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
@@ -585,7 +596,7 @@ Public Class UcProfiles
             Me,
             "File Explorer has been opened to your profile folder." &
             Environment.NewLine & Environment.NewLine &
-            "Delete, rename, or organize your profile files as needed." &
+            "Delete, rename, Or organize your profile files as needed." &
             Environment.NewLine & Environment.NewLine &
             "When you're finished, return here and click OK to refresh the profile list.",
             "Manage Profiles",

@@ -2,15 +2,15 @@
 
 Public Class BackgroundManager
 
-    Public Shared Sub Apply(frm As Form, fileName As String)
+    Public Shared Sub Apply(target As Control, fileName As String)
 
         Dim bgFile = Path.Combine(
             Application.StartupPath,
             "Resources",
             fileName)
 
-        frm.BackgroundImage = Image.FromFile(bgFile)
-        frm.BackgroundImageLayout = ImageLayout.Stretch
+        target.BackgroundImage = Image.FromFile(bgFile)
+        target.BackgroundImageLayout = ImageLayout.Stretch
 
     End Sub
 
