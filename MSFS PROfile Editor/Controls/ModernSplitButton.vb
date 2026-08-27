@@ -28,7 +28,7 @@ Public Class ModernSplitButton
     Private _isArrowPressed As Boolean
 
     Private _splitWidth As Integer = 22
-    Private _arrowColor As Color = Color.Black
+    Private _arrowColor As Color = Color.White
     Private _splitHoverColor As Color = Color.Gainsboro
     Private _showSplit As Boolean = True
 

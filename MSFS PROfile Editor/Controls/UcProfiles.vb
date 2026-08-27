@@ -7,16 +7,8 @@ Public Class UcProfiles
     Private Const ProfileButtonHeight As Integer = 38
     Private Const ProfileButtonWidth As Integer = 172
 
-    Public ReadOnly Property HasLegacyProfiles As Boolean
-        Get
-            Return _profileManager.GetLegacyProfileCount() > 0
-        End Get
-    End Property
-
     Private ReadOnly _profileManager As New ProfileManager()
     Private ReadOnly _currentProfileManager As New CurrentProfileManager()
-
-    Private ReadOnly _profileToolTip As New ToolTip()
 
     Private ReadOnly _normalProfileColor As Color =
         Color.FromArgb(45, 55, 65)
@@ -28,23 +20,35 @@ Public Class UcProfiles
 
     Public Event StatusChanged(message As String)
 
-    Private Sub UcProfiles_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Public ReadOnly Property HasLegacyProfiles As Boolean
+        Get
+            Return _profileManager.GetLegacyProfileCount() > 0
+        End Get
+    End Property
+
+    Private Sub UcProfiles_Load(
+        sender As Object,
+        e As EventArgs
+    ) Handles MyBase.Load
 
         flpProfiles.BackColor = Color.Transparent
         pnlFooter.BackColor = Color.Transparent
 
         Me.DoubleBuffered = True
 
-        _profileToolTip.BackColor = Color.FromArgb(255, 235, 140)
-        _profileToolTip.ForeColor = Color.Black
-        _profileToolTip.InitialDelay = 400
-        _profileToolTip.ReshowDelay = 100
-        _profileToolTip.AutoPopDelay = 5000
-        _profileToolTip.ShowAlways = True
+        SetToolTip.SetToolTip(
+            btnViewUserCfg,
+            "Open UserCfg.opt in Notepad.")
 
         ConfigureSimulatorLauncher()
-
+        UpdateSimulatorLauncherState()
         LoadUserProfiles()
+
+    End Sub
+
+    Private Sub SetStatus(message As String)
+
+        RaiseEvent StatusChanged(message)
 
     End Sub
 
@@ -52,49 +56,83 @@ Public Class UcProfiles
 
         Dim menu As New ContextMenuStrip()
 
-        Dim normalItem As New ToolStripMenuItem("Normal Launch")
+        Dim normalItem =
+            New ToolStripMenuItem(
+                "Normal Launch")
 
         AddHandler normalItem.Click,
             Async Sub()
-                Await LaunchSimulatorAsync(LaunchMode.Normal)
+                Await LaunchSimulatorAsync(
+                    LaunchMode.Normal)
             End Sub
 
-        menu.Items.Add(normalItem)
-
-        Dim fsuipcItem As New ToolStripMenuItem("Launch with FSUIPC")
+        Dim fsuipcItem =
+            New ToolStripMenuItem(
+                "Launch with FSUIPC")
 
         AddHandler fsuipcItem.Click,
             Async Sub()
-                Await LaunchSimulatorAsync(LaunchMode.FSUIPC)
+                Await LaunchSimulatorAsync(
+                    LaunchMode.FSUIPC)
             End Sub
 
+        menu.Items.Add(normalItem)
         menu.Items.Add(fsuipcItem)
 
         btnSimLauncher2024.DropDownMenu = menu
 
     End Sub
 
+    Private Sub UpdateSimulatorLauncherState()
+
+        Dim simulatorRunning =
+            SimulatorLauncher.IsRunning()
+
+        btnSimLauncher2024.Enabled =
+            Not simulatorRunning
+
+        If simulatorRunning Then
+
+            SetToolTip.SetToolTip(
+                btnSimLauncher2024,
+                Nothing)
+
+        Else
+
+            SetToolTip.SetToolTip(
+                btnSimLauncher2024,
+                "Launch Microsoft Flight Simulator 2024.")
+
+        End If
+
+    End Sub
+
     Private Async Function LaunchSimulatorAsync(
-    mode As LaunchMode) As Task
+        mode As LaunchMode
+    ) As Task
 
         Try
 
-            RaiseEvent StatusChanged("Launching Microsoft Flight Simulator...")
+            SetStatus(
+                "Launching Microsoft Flight Simulator...")
 
             Dim launched =
-                Await SimulatorLauncher.LaunchAsync(mode)
+                Await SimulatorLauncher.LaunchAsync(
+                    mode)
 
             If launched Then
 
-                RaiseEvent StatusChanged(
+                SetStatus(
                     "Microsoft Flight Simulator is running.")
 
-            Else
+                Application.Exit()
 
-                RaiseEvent StatusChanged(
-                    "Microsoft Flight Simulator could not be started.")
+                Return
 
             End If
+
+            SetStatus(
+                "Microsoft Flight Simulator could not be started.")
 
         Catch ex As Exception
 
@@ -104,38 +142,12 @@ Public Class UcProfiles
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error)
 
-            RaiseEvent StatusChanged(
+            SetStatus(
                 "Microsoft Flight Simulator could not be started.")
 
         End Try
 
     End Function
-
-    Private Function CreateProfileGroupPanel() As FlowLayoutPanel
-
-        Return New FlowLayoutPanel With
-            {
-            .AutoSize = True,
-            .AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            .FlowDirection = FlowDirection.TopDown,
-            .WrapContents = False,
-            .Margin = New Padding(0, 4, 16, 0),
-            .Padding = New Padding(0),
-            .BackColor = Color.Transparent
-            }
-
-    End Function
-
-    Private Sub HighlightProfileButton(activeButton As ModernSplitButton)
-
-        If _activeProfileButton IsNot Nothing Then
-            _activeProfileButton.BackColor = _normalProfileColor
-        End If
-
-        activeButton.BackColor = _activeProfileColor
-        _activeProfileButton = activeButton
-
-    End Sub
 
     Private Sub LoadUserProfiles()
 
@@ -146,53 +158,32 @@ Public Class UcProfiles
             ClearProfileControls()
 
             _activeProfileButton = Nothing
-            RaiseEvent StatusChanged("No Profile Selected")
 
-            Dim profiles = _profileManager.GetProfiles()
+            SetStatus(
+                "No Profile Selected")
 
-            UpdateProfileCount(profiles.Count)
+            Dim profiles =
+                _profileManager.GetProfiles()
+
+            UpdateProfileCount()
 
             If profiles.Count = 0 Then
 
-                RaiseEvent StatusChanged("No saved profiles were found.")
+                SetStatus(
+                    "No saved profiles were found.")
 
                 Return
 
             End If
 
-            Dim maximumGroupCount =
-                CInt(
-                    Math.Ceiling(
-                        ApplicationConstants.MaximumProfileCount /
-                        CDbl(ProfilesPerGroup)
-                    )
-                )
-
-            Dim profileLayout As New TableLayoutPanel With {
-                .Name = "tblProfileGroups",
-                .AutoSize = True,
-                .AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                .ColumnCount = maximumGroupCount,
-                .RowCount = 1,
-                .Margin = New Padding(0),
-                .Padding = New Padding(0),
-                .BackColor = Color.Transparent
-            }
-
-            For columnNumber = 0 To maximumGroupCount - 1
-
-                profileLayout.ColumnStyles.Add(
-                    New ColumnStyle(SizeType.AutoSize))
-
-            Next
-
-            profileLayout.RowStyles.Add(
-                New RowStyle(SizeType.AutoSize))
+            Dim profileLayout =
+                CreateProfileLayout()
 
             Dim groupCount =
                 CInt(
                     Math.Ceiling(
-                    profiles.Count / CDbl(ProfilesPerGroup)))
+                        profiles.Count /
+                        CDbl(ProfilesPerGroup)))
 
             For groupIndex = 0 To groupCount - 1
 
@@ -200,24 +191,24 @@ Public Class UcProfiles
                     CreateProfileGroupPanel()
 
                 Dim startIndex =
-                    groupIndex * ProfilesPerGroup
+                    groupIndex *
+                    ProfilesPerGroup
 
                 Dim endIndex =
-                Math.Min(
-                    startIndex + ProfilesPerGroup,
-                    profiles.Count)
+                    Math.Min(
+                        startIndex +
+                        ProfilesPerGroup,
+                        profiles.Count)
 
-                For profileIndex = startIndex To endIndex - 1
-
-                    Dim profileInfo =
-                        profiles(profileIndex)
+                For profileIndex =
+                    startIndex To endIndex - 1
 
                     Dim profileButton =
                         CreateProfileButton(
-                        profileInfo,
-                        ProfileButtonWidth)
+                            profiles(profileIndex))
 
-                    groupPanel.Controls.Add(profileButton)
+                    groupPanel.Controls.Add(
+                        profileButton)
 
                 Next
 
@@ -231,12 +222,14 @@ Public Class UcProfiles
             profileLayout.PerformLayout()
 
             Dim preferredSize =
-                profileLayout.GetPreferredSize(Size.Empty)
+                profileLayout.GetPreferredSize(
+                    Size.Empty)
 
             profileLayout.AutoSize = False
             profileLayout.Size = preferredSize
 
-            flpProfiles.Controls.Add(profileLayout)
+            flpProfiles.Controls.Add(
+                profileLayout)
 
             flpProfiles.PerformLayout()
 
@@ -248,132 +241,221 @@ Public Class UcProfiles
 
     End Sub
 
-    Private Function CreateProfileButton(profileInfo As ProfileInfo, buttonWidth As Integer) As ModernSplitButton
+    Private Function CreateProfileLayout() As TableLayoutPanel
 
-        Dim btn As New ModernSplitButton()
+        Dim maximumGroupCount =
+            CInt(
+                Math.Ceiling(
+                    ApplicationConstants.MaximumProfileCount /
+                    CDbl(ProfilesPerGroup)))
 
-        btn.Text = profileInfo.DisplayProfileName
-        btn.Width = buttonWidth
-        btn.Height = ProfileButtonHeight
+        Dim profileLayout =
+            New TableLayoutPanel With {
+                .Name = "tblProfileGroups",
+                .AutoSize = True,
+                .AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                .ColumnCount = maximumGroupCount,
+                .RowCount = 1,
+                .Margin = New Padding(0),
+                .Padding = New Padding(0),
+                .BackColor = Color.Transparent
+            }
 
-        btn.FlatStyle = FlatStyle.Flat
-        btn.BackColor = _normalProfileColor
-        btn.ForeColor = Color.White
+        For columnNumber =
+            0 To maximumGroupCount - 1
+
+            profileLayout.ColumnStyles.Add(
+                New ColumnStyle(
+                    SizeType.AutoSize))
+
+        Next
+
+        profileLayout.RowStyles.Add(
+            New RowStyle(
+                SizeType.AutoSize))
+
+        Return profileLayout
+
+    End Function
+
+    Private Function CreateProfileGroupPanel() As FlowLayoutPanel
+
+        Return New FlowLayoutPanel With {
+            .AutoSize = True,
+            .AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            .FlowDirection = FlowDirection.TopDown,
+            .WrapContents = False,
+            .Margin = New Padding(0, 4, 16, 0),
+            .Padding = New Padding(0),
+            .BackColor = Color.Transparent
+        }
+
+    End Function
+
+    Private Function CreateProfileButton(
+        profileInfo As ProfileInfo
+    ) As ModernSplitButton
+
+        Dim btn =
+            New ModernSplitButton With {
+                .Text = profileInfo.DisplayProfileName,
+                .Width = ProfileButtonWidth,
+                .Height = ProfileButtonHeight,
+                .FlatStyle = FlatStyle.Flat,
+                .BackColor = _normalProfileColor,
+                .ForeColor = Color.White,
+                .TextAlign = ContentAlignment.MiddleLeft,
+                .Padding = New Padding(12, 0, 0, 0),
+                .Margin = New Padding(0, 0, 0, 8),
+                .TabStop = False,
+                .Tag = profileInfo
+            }
 
         btn.FlatAppearance.BorderColor =
-        Color.FromArgb(80, 160, 170)
+            Color.FromArgb(
+                80,
+                160,
+                170)
 
         btn.FlatAppearance.BorderSize = 1
 
-        btn.TextAlign =
-        ContentAlignment.MiddleLeft
+        SetToolTip.SetToolTip(
+            btn,
+            profileInfo.DisplayProfileName)
 
-        btn.Padding =
-        New Padding(12, 0, 0, 0)
-
-        btn.Margin =
-        New Padding(0, 0, 0, 8)
-
-        btn.TabStop = False
-
-        btn.Tag = profileInfo
-
-        _profileToolTip.SetToolTip(btn, profileInfo.DisplayProfileName)
-
-        If _currentProfileManager.
-        IsCurrentProfile(profileInfo.ProfileFile) Then
+        If _currentProfileManager.IsCurrentProfile(
+            profileInfo.ProfileFile) Then
 
             HighlightProfileButton(btn)
 
-            RaiseEvent StatusChanged($"Active profile: {profileInfo.DisplayProfileName}")
+            SetStatus(
+                $"Active profile: {profileInfo.DisplayProfileName}")
 
         End If
 
-        Dim menu As New ContextMenuStrip()
-
-        Dim openItem As New ToolStripMenuItem("Open " & profileInfo.DisplayProfileName & " in Notepad")
-
-        AddHandler openItem.Click,
-        Sub()
-
-            Dim profile =
-                DirectCast(btn.Tag, ProfileInfo)
-
-            Try
-
-                Process.Start(
-                    New ProcessStartInfo With {
-                        .FileName = "notepad.exe",
-                        .Arguments =
-                            $"""{profile.ProfileFile}""",
-                        .UseShellExecute = True
-                        })
-
-            Catch ex As Exception
-
-                MessageBox.Show(
-                    $"The profile could not be opened." &
-                    $"{Environment.NewLine}{Environment.NewLine}" &
-                    ex.Message,
-                    "Open Profile Failed",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error)
-
-            End Try
-
-        End Sub
-
-        menu.Items.Add(openItem)
-
-        menu.Items.Add(New ToolStripSeparator())
-
-        Dim removeItem As New ToolStripMenuItem("Remove Profile")
-
-        AddHandler removeItem.Click,
-        Sub()
-
-            Dim profile = DirectCast(btn.Tag, ProfileInfo)
-
-            RemoveProfile(profile, btn)
-
-        End Sub
-
-        menu.Items.Add(removeItem)
-
-        btn.DropDownMenu = menu
+        ConfigureProfileMenu(
+            btn,
+            profileInfo)
 
         AddHandler btn.Click,
-        AddressOf ProfileButton_Click
+            AddressOf ProfileButton_Click
 
         Return btn
 
     End Function
 
+    Private Sub ConfigureProfileMenu(
+        button As ModernSplitButton,
+        profileInfo As ProfileInfo)
+
+        Dim menu As New ContextMenuStrip()
+
+        Dim openItem =
+            New ToolStripMenuItem(
+                $"Open {profileInfo.DisplayProfileName} in Notepad")
+
+        AddHandler openItem.Click,
+            Sub()
+                OpenProfile(
+                    profileInfo)
+            End Sub
+
+        Dim removeItem =
+            New ToolStripMenuItem(
+                "Remove Profile")
+
+        AddHandler removeItem.Click,
+            Sub()
+                RemoveProfile(
+                    profileInfo,
+                    button)
+            End Sub
+
+        menu.Items.Add(openItem)
+        menu.Items.Add(
+            New ToolStripSeparator())
+        menu.Items.Add(removeItem)
+
+        button.DropDownMenu = menu
+
+    End Sub
+
+    Private Sub OpenProfile(
+        profileInfo As ProfileInfo)
+
+        Try
+
+            Process.Start(
+                New ProcessStartInfo With {
+                    .FileName = "notepad.exe",
+                    .Arguments =
+                        $"""{profileInfo.ProfileFile}""",
+                    .UseShellExecute = True
+                })
+
+        Catch ex As Exception
+
+            MessageBox.Show(
+                "The profile could not be opened." &
+                Environment.NewLine &
+                Environment.NewLine &
+                ex.Message,
+                "Open Profile Failed",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error)
+
+        End Try
+
+    End Sub
+
+    Private Sub HighlightProfileButton(
+        activeButton As ModernSplitButton)
+
+        If _activeProfileButton IsNot Nothing Then
+
+            _activeProfileButton.BackColor =
+                _normalProfileColor
+
+        End If
+
+        activeButton.BackColor =
+            _activeProfileColor
+
+        _activeProfileButton =
+            activeButton
+
+    End Sub
+
     Private Sub RemoveProfile(
         profileInfo As ProfileInfo,
         profileButton As ModernSplitButton)
 
-        Dim isCurrentProfile = _currentProfileManager.IsCurrentProfile(profileInfo.ProfileFile)
+        Dim isCurrentProfile =
+            _currentProfileManager.IsCurrentProfile(
+                profileInfo.ProfileFile)
 
         Dim message =
             $"Remove the profile '{profileInfo.DisplayProfileName}'?" &
-            $"{Environment.NewLine}{Environment.NewLine}" &
+            Environment.NewLine &
+            Environment.NewLine &
             "This will permanently delete the profile file."
 
         If isCurrentProfile Then
 
-            message &= $"{Environment.NewLine}{Environment.NewLine}" &
+            message &=
+                Environment.NewLine &
+                Environment.NewLine &
                 "This is currently the active profile."
 
         End If
 
         Dim result =
-        MessageBox.Show(
-            message,
-            "Remove Profile",
-            MessageBoxButtons.YesNo,
-            MessageBoxIcon.Warning,
-            MessageBoxDefaultButton.Button2)
+            MessageBox.Show(
+                message,
+                "Remove Profile",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2)
 
         If result <> DialogResult.Yes Then
             Return
@@ -381,13 +463,18 @@ Public Class UcProfiles
 
         Try
 
-            If File.Exists(profileInfo.ProfileFile) Then
-                File.Delete(profileInfo.ProfileFile)
+            If File.Exists(
+                profileInfo.ProfileFile) Then
+
+                File.Delete(
+                    profileInfo.ProfileFile)
+
             End If
 
             If isCurrentProfile Then
 
-                _currentProfileManager.ClearCurrentProfile()
+                _currentProfileManager.
+                    ClearCurrentProfile()
 
             End If
 
@@ -395,19 +482,22 @@ Public Class UcProfiles
 
             If isCurrentProfile Then
 
-                RaiseEvent StatusChanged("Active profile removed.")
+                SetStatus(
+                    "Active profile removed.")
 
             Else
 
-                RaiseEvent StatusChanged($"Profile removed: {profileInfo.DisplayProfileName}")
+                SetStatus(
+                    $"Profile removed: {profileInfo.DisplayProfileName}")
 
             End If
 
         Catch ex As Exception
 
             MessageBox.Show(
-                $"The profile could not be removed." &
-                $"{Environment.NewLine}{Environment.NewLine}" &
+                "The profile could not be removed." &
+                Environment.NewLine &
+                Environment.NewLine &
                 ex.Message,
                 "Remove Profile Failed",
                 MessageBoxButtons.OK,
@@ -417,110 +507,100 @@ Public Class UcProfiles
 
     End Sub
 
-    Private Sub UpdateProfileCount(profileCount As Integer)
+    Private Sub UpdateProfileCount()
 
-        If _profileManager.StoredProfileCount > ApplicationConstants.MaximumProfileCount Then
+        Dim storedCount =
+            _profileManager.StoredProfileCount
+
+        If storedCount >
+            ApplicationConstants.MaximumProfileCount Then
 
             lblStatusCenter.Text =
                 $"Showing the {ApplicationConstants.MaximumProfileCount} most recently added profiles " &
-                $"of {_profileManager.StoredProfileCount} stored. Select Manage Profiles to view all profiles."
+                $"of {storedCount} stored. Select Manage Profiles to view all profiles."
 
-        Else
-
-            Dim storedCount = _profileManager.StoredProfileCount
-
-            Dim profileText =
-                If(storedCount = 1, "profile", "profiles")
-
-            lblStatusCenter.Text =
-                $"{storedCount} {profileText} stored"
+            Return
 
         End If
 
-        Dim profileFolder = My.Settings.ProfileFolder
+        Dim profileText =
+            If(
+                storedCount = 1,
+                "profile",
+                "profiles")
 
-        Dim legacyProfileCount =
-            _profileManager.GetLegacyProfileCount()
-
-        If Not String.IsNullOrWhiteSpace(profileFolder) AndAlso
-            Directory.Exists(profileFolder) Then
-
-            legacyProfileCount =
-            Directory.
-            GetFiles(
-                profileFolder,
-                "*.opt",
-                SearchOption.TopDirectoryOnly).
-            Count(
-                Function(filePath)
-
-                    Return Not String.Equals(
-                        Path.GetFileName(filePath),
-                        "UserCfg.opt",
-                        StringComparison.OrdinalIgnoreCase)
-
-                End Function
-                )
-
-        End If
+        lblStatusCenter.Text =
+            $"{storedCount} {profileText} stored"
 
     End Sub
 
-    Private Sub ProfileButton_Click(sender As Object, e As EventArgs)
+    Private Sub ProfileButton_Click(
+        sender As Object,
+        e As EventArgs)
 
-        Dim btn = DirectCast(sender, ModernSplitButton)
-        Dim profileInfo = DirectCast(btn.Tag, ProfileInfo)
+        Dim btn =
+            DirectCast(
+                sender,
+                ModernSplitButton)
 
-        If _currentProfileManager.IsCurrentProfile(profileInfo.ProfileFile) Then
+        Dim profileInfo =
+            DirectCast(
+                btn.Tag,
+                ProfileInfo)
+
+        If _currentProfileManager.IsCurrentProfile(
+            profileInfo.ProfileFile) Then
 
             MessageBox.Show(
                 $"The profile ""{profileInfo.DisplayProfileName}"" is already loaded in Microsoft Flight Simulator.",
                 "Profile Already Loaded",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            )
+                MessageBoxIcon.Information)
 
             Return
 
         End If
 
-        Dim confirmResult = MessageBox.Show(
+        Dim confirmation =
+            MessageBox.Show(
                 $"Apply the profile ""{profileInfo.DisplayProfileName}"" to Microsoft Flight Simulator?",
                 "Apply Profile",
                 MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-                )
+                MessageBoxIcon.Question)
 
-        If confirmResult <> DialogResult.Yes Then
+        If confirmation <> DialogResult.Yes Then
             Return
         End If
 
-        If Not _profileManager.ApplyProfile(profileInfo) Then
+        If Not _profileManager.ApplyProfile(
+            profileInfo) Then
 
             MessageBox.Show(
                 _profileManager.LastErrorMessage,
                 "Profile Not Applied",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-                )
+                MessageBoxIcon.Error)
 
-            RaiseEvent StatusChanged("The profile could Not be applied.")
+            SetStatus(
+                "The profile could not be applied.")
 
             Return
 
         End If
 
-        If Not _currentProfileManager.SetCurrentProfile(profileInfo.ProfileFile) Then
+        If Not _currentProfileManager.SetCurrentProfile(
+            profileInfo.ProfileFile) Then
 
             HighlightProfileButton(btn)
 
             MessageBox.Show(
-                "The profile was applied, but the application could Not save it as the current profile.",
+                "The profile was applied, but the application could not save it as the current profile.",
                 "Profile Tracking Failed",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning)
 
-            RaiseEvent StatusChanged($"{profileInfo.DisplayProfileName} was applied, but could Not be saved as the active profile.")
+            SetStatus(
+                $"{profileInfo.DisplayProfileName} was applied, but could not be saved as the active profile.")
 
             Return
 
@@ -528,14 +608,14 @@ Public Class UcProfiles
 
         HighlightProfileButton(btn)
 
-        RaiseEvent StatusChanged($"Active profile: {profileInfo.DisplayProfileName}")
+        SetStatus(
+            $"Active profile: {profileInfo.DisplayProfileName}")
 
         MessageBox.Show(
             $"{profileInfo.DisplayProfileName} was applied successfully.",
             "Profile Applied",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Information
-            )
+            MessageBoxIcon.Information)
 
     End Sub
 
@@ -543,9 +623,11 @@ Public Class UcProfiles
 
         While flpProfiles.Controls.Count > 0
 
-            Dim control = flpProfiles.Controls(0)
+            Dim control =
+                flpProfiles.Controls(0)
 
             flpProfiles.Controls.RemoveAt(0)
+
             control.Dispose()
 
         End While
@@ -554,17 +636,19 @@ Public Class UcProfiles
 
     Public Sub ManageProfiles()
 
-        Dim profileFolder = My.Settings.ProfileFolder
+        Dim profileFolder =
+            My.Settings.ProfileFolder
 
-        If String.IsNullOrWhiteSpace(profileFolder) OrElse
-            Not Directory.Exists(profileFolder) Then
+        If String.IsNullOrWhiteSpace(
+            profileFolder) OrElse
+            Not Directory.Exists(
+                profileFolder) Then
 
             MessageBox.Show(
-                "The profile folder has Not been configured Or no longer exists.",
+                "The profile folder has not been configured or no longer exists.",
                 "Manage Profiles",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Warning
-            )
+                MessageBoxIcon.Warning)
 
             Return
 
@@ -576,17 +660,18 @@ Public Class UcProfiles
                 New ProcessStartInfo With {
                     .FileName = profileFolder,
                     .UseShellExecute = True
-                }
-            )
+                })
 
         Catch ex As Exception
 
             MessageBox.Show(
-                $"The profile folder could Not be opened.{Environment.NewLine}{Environment.NewLine}{ex.Message}",
+                "The profile folder could not be opened." &
+                Environment.NewLine &
+                Environment.NewLine &
+                ex.Message,
                 "Manage Profiles",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-            )
+                MessageBoxIcon.Error)
 
             Return
 
@@ -595,19 +680,19 @@ Public Class UcProfiles
         MessageBox.Show(
             Me,
             "File Explorer has been opened to your profile folder." &
-            Environment.NewLine & Environment.NewLine &
-            "Delete, rename, Or organize your profile files as needed." &
-            Environment.NewLine & Environment.NewLine &
+            Environment.NewLine &
+            Environment.NewLine &
+            "Delete, rename, or organize your profile files as needed." &
+            Environment.NewLine &
+            Environment.NewLine &
             "When you're finished, return here and click OK to refresh the profile list.",
             "Manage Profiles",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Information
-        )
+            MessageBoxIcon.Information)
 
         LoadUserProfiles()
 
     End Sub
-
 
     Public Sub SetProfileFolder()
 
@@ -616,40 +701,53 @@ Public Class UcProfiles
             dlg.Description =
                 "Select the folder that stores your MSFS profile files."
 
-            If Directory.Exists(My.Settings.ProfileFolder) Then
-                dlg.SelectedPath = My.Settings.ProfileFolder
+            If Directory.Exists(
+                My.Settings.ProfileFolder) Then
+
+                dlg.SelectedPath =
+                    My.Settings.ProfileFolder
+
             End If
 
-            If dlg.ShowDialog() <> DialogResult.OK Then
+            If dlg.ShowDialog() <>
+                DialogResult.OK Then
+
                 Return
+
             End If
 
-            Dim selectedFolder = dlg.SelectedPath
+            Dim selectedFolder =
+                dlg.SelectedPath
 
-            If SimulatorFilesManager.IsSimulatorConfigFolder(selectedFolder) OrElse
-                SimulatorFilesManager.FolderContainsUserCfg(selectedFolder) Then
+            If SimulatorFilesManager.
+                IsSimulatorConfigFolder(
+                    selectedFolder) OrElse
+                SimulatorFilesManager.
+                FolderContainsUserCfg(
+                    selectedFolder) Then
 
                 MessageBox.Show(
                     "This folder contains the active Microsoft Flight Simulator configuration file, UserCfg.opt." &
-                    $"{Environment.NewLine}{Environment.NewLine}" &
+                    Environment.NewLine &
+                    Environment.NewLine &
                     "Please select a separate folder for storing your profiles.",
                     "Invalid Profile Folder",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                )
+                    MessageBoxIcon.Warning)
 
                 Return
 
             End If
 
-            If Not _profileManager.SetCurrentProfileFolder(selectedFolder) Then
+            If Not _profileManager.
+                SetCurrentProfileFolder(
+                    selectedFolder) Then
 
                 MessageBox.Show(
                     "The selected profile folder could not be saved.",
                     "Invalid Profile Folder",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                )
+                    MessageBoxIcon.Warning)
 
                 Return
 
@@ -661,38 +759,39 @@ Public Class UcProfiles
 
     End Sub
 
-
     Public Sub MigrateProfiles()
 
-        Dim profileFolder = My.Settings.ProfileFolder
+        Dim profileFolder =
+            My.Settings.ProfileFolder
 
-        If String.IsNullOrWhiteSpace(profileFolder) Then
+        If String.IsNullOrWhiteSpace(
+            profileFolder) Then
 
             MessageBox.Show(
                 "Please select your profile folder before migrating profiles.",
                 "Profile Folder Required",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            )
+                MessageBoxIcon.Information)
 
             Return
 
         End If
 
-        If Not Directory.Exists(profileFolder) Then
+        If Not Directory.Exists(
+            profileFolder) Then
 
             MessageBox.Show(
                 "The configured profile folder could not be found.",
                 "Profile Folder Not Found",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Warning
-            )
+                MessageBoxIcon.Warning)
 
             Return
 
         End If
 
-        Dim legacyProfileCount = _profileManager.GetLegacyProfileCount()
+        Dim legacyProfileCount =
+            _profileManager.GetLegacyProfileCount()
 
         If legacyProfileCount = 0 Then
 
@@ -700,8 +799,7 @@ Public Class UcProfiles
                 "No old .opt profile files were found.",
                 "No Profiles to Migrate",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            )
+                MessageBoxIcon.Information)
 
             Return
 
@@ -710,16 +808,17 @@ Public Class UcProfiles
         Dim confirmation =
             MessageBox.Show(
                 $"{legacyProfileCount} old .opt profile file(s) were found." &
-                $"{Environment.NewLine}{Environment.NewLine}" &
+                Environment.NewLine &
+                Environment.NewLine &
                 "Matching .profx profile files will be created." &
-                $"{Environment.NewLine}" &
+                Environment.NewLine &
                 "Successfully migrated .opt files will then be deleted." &
-                $"{Environment.NewLine}{Environment.NewLine}" &
+                Environment.NewLine &
+                Environment.NewLine &
                 "Would you like to continue?",
                 "Migrate Old Profiles",
                 MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            )
+                MessageBoxIcon.Question)
 
         If confirmation <> DialogResult.Yes Then
             Return
@@ -729,19 +828,23 @@ Public Class UcProfiles
             _profileManager.MigrateLegacyProfiles()
 
         Dim message =
-            $"Migration complete.{Environment.NewLine}{Environment.NewLine}" &
-            $"Converted: {result.ConvertedCount}{Environment.NewLine}" &
-            $"Skipped: {result.SkippedCount}{Environment.NewLine}" &
+            "Migration complete." &
+            Environment.NewLine &
+            Environment.NewLine &
+            $"Converted: {result.ConvertedCount}" &
+            Environment.NewLine &
+            $"Skipped: {result.SkippedCount}" &
+            Environment.NewLine &
             $"Failed: {result.FailedCount}"
 
         If result.ErrorMessages.Count > 0 Then
 
             message &=
-                $"{Environment.NewLine}{Environment.NewLine}" &
+                Environment.NewLine &
+                Environment.NewLine &
                 String.Join(
                     Environment.NewLine,
-                    result.ErrorMessages
-                )
+                    result.ErrorMessages)
 
         End If
 
@@ -749,29 +852,31 @@ Public Class UcProfiles
             If(
                 result.FailedCount > 0,
                 MessageBoxIcon.Warning,
-                MessageBoxIcon.Information
-            )
+                MessageBoxIcon.Information)
 
         MessageBox.Show(
             message,
             "Profile Migration",
             MessageBoxButtons.OK,
-            icon
-        )
+            icon)
 
         LoadUserProfiles()
 
     End Sub
 
-    Private Sub btnViewUserCfg_Click(sender As Object, e As EventArgs) Handles btnViewUserCfg.Click
+    Private Sub btnViewUserCfg_Click(
+        sender As Object,
+        e As EventArgs
+    ) Handles btnViewUserCfg.Click
 
         Try
 
-            RaiseEvent StatusChanged("Opening UserCfg.opt...")
+            SetStatus(
+                "Opening UserCfg.opt...")
 
             SimulatorFilesManager.OpenUserCfg()
 
-            RaiseEvent StatusChanged("Ready")
+            SetStatus("Ready")
 
         Catch ex As Exception
 
@@ -781,16 +886,21 @@ Public Class UcProfiles
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error)
 
-            RaiseEvent StatusChanged(
-            "UserCfg.opt could not be opened.")
+            SetStatus(
+                "UserCfg.opt could not be opened.")
 
         End Try
 
     End Sub
 
-    Private Async Sub btnSimLauncher2024_Click(sender As Object, e As EventArgs) Handles btnSimLauncher2024.Click
+    Private Async Sub btnSimLauncher2024_Click(
+        sender As Object,
+        e As EventArgs
+    ) Handles btnSimLauncher2024.Click
 
-        Await LaunchSimulatorAsync(LaunchMode.Normal)
+        Await LaunchSimulatorAsync(
+            LaunchMode.Normal)
 
     End Sub
+
 End Class

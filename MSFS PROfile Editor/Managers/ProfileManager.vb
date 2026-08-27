@@ -161,7 +161,7 @@ Public Class ProfileManager
             )
         End If
 
-        File.Copy(
+        CopyFileContents(
             userCfgFile,
             destinationFile,
             overwrite:=False
@@ -176,39 +176,32 @@ Public Class ProfileManager
         Dim normalizedName = profileName.Trim()
 
         While normalizedName.EndsWith(
-        ApplicationConstants.ProfileExtension,
-        StringComparison.OrdinalIgnoreCase
-    )
+            ApplicationConstants.ProfileExtension,
+            StringComparison.OrdinalIgnoreCase
+        )
 
-            While normalizedName.EndsWith(
-                ApplicationConstants.ProfileExtension,
-                StringComparison.OrdinalIgnoreCase
-            )
-
-                normalizedName =
-        normalizedName.Substring(
-            0,
-            normalizedName.Length -
-            ApplicationConstants.ProfileExtension.Length
-        ).Trim()
-
-            End While
+            normalizedName =
+                normalizedName.Substring(
+                    0,
+                    normalizedName.Length -
+                    ApplicationConstants.ProfileExtension.Length
+                ).Trim()
 
         End While
 
         If String.IsNullOrWhiteSpace(normalizedName) Then
             Throw New ArgumentException(
-            "Please enter a profile name.",
-            NameOf(profileName)
-        )
+                "Please enter a profile name.",
+                NameOf(profileName)
+            )
 
         End If
 
         If normalizedName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 Then
             Throw New ArgumentException(
-            "The profile name contains invalid characters.",
-            NameOf(profileName)
-        )
+                "The profile name contains invalid characters.",
+                NameOf(profileName)
+            )
         End If
 
         Return normalizedName & ApplicationConstants.ProfileExtension
@@ -220,7 +213,7 @@ Public Class ProfileManager
         Dim profileFolder = My.Settings.ProfileFolder
 
         If String.IsNullOrWhiteSpace(profileFolder) OrElse
-       Not Directory.Exists(profileFolder) Then
+           Not Directory.Exists(profileFolder) Then
 
             Return 0
 
@@ -290,10 +283,11 @@ Public Class ProfileManager
                     Continue For
                 End If
 
-                File.Copy(
-                    sourceFileName:=legacyProfile,
-                    destFileName:=newProfilePath,
-                    overwrite:=False)
+                CopyFileContents(
+                    legacyProfile,
+                    newProfilePath,
+                    overwrite:=False
+                )
 
                 File.Delete(legacyProfile)
 
@@ -314,6 +308,38 @@ Public Class ProfileManager
 
     End Function
 
+    Private Sub CopyFileContents(
+        sourceFile As String,
+        destinationFile As String,
+        overwrite As Boolean)
+
+        Using sourceStream =
+            New FileStream(
+                sourceFile,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.ReadWrite)
+
+            Dim destinationMode =
+                If(
+                    overwrite,
+                    FileMode.Create,
+                    FileMode.CreateNew)
+
+            Using destinationStream =
+                New FileStream(
+                    destinationFile,
+                    destinationMode,
+                    FileAccess.Write,
+                    FileShare.None)
+
+                sourceStream.CopyTo(destinationStream)
+
+            End Using
+
+        End Using
+
+    End Sub
 
     Public Function ApplyProfile(profile As ProfileInfo) As Boolean
 
@@ -373,7 +399,7 @@ Public Class ProfileManager
                 newBackupPath
             )
 
-            File.Copy(
+            CopyFileContents(
                 profile.ProfileFile,
                 userCfgPath,
                 overwrite:=True
@@ -412,10 +438,11 @@ Public Class ProfileManager
         Dim backupPath =
             $"{userCfgPath}{ApplicationConstants.ProfileBackupMarker}{timestamp}.bak"
 
-        File.Copy(
+        CopyFileContents(
             userCfgPath,
             backupPath,
-            overwrite:=False)
+            overwrite:=False
+        )
 
         Return backupPath
 
@@ -434,7 +461,7 @@ Public Class ProfileManager
         Dim userCfgFileName = Path.GetFileName(userCfgPath)
 
         Dim searchPattern =
-        $"{userCfgFileName}{ApplicationConstants.ProfileBackupMarker}*.bak"
+            $"{userCfgFileName}{ApplicationConstants.ProfileBackupMarker}*.bak"
 
         For Each backupFile In Directory.GetFiles(configFolder, searchPattern)
 

@@ -116,7 +116,7 @@ Public Class SimulatorLauncher
 
     Public Shared Function IsRunning() As Boolean
 
-        Return Process.GetProcessesByName("FlightSimulator2024").Any()
+        Return Process.GetProcessesByName("FlightSimulator2024").Length > 0
 
     End Function
 

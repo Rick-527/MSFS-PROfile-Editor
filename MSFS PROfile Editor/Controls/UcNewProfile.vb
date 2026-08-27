@@ -8,61 +8,67 @@ Public Class UcNewProfile
 
     Private ReadOnly _profileManager As New ProfileManager()
 
-    Private Sub UcNewProfile_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub UcNewProfile_Load(
+        sender As Object,
+        e As EventArgs
+    ) Handles MyBase.Load
+
+        ConfigureAppearance()
+
+        txtProfileName.Select()
+
+    End Sub
+
+    Private Sub ConfigureAppearance()
 
         Me.BackColor = Color.Transparent
         Me.DoubleBuffered = True
 
-        ' Profile name field
         txtProfileName.BackColor =
-        Color.FromArgb(59, 69, 89)
+            Color.FromArgb(59, 69, 89)
 
         txtProfileName.ForeColor =
-        Color.FromArgb(236, 239, 244)
+            Color.FromArgb(236, 239, 244)
 
         txtProfileName.BorderStyle =
-        BorderStyle.FixedSingle
+            BorderStyle.FixedSingle
 
-        ' Create - primary action
         btnCreate.FlatStyle =
-        FlatStyle.Flat
+            FlatStyle.Flat
 
         btnCreate.FlatAppearance.BorderSize = 0
 
         btnCreate.BackColor =
-        Color.FromArgb(0, 120, 190)
+            Color.FromArgb(0, 120, 190)
 
         btnCreate.ForeColor =
-        Color.White
+            Color.White
 
         btnCreate.Font =
             New Font(
-            "Segoe UI",
-            9.75F,
-            FontStyle.Bold)
+                "Segoe UI",
+                9.75F,
+                FontStyle.Bold)
 
-        ' Cancel - secondary action
         btnCancel.FlatStyle =
-        FlatStyle.Flat
+            FlatStyle.Flat
 
         btnCancel.FlatAppearance.BorderSize = 1
 
         btnCancel.FlatAppearance.BorderColor =
-        Color.FromArgb(90, 100, 115)
+            Color.FromArgb(90, 100, 115)
 
         btnCancel.BackColor =
-        Color.FromArgb(48, 58, 68)
+            Color.FromArgb(48, 58, 68)
 
         btnCancel.ForeColor =
-        Color.FromArgb(236, 239, 244)
+            Color.FromArgb(236, 239, 244)
 
         btnCancel.Font =
-        New Font(
-            "Segoe UI",
-            9.75F,
-            FontStyle.Bold)
-
-        txtProfileName.Select()
+            New Font(
+                "Segoe UI",
+                9.75F,
+                FontStyle.Bold)
 
     End Sub
 
@@ -105,16 +111,84 @@ Public Class UcNewProfile
 
     End Function
 
+    Private Shared Function RemoveProfileExtension(
+        profileName As String
+    ) As String
+
+        Dim normalizedName =
+            profileName.Trim()
+
+        While normalizedName.EndsWith(
+            ApplicationConstants.ProfileExtension,
+            StringComparison.OrdinalIgnoreCase)
+
+            normalizedName =
+                normalizedName.
+                Substring(
+                    0,
+                    normalizedName.Length -
+                    ApplicationConstants.ProfileExtension.Length).
+                Trim()
+
+        End While
+
+        Return normalizedName
+
+    End Function
+
+    Private Function ValidateProfileName(
+        profileName As String
+    ) As Boolean
+
+        If String.IsNullOrWhiteSpace(profileName) Then
+
+            ShowInvalidProfileName(
+                "Please enter a valid profile name.")
+
+            Return False
+
+        End If
+
+        If profileName.IndexOfAny(
+            Path.GetInvalidFileNameChars()) >= 0 Then
+
+            ShowInvalidProfileName(
+                "The profile name contains characters that cannot be used in a file name.")
+
+            Return False
+
+        End If
+
+        If profileName.EndsWith("."c) Then
+
+            ShowInvalidProfileName(
+                "The profile name cannot end with a period.")
+
+            Return False
+
+        End If
+
+        If IsReservedFileName(profileName) Then
+
+            ShowInvalidProfileName(
+                "The profile name is reserved by Windows. Please choose another name.")
+
+            Return False
+
+        End If
+
+        Return True
+
+    End Function
+
     Private Sub ShowInvalidProfileName(
-        message As String
-    )
+        message As String)
 
         MessageBox.Show(
             message,
             "Invalid Profile Name",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Warning
-        )
+            MessageBoxIcon.Warning)
 
         txtProfileName.SelectAll()
         txtProfileName.Select()
@@ -135,8 +209,7 @@ Public Class UcNewProfile
                 "Please enter a name for the new profile.",
                 "Profile Name Required",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            )
+                MessageBoxIcon.Information)
 
             txtProfileName.Select()
 
@@ -144,87 +217,39 @@ Public Class UcNewProfile
 
         End If
 
-        Dim nameWithoutExtension =
-            enteredName
+        Dim profileName =
+            RemoveProfileExtension(
+                enteredName)
 
-        While nameWithoutExtension.EndsWith(
-            ApplicationConstants.ProfileExtension,
-            StringComparison.OrdinalIgnoreCase)
-
-            nameWithoutExtension =
-                nameWithoutExtension.
-                Substring(
-                    0,
-                    nameWithoutExtension.Length -
-                    ApplicationConstants.ProfileExtension.Length).
-                Trim()
-
-        End While
-
-        If String.IsNullOrWhiteSpace(nameWithoutExtension) Then
-
-            ShowInvalidProfileName(
-                "Please enter a valid profile name."
-            )
-
+        If Not ValidateProfileName(profileName) Then
             Return
-
-        End If
-
-        If nameWithoutExtension.IndexOfAny(
-            Path.GetInvalidFileNameChars()) >= 0 Then
-
-            ShowInvalidProfileName(
-                "The profile name contains characters that cannot be used in a file name."
-            )
-
-            Return
-
-        End If
-
-        If nameWithoutExtension.EndsWith("."c) Then
-
-            ShowInvalidProfileName(
-                "The profile name cannot end with a period."
-            )
-
-            Return
-
-        End If
-
-        If IsReservedFileName(nameWithoutExtension) Then
-
-            ShowInvalidProfileName(
-                "The profile name is reserved by Windows. Please choose another name."
-            )
-
-            Return
-
         End If
 
         Try
 
             Dim createdProfile =
                 _profileManager.CreateProfile(
-                    nameWithoutExtension
-                )
+                    profileName)
+
+            Dim displayName =
+                Path.GetFileNameWithoutExtension(
+                    createdProfile)
 
             RaiseEvent StatusChanged(
-                $"Profile created: {Path.GetFileNameWithoutExtension(createdProfile)}"
-            )
+                $"Profile created: {displayName}")
 
             MessageBox.Show(
-                $"The profile ""{Path.GetFileNameWithoutExtension(createdProfile)}"" was created successfully.",
+                $"The profile ""{displayName}"" was created successfully.",
                 "Profile Created",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            )
+                MessageBoxIcon.Information)
 
             RaiseEvent ProfileCreated()
 
         Catch ex As ArgumentException
 
-            ShowInvalidProfileName(ex.Message)
+            ShowInvalidProfileName(
+                ex.Message)
 
         Catch ex As IOException
 
@@ -232,8 +257,7 @@ Public Class UcNewProfile
                 ex.Message,
                 "Profile Not Created",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Warning
-            )
+                MessageBoxIcon.Warning)
 
         Catch ex As UnauthorizedAccessException
 
@@ -241,23 +265,27 @@ Public Class UcNewProfile
                 "The profile could not be created because access to the selected folder was denied.",
                 "Profile Not Created",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-            )
+                MessageBoxIcon.Error)
 
         Catch ex As Exception
 
             MessageBox.Show(
-                $"The profile could not be created.{Environment.NewLine}{Environment.NewLine}{ex.Message}",
+                "The profile could not be created." &
+                Environment.NewLine &
+                Environment.NewLine &
+                ex.Message,
                 "Profile Not Created",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-            )
+                MessageBoxIcon.Error)
 
         End Try
 
     End Sub
 
-    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+    Private Sub btnCancel_Click(
+        sender As Object,
+        e As EventArgs
+    ) Handles btnCancel.Click
 
         RaiseEvent CancelRequested()
 

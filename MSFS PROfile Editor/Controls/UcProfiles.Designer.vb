@@ -44,7 +44,7 @@ Partial Class UcProfiles
         ' lblStatusCenter
         ' 
         lblStatusCenter.ForeColor = Color.White
-        lblStatusCenter.Location = New Point(3, 5)
+        lblStatusCenter.Location = New Point(14, 5)
         lblStatusCenter.Name = "lblStatusCenter"
         lblStatusCenter.Size = New Size(250, 26)
         lblStatusCenter.TabIndex = 0
@@ -65,11 +65,12 @@ Partial Class UcProfiles
         ' btnSimLauncher2024
         ' 
         btnSimLauncher2024.Anchor = AnchorStyles.Bottom Or AnchorStyles.Right
+        btnSimLauncher2024.ArrowColor = Color.White
         btnSimLauncher2024.DropDownMenu = Nothing
         btnSimLauncher2024.FlatAppearance.MouseDownBackColor = Color.Transparent
         btnSimLauncher2024.FlatAppearance.MouseOverBackColor = Color.Transparent
         btnSimLauncher2024.FlatStyle = FlatStyle.Flat
-        btnSimLauncher2024.Location = New Point(372, 34)
+        btnSimLauncher2024.Location = New Point(362, 34)
         btnSimLauncher2024.Name = "btnSimLauncher2024"
         btnSimLauncher2024.Size = New Size(240, 38)
         btnSimLauncher2024.TabIndex = 1
@@ -78,11 +79,12 @@ Partial Class UcProfiles
         ' 
         ' btnViewUserCfg
         ' 
+        btnViewUserCfg.ArrowColor = Color.White
         btnViewUserCfg.DropDownMenu = Nothing
         btnViewUserCfg.FlatAppearance.MouseDownBackColor = Color.Transparent
         btnViewUserCfg.FlatAppearance.MouseOverBackColor = Color.Transparent
         btnViewUserCfg.FlatStyle = FlatStyle.Flat
-        btnViewUserCfg.Location = New Point(0, 34)
+        btnViewUserCfg.Location = New Point(14, 34)
         btnViewUserCfg.Name = "btnViewUserCfg"
         btnViewUserCfg.ShowSplit = False
         btnViewUserCfg.Size = New Size(172, 38)

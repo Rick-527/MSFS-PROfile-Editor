@@ -19,7 +19,7 @@ Public Class FrmFsProfiles
 
     Private Sub FrmFsProfiles_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
 
-        BackgroundManager.Apply(Me, "masterBackground.png")
+        'BackgroundManager.Apply(Me, "masterBackground.png")
         ThemeManager.ApplyModernTheme(Me)
         flpProfiles.BackColor = Color.Transparent
         pnlHeader.BackColor = Color.Transparent

@@ -7,12 +7,20 @@
     <StartupObject>Sub Main</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
     <MyType>WindowsForms</MyType>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>MSFS PROfile Editor for Microsoft Flight Simulator 2024</Description>
     <Copyright>© 2026 Saugatech. All rights reserved.</Copyright>
-    <Company>Saugatech</Company>
+    <Company>Saugatek</Company>
     <Title>MSFS Profile Editor</Title>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -77,7 +85,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\README.md">
+    <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

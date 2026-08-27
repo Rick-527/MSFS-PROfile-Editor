@@ -99,7 +99,7 @@ Partial Class FrmMain
         btnProfileSelector.Name = "btnProfileSelector"
         btnProfileSelector.Size = New Size(172, 41)
         btnProfileSelector.TabIndex = 38
-        btnProfileSelector.Text = "Profile &Manager"
+        btnProfileSelector.Text = "PROfile &Manager"
         btnProfileSelector.UseVisualStyleBackColor = False
         ' 
         ' pnlHeader
@@ -155,7 +155,7 @@ Partial Class FrmMain
         btnManageProfiles.Name = "btnManageProfiles"
         btnManageProfiles.Size = New Size(172, 41)
         btnManageProfiles.TabIndex = 41
-        btnManageProfiles.Text = "Manage P&rofiles"
+        btnManageProfiles.Text = "Manage P&ROfiles"
         btnManageProfiles.UseVisualStyleBackColor = False
         ' 
         ' btnCreateNewProfile
@@ -166,7 +166,7 @@ Partial Class FrmMain
         btnCreateNewProfile.Name = "btnCreateNewProfile"
         btnCreateNewProfile.Size = New Size(172, 41)
         btnCreateNewProfile.TabIndex = 42
-        btnCreateNewProfile.Text = "Ne&w Profile"
+        btnCreateNewProfile.Text = "Ne&w PROfile"
         btnCreateNewProfile.UseVisualStyleBackColor = False
         ' 
         ' btnSetProfileFolder
@@ -177,7 +177,7 @@ Partial Class FrmMain
         btnSetProfileFolder.Name = "btnSetProfileFolder"
         btnSetProfileFolder.Size = New Size(172, 41)
         btnSetProfileFolder.TabIndex = 40
-        btnSetProfileFolder.Text = "&Set Profile Folder"
+        btnSetProfileFolder.Text = "&Set PROfile Folder"
         btnSetProfileFolder.UseVisualStyleBackColor = False
         ' 
         ' btnMigrateProfiles
@@ -188,7 +188,7 @@ Partial Class FrmMain
         btnMigrateProfiles.Name = "btnMigrateProfiles"
         btnMigrateProfiles.Size = New Size(172, 41)
         btnMigrateProfiles.TabIndex = 39
-        btnMigrateProfiles.Text = "&Migrate Old Profiles"
+        btnMigrateProfiles.Text = "&Migrate Old PROfiles"
         btnMigrateProfiles.UseVisualStyleBackColor = False
         ' 
         ' StatusStrip1
