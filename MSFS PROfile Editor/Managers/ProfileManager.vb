@@ -341,6 +341,77 @@ Public Class ProfileManager
 
     End Sub
 
+    Public Function UpdateProfile(profile As ProfileInfo) As Boolean
+
+        _lastErrorMessage = String.Empty
+
+        If profile Is Nothing Then
+            _lastErrorMessage = "No profile was selected."
+            Return False
+        End If
+
+        If String.IsNullOrWhiteSpace(profile.ProfileFile) Then
+            _lastErrorMessage =
+                "The selected profile does not have a valid file path."
+
+            Return False
+        End If
+
+        If Not File.Exists(profile.ProfileFile) Then
+            _lastErrorMessage =
+                $"The selected profile could not be found:{Environment.NewLine}" &
+                profile.ProfileFile
+
+            Return False
+        End If
+
+        Dim userCfgPath =
+            SimulatorFilesManager.GetFilePath(SimulatorFile.UserCfg)
+
+        If String.IsNullOrWhiteSpace(userCfgPath) Then
+            _lastErrorMessage =
+                "The simulator UserCfg.opt location could not be determined."
+
+            Return False
+        End If
+
+        If Not File.Exists(userCfgPath) Then
+            _lastErrorMessage =
+                $"UserCfg.opt could not be found:{Environment.NewLine}" &
+                userCfgPath
+
+            Return False
+        End If
+
+        If AreSameFile(profile.ProfileFile, userCfgPath) Then
+            _lastErrorMessage =
+                "The selected profile is already the active UserCfg.opt file."
+
+            Return False
+        End If
+
+        Try
+
+            CopyFileContents(
+                userCfgPath,
+                profile.ProfileFile,
+                overwrite:=True
+            )
+
+            Return True
+
+        Catch ex As Exception
+
+            _lastErrorMessage =
+                $"The profile could not be updated.{Environment.NewLine}" &
+                $"{Environment.NewLine}{ex.Message}"
+
+            Return False
+
+        End Try
+
+    End Function
+
     Public Function ApplyProfile(profile As ProfileInfo) As Boolean
 
         _lastErrorMessage = String.Empty

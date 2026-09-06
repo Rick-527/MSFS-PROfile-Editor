@@ -360,6 +360,16 @@ Public Class UcProfiles
                     profileInfo)
             End Sub
 
+        Dim updateItem =
+            New ToolStripMenuItem(
+                "Update Profile")
+
+        AddHandler updateItem.Click,
+            Sub()
+                UpdateProfile(
+                    profileInfo)
+            End Sub
+
         Dim removeItem =
             New ToolStripMenuItem(
                 "Remove Profile")
@@ -372,6 +382,7 @@ Public Class UcProfiles
             End Sub
 
         menu.Items.Add(openItem)
+        menu.Items.Add(updateItem)
         menu.Items.Add(
             New ToolStripSeparator())
         menu.Items.Add(removeItem)
@@ -423,6 +434,54 @@ Public Class UcProfiles
 
         _activeProfileButton =
             activeButton
+
+    End Sub
+
+    Private Sub UpdateProfile(
+        profileInfo As ProfileInfo)
+
+        Dim confirmation =
+            MessageBox.Show(
+                $"Update the profile ""{profileInfo.DisplayProfileName}""?" &
+                Environment.NewLine &
+                Environment.NewLine &
+                "This will replace the saved profile with the current settings from UserCfg.opt." &
+                Environment.NewLine &
+                Environment.NewLine &
+                "The existing saved profile settings will be overwritten.",
+                "Update Profile",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2)
+
+        If confirmation <> DialogResult.Yes Then
+            Return
+        End If
+
+        If Not _profileManager.UpdateProfile(
+            profileInfo) Then
+
+            MessageBox.Show(
+                _profileManager.LastErrorMessage,
+                "Profile Not Updated",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error)
+
+            SetStatus(
+                "The profile could not be updated.")
+
+            Return
+
+        End If
+
+        SetStatus(
+            $"Profile updated: {profileInfo.DisplayProfileName}")
+
+        MessageBox.Show(
+            $"The profile ""{profileInfo.DisplayProfileName}"" was updated with the current Microsoft Flight Simulator settings.",
+            "Profile Updated",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information)
 
     End Sub
 

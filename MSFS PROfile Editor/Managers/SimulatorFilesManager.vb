@@ -346,15 +346,17 @@ Public Class SimulatorFilesManager
     End Function
 
     Public Shared Function FolderContainsUserCfg(
-    folderPath As String
-) As Boolean
+        folderPath As String
+        ) As Boolean
 
         If String.IsNullOrWhiteSpace(folderPath) Then
             Return False
         End If
 
         Return File.Exists(
-        Path.Combine(folderPath, "UserCfg.opt"))
+        Path.Combine(
+            folderPath,
+            GetFileName(SimulatorFile.UserCfg)))
 
     End Function
 

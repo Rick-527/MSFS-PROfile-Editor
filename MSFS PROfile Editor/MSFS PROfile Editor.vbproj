@@ -7,8 +7,8 @@
     <StartupObject>Sub Main</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
     <MyType>WindowsForms</MyType>
-    <Version>1.2.0</Version>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Version>1.2.1</Version>
+    <PackageReadmeFile></PackageReadmeFile>
     <Description>MSFS PROfile Editor for Microsoft Flight Simulator 2024</Description>
     <Copyright>© 2026 Saugatech. All rights reserved.</Copyright>
     <Company>Saugatek</Company>
@@ -85,10 +85,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
     <None Include=".github\ISSUE_TEMPLATE\bug_report.yml" />
     <None Include=".github\ISSUE_TEMPLATE\config.yml" />
     <None Include=".github\ISSUE_TEMPLATE\feature_request.yml" />
