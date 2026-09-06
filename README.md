@@ -86,6 +86,11 @@ help protect important simulator files.
 
 ------------------------------------------------------------------------
 
+## What's New in v1.2.1
+
+Added ability to update a current or existing PROfile.
+Aligned the flight simulator detection process more with the MSFS SDK
+
 ## What's New in v1.2.0
 
 Version 1.2.0 introduces a redesigned application interface along with
